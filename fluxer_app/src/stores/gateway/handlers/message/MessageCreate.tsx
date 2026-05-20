@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {unfurlEmbedsForContent} from '@app/actions/EmbedActionCreators';
 import {
 	buildDecryptedContent,
 	getSentEnvelopeEntries,
@@ -137,6 +138,28 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			// own-author messages internally — we don't need to short-circuit
 			// here.
 			NotificationStore.handleMessageCreate({message: decryptedMessage});
+
+			// Client-side unfurl: the server doesn't see the plaintext, so it
+			// can't enrich an encrypted message with link-preview embeds the
+			// way it does for normal messages. After the bubble renders, we
+			// pull embeds for any URLs in the plaintext via /unfurl and patch
+			// them in. Awaited via handleMessageUpdate so MobX picks up the
+			// change without re-running the decrypt path.
+			if (content) {
+				void unfurlEmbedsForContent(content).then((embeds) => {
+					if (!embeds.length) return;
+					// handleMessageUpdate runs the patch through MessageRecord.withUpdates
+					// which only reads the fields it cares about, so a partial is safe at
+					// runtime even though the TypeScript signature is the full Message.
+					MessageStore.handleMessageUpdate({
+						message: {
+							id: data.id,
+							channel_id: data.channel_id,
+							embeds,
+						} as unknown as Message,
+					});
+				});
+			}
 		})();
 	} else {
 		MessageStore.handleIncomingMessage({channelId: data.channel_id, message: data});

@@ -26,6 +26,7 @@ import {ConnectionController} from '@fluxer/api/src/connection/ConnectionControl
 import {DonationController} from '@fluxer/api/src/donation/DonationController';
 import {DownloadController} from '@fluxer/api/src/download/DownloadController';
 import {E2EEController} from '@fluxer/api/src/e2ee/E2EEController';
+import {EmbedController} from '@fluxer/api/src/embed/EmbedController';
 import {FavoriteMemeController} from '@fluxer/api/src/favorite_meme/FavoriteMemeController';
 import {GatewayController} from '@fluxer/api/src/gateway/GatewayController';
 import {GuildController} from '@fluxer/api/src/guild/GuildController';
@@ -64,6 +65,7 @@ export function registerControllers(routes: HonoApp, config: APIConfig): void {
 	GuildController(routes);
 	SearchController(routes);
 	KlipyController(routes);
+	EmbedController(routes);
 	TenorController(routes);
 	ThemeController(routes);
 

@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {unfurlEmbedsForContent} from '@app/actions/EmbedActionCreators';
 import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
@@ -258,9 +259,20 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 			if (result) {
 				recordMessageVerification(msg.id, result.verificationStatus);
 			}
+			const decryptedContent = buildDecryptedContent(result);
 			MessageStore.handleMessageUpdate({
-				message: {...msg, content: buildDecryptedContent(result)},
+				message: {...msg, content: decryptedContent},
 			});
+			// Pull link-preview embeds for the decrypted body — same client-
+			// side unfurl path used by the MESSAGE_CREATE gateway handler.
+			if (decryptedContent) {
+				void unfurlEmbedsForContent(decryptedContent).then((embeds) => {
+					if (!embeds.length) return;
+					MessageStore.handleMessageUpdate({
+						message: {id: msg.id, channel_id: msg.channel_id, embeds} as unknown as typeof msg,
+					});
+				});
+			}
 		} catch (error) {
 			logger.warn('Decrypt history message failed', {messageId: msg.id, error});
 		}

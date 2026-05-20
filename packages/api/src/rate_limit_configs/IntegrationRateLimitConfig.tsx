@@ -125,4 +125,12 @@ export const IntegrationRateLimitConfigs = {
 		bucket: 'gifts:list',
 		config: {limit: 40, windowMs: ms('10 seconds')},
 	} as RouteRateLimitConfig,
+
+	UNFURL: {
+		// E2EE clients call /unfurl per URL after decrypt. A long message
+		// can have ~10 URLs; 60/10s is enough headroom for normal use while
+		// blocking spammy scraping.
+		bucket: 'unfurl:url',
+		config: {limit: 60, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
 } as const;

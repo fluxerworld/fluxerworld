@@ -167,6 +167,7 @@ export const Endpoints = {
 	DSA_REPORT_EMAIL_VERIFY: '/reports/dsa/email/verify',
 	DSA_REPORT_CREATE: '/reports/dsa',
 
+	UNFURL: '/unfurl',
 	KLIPY_FEATURED: '/klipy/featured',
 	KLIPY_REGISTER_SHARE: '/klipy/register-share',
 	KLIPY_SEARCH: '/klipy/search',

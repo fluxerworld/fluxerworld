@@ -116,6 +116,26 @@ export class EmbedService {
 		return embedsData.map((embedData) => new Embed(this.mapResponseEmbed(embedData)));
 	}
 
+	/**
+	 * One-shot unfurl for clients that hold their own plaintext (E2EE
+	 * messages). The server never sees the message body — clients call
+	 * this per URL after decrypt and attach the returned embeds locally.
+	 * Reads the shared url-embed cache so repeated requests for the same
+	 * URL don't re-fetch.
+	 */
+	async unfurlSingleUrl(url: string, isNSFWAllowed: boolean = false): Promise<Array<MessageEmbed>> {
+		const cacheKey = `url-embed:${url}`;
+		const cached = await this.cacheService.get<Array<MessageEmbed>>(cacheKey);
+		if (cached && cached.length > 0) {
+			return cached;
+		}
+		const embeds = await this.processUrl(url, isNSFWAllowed);
+		if (embeds.length > 0) {
+			await this.cacheEmbeds(url, embeds);
+		}
+		return embeds.map((embed) => embed.toMessageEmbed());
+	}
+
 	async cacheEmbeds(url: string, embeds: Array<Embed>): Promise<void> {
 		if (!embeds.length) return;
 
