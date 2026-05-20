@@ -39,10 +39,13 @@ import type {
 	ChangeEmailRequest,
 	ChangeUsernameRequest,
 	ClearUserFieldsRequest,
+	GrantUserPremiumRequest,
 	SetUserBotStatusRequest,
 	SetUserSystemStatusRequest,
 	VerifyUserEmailRequest,
 } from '@fluxer/schema/src/domains/admin/AdminUserSchemas';
+import {addMonthsClamp} from '@fluxer/api/src/stripe/StripeUtils';
+import {UserPremiumTypes} from '@fluxer/constants/src/UserConstants';
 import {types} from 'cassandra-driver';
 
 interface AdminUserProfileServiceDeps {
@@ -308,6 +311,52 @@ export class AdminUserProfileService {
 			metadata: new Map([
 				['old_email', user.email ?? 'null'],
 				['new_email', data.email],
+			]),
+		});
+
+		return {
+			user: await mapUserToAdminResponse(updatedUser, this.deps.cacheService),
+		};
+	}
+
+	async grantUserPremium(data: GrantUserPremiumRequest, adminUserId: UserID, auditLogReason: string | null) {
+		const {userRepository, updatePropagator, auditService} = this.deps;
+		const userId = createUserID(data.user_id);
+		const user = await userRepository.findUnique(userId);
+		if (!user) {
+			throw new UnknownUserError();
+		}
+
+		const now = new Date();
+		// Stack onto an existing future expiry, otherwise start fresh from now.
+		const baseDate = user.premiumUntil && user.premiumUntil > now ? user.premiumUntil : now;
+		const newPremiumUntil = addMonthsClamp(baseDate, data.duration_months);
+
+		const updatedUser = await userRepository.patchUpsert(
+			userId,
+			{
+				premium_type: UserPremiumTypes.SUBSCRIPTION,
+				premium_until: newPremiumUntil,
+				premium_will_cancel: false,
+				// Only set premium_since if the user doesn't already have one — preserves
+				// the original "Premium since" badge date when extending an existing sub.
+				...(user.premiumSince ? {} : {premium_since: now}),
+			},
+			user.toRow(),
+		);
+
+		await updatePropagator.propagateUserUpdate({userId, oldUser: user, updatedUser});
+
+		await auditService.createAuditLog({
+			adminUserId,
+			targetType: 'user',
+			targetId: BigInt(userId),
+			action: 'grant_premium',
+			auditLogReason,
+			metadata: new Map([
+				['duration_months', String(data.duration_months)],
+				['previous_until', user.premiumUntil?.toISOString() ?? 'null'],
+				['new_until', newPremiumUntil.toISOString()],
 			]),
 		});
 

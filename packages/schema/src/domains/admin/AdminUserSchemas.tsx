@@ -362,6 +362,18 @@ export const ChangeDobRequest = z.object({
 
 export type ChangeDobRequest = z.infer<typeof ChangeDobRequest>;
 
+export const GrantUserPremiumRequest = z.object({
+	user_id: SnowflakeType.describe('ID of the user to grant or extend premium for'),
+	duration_months: z
+		.number()
+		.int()
+		.min(1)
+		.max(120)
+		.describe("Number of months to add. Stacks on the user's existing premium_until if it is in the future."),
+});
+
+export type GrantUserPremiumRequest = z.infer<typeof GrantUserPremiumRequest>;
+
 export const UpdateSuspiciousActivityFlagsRequest = z.object({
 	user_id: SnowflakeType.describe('ID of the user to update suspicious activity flags for'),
 	flags: createBitflagInt32Type(

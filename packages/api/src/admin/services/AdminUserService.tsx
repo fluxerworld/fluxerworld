@@ -51,6 +51,7 @@ import type {
 	DeleteWebAuthnCredentialRequest,
 	DisableForSuspiciousActivityRequest,
 	DisableMfaRequest,
+	GrantUserPremiumRequest,
 	ListUserChangeLogRequest,
 	ListUserDmChannelsRequest,
 	ListWebAuthnCredentialsRequest,
@@ -198,6 +199,10 @@ export class AdminUserService {
 
 	async changeDob(data: ChangeDobRequest, adminUserId: UserID, auditLogReason: string | null) {
 		return this.profileService.changeDob(data, adminUserId, auditLogReason);
+	}
+
+	async grantUserPremium(data: GrantUserPremiumRequest, adminUserId: UserID, auditLogReason: string | null) {
+		return this.profileService.grantUserPremium(data, adminUserId, auditLogReason);
 	}
 
 	async updateUserFlags({

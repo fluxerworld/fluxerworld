@@ -37,6 +37,7 @@ import {
 	DeleteWebAuthnCredentialRequest,
 	DisableForSuspiciousActivityRequest,
 	DisableMfaRequest,
+	GrantUserPremiumRequest,
 	ListUserChangeLogRequest,
 	ListUserChangeLogResponseSchema,
 	ListUserDmChannelsRequest,
@@ -241,6 +242,29 @@ export function UserAdminController(app: HonoApp) {
 			const adminUserId = ctx.get('adminUserId');
 			const auditLogReason = ctx.get('auditLogReason');
 			return ctx.json(await adminService.clearUserFields(ctx.req.valid('json'), adminUserId, auditLogReason));
+		},
+	);
+
+	app.post(
+		'/admin/users/grant-premium',
+		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
+		requireAdminACL(AdminACLs.USER_UPDATE_PROFILE),
+		Validator('json', GrantUserPremiumRequest),
+		OpenAPI({
+			operationId: 'grant_user_premium',
+			summary: 'Grant or extend a user\'s premium subscription',
+			responseSchema: UserMutationResponse,
+			statusCode: 200,
+			security: 'adminApiKey',
+			tags: 'Admin',
+			description:
+				'Adds N months of subscription premium to a user, stacking on any existing future premium_until. Always sets premium_type=SUBSCRIPTION (1). Skip this and use the VisionarySlots endpoints for LIFETIME grants. Creates an audit log entry. Requires USER_UPDATE_PROFILE permission.',
+		}),
+		async (ctx) => {
+			const adminService = ctx.get('adminService');
+			const adminUserId = ctx.get('adminUserId');
+			const auditLogReason = ctx.get('auditLogReason');
+			return ctx.json(await adminService.grantUserPremium(ctx.req.valid('json'), adminUserId, auditLogReason));
 		},
 	);
 
