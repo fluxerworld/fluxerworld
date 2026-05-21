@@ -88,6 +88,7 @@ import type {VoiceAccessContext, VoiceAvailabilityService} from '@fluxer/api/src
 import type {VoiceService} from '@fluxer/api/src/voice/VoiceService';
 import type {IWebhookRepository} from '@fluxer/api/src/webhook/IWebhookRepository';
 import {ChannelTypes, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import {NON_SELF_HOSTED_RESERVED_DISCRIMINATORS} from '@fluxer/constants/src/DiscriminatorConstants';
 import type {LimitKey} from '@fluxer/constants/src/LimitConfigMetadata';
 import {MAX_PRIVATE_CHANNELS_PER_USER} from '@fluxer/constants/src/LimitConstants';
 import {
@@ -889,7 +890,14 @@ export class RpcService {
 		const isPremium = user.isPremium();
 		const needsPremiumStrip = shouldStripExpiredPremium(user);
 		const hasBeenSanitized = !!(user.flags & UserFlags.PREMIUM_PERKS_SANITIZED);
-		const hasInvalidNonLifetimeDiscriminator = false;
+		// A non-premium user holding a reserved discriminator (e.g. #0001,
+		// #6969) is a leak — these are gated behind premium but legacy
+		// account creation paths assigned them anyway. Rotate them on next
+		// session. LIFETIME users keep theirs (one-time payment, no expiry).
+		const hasInvalidNonLifetimeDiscriminator =
+			!isPremium &&
+			user.premiumType !== UserPremiumTypes.LIFETIME &&
+			NON_SELF_HOSTED_RESERVED_DISCRIMINATORS.has(user.discriminator);
 
 		if (needsPremiumStrip) {
 			try {
