@@ -34,6 +34,7 @@ import type {UserPermissionUtils} from '@fluxer/api/src/utils/UserPermissionUtil
 import type {LimitKey} from '@fluxer/constants/src/LimitConfigMetadata';
 import {MAX_RELATIONSHIPS} from '@fluxer/constants/src/LimitConstants';
 import {RelationshipTypes, UserFlags} from '@fluxer/constants/src/UserConstants';
+import {EmailVerificationRequiredError} from '@fluxer/errors/src/domains/auth/EmailVerificationRequiredError';
 import {BotsCannotSendFriendRequestsError} from '@fluxer/errors/src/domains/oauth/BotsCannotSendFriendRequestsError';
 import {AlreadyFriendsError} from '@fluxer/errors/src/domains/user/AlreadyFriendsError';
 import {CannotSendFriendRequestToBlockedUserError} from '@fluxer/errors/src/domains/user/CannotSendFriendRequestToBlockedUserError';
@@ -395,6 +396,9 @@ export class UserRelationshipService {
 		}
 		if (requesterUser?.isBot) {
 			throw new BotsCannotSendFriendRequestsError();
+		}
+		if (!requesterUser.emailVerified) {
+			throw new EmailVerificationRequiredError();
 		}
 
 		const targetUser = await this.userAccountRepository.findUnique(targetId);

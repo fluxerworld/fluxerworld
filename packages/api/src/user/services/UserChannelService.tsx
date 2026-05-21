@@ -47,6 +47,7 @@ import {CannotSendMessagesToUserError} from '@fluxer/errors/src/domains/channel/
 import {MaxGroupDmRecipientsError} from '@fluxer/errors/src/domains/channel/MaxGroupDmRecipientsError';
 import {MaxGroupDmsError} from '@fluxer/errors/src/domains/channel/MaxGroupDmsError';
 import {UnclaimedAccountCannotSendDirectMessagesError} from '@fluxer/errors/src/domains/channel/UnclaimedAccountCannotSendDirectMessagesError';
+import {EmailVerificationRequiredError} from '@fluxer/errors/src/domains/auth/EmailVerificationRequiredError';
 import {InputValidationError} from '@fluxer/errors/src/domains/core/InputValidationError';
 import {MissingAccessError} from '@fluxer/errors/src/domains/core/MissingAccessError';
 import {NotFriendsWithUserError} from '@fluxer/errors/src/domains/user/NotFriendsWithUserError';
@@ -509,6 +510,17 @@ export class UserChannelService {
 		const senderUser = await this.userAccountRepository.findUnique(userId);
 		if (senderUser?.isUnclaimedAccount()) {
 			throw new UnclaimedAccountCannotSendDirectMessagesError();
+		}
+
+		if (senderUser && !senderUser.emailVerified) {
+			const senderFriendship = await this.userRelationshipRepository.getRelationship(
+				userId,
+				recipientId,
+				RelationshipTypes.FRIEND,
+			);
+			if (!senderFriendship) {
+				throw new EmailVerificationRequiredError();
+			}
 		}
 
 		const userBlockedRecipient = await this.userRelationshipRepository.getRelationship(
