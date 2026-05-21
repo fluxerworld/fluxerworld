@@ -54,7 +54,28 @@ export function EmbedController(app: HonoApp): void {
 		async (ctx) => {
 			const {url} = ctx.req.valid('query');
 			const embeds = await ctx.get('embedService').unfurlSingleUrl(url, false);
-			return ctx.json({embeds});
+			// Enrich each embed's media (thumbnail/image/video) with
+			// proxy_url. The Embed model doesn't carry proxy_url through
+			// toMessageEmbed; the normal message-create path patches it in
+			// MessageMappers.tsx, but /unfurl bypasses that mapper. Without
+			// proxy_url the client's isValidMedia() returns false and the
+			// gifv/image branches don't render — message bubbles look
+			// blank. Mirror the mapper's behaviour here so E2EE clients
+			// get fully-rendered embeds.
+			const mediaService = ctx.get('mediaService');
+			const enriched = embeds.map((embed) => ({
+				...embed,
+				thumbnail: embed.thumbnail?.url
+					? {...embed.thumbnail, proxy_url: mediaService.getExternalMediaProxyURL(embed.thumbnail.url)}
+					: embed.thumbnail,
+				image: embed.image?.url
+					? {...embed.image, proxy_url: mediaService.getExternalMediaProxyURL(embed.image.url)}
+					: embed.image,
+				video: embed.video?.url
+					? {...embed.video, proxy_url: mediaService.getExternalMediaProxyURL(embed.video.url)}
+					: embed.video,
+			}));
+			return ctx.json({embeds: enriched});
 		},
 	);
 }
