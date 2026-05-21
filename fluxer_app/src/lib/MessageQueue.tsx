@@ -47,6 +47,7 @@ import {
 	type MessageEditRequest,
 } from '@app/utils/MessageRequestUtils';
 import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import type {RichEmbedRequest} from '@fluxer/schema/src/domains/message/MessageRequestSchemas';
 import type {
 	AllowedMentions,
 	Message,
@@ -76,6 +77,12 @@ interface SendMessagePayload extends BaseMessagePayload {
 	favoriteMemeId?: string;
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
+	/** Client-built embeds (e.g. for GIF picker where we already know the
+	 * media URL + dimensions). Server bypasses the unfurler when present.
+	 * For E2EE channels these ride on the wire alongside the encrypted
+	 * payload — only use for cases where the embed metadata isn't
+	 * sensitive (the message is visibly a GIF anyway). */
+	embeds?: Array<RichEmbedRequest>;
 	/** True when this send is from a "Resend" action on a previously failed
 	 * message. Skips the auto-restore-to-draft fallback on second failure so
 	 * the failed message stays visible in chat with its resend button instead
@@ -259,6 +266,7 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 			favoriteMemeId: payload.favoriteMemeId,
 			stickers: payload.stickers,
 			tts: payload.tts,
+			embeds: payload.embeds,
 			encryptedPayload: payload.encryptedPayload,
 		});
 

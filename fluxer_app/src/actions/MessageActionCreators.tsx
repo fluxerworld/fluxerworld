@@ -66,6 +66,7 @@ import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
 import type {JumpType} from '@fluxer/constants/src/JumpConstants';
 import {MAX_MESSAGES_PER_CHANNEL} from '@fluxer/constants/src/LimitConstants';
 import type {MessageId} from '@fluxer/schema/src/branded/WireIds';
+import type {RichEmbedRequest} from '@fluxer/schema/src/domains/message/MessageRequestSchemas';
 import type {
 	AllowedMentions,
 	Message,
@@ -145,6 +146,7 @@ interface SendMessageParams {
 	favoriteMemeId?: string;
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
+	embeds?: Array<RichEmbedRequest>;
 	isRetry?: boolean;
 	// Caller-side override to bypass the channel's E2EE state. Set when
 	// the user has explicitly chosen "send unencrypted" after an
@@ -512,6 +514,7 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 					favoriteMemeId: params.favoriteMemeId,
 					stickers: params.stickers,
 					tts: params.tts,
+					embeds: params.embeds,
 					isRetry: params.isRetry,
 					encryptedPayload,
 				},

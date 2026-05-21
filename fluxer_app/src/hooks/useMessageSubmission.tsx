@@ -27,6 +27,7 @@ import UserStore from '@app/stores/UserStore';
 import * as MessageSubmitUtils from '@app/utils/MessageSubmitUtils';
 import {TypingUtils} from '@app/utils/TypingUtils';
 import {MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {RichEmbedRequest} from '@fluxer/schema/src/domains/message/MessageRequestSchemas';
 import type {
 	AllowedMentions,
 	MessageAttachment,
@@ -138,6 +139,7 @@ export const useMessageSubmission = ({channel, referencedMessage, replyingMessag
 				content: string;
 				stickers?: Array<MessageStickerItem>;
 				attachments?: Array<MessageAttachment>;
+				embeds?: Array<RichEmbedRequest>;
 			},
 			sendOptions: {
 				hasAttachments: boolean;
@@ -190,6 +192,7 @@ export const useMessageSubmission = ({channel, referencedMessage, replyingMessag
 				flags: 0,
 				stickers: messageData.stickers || [],
 				favoriteMemeId: sendOptions.favoriteMemeId,
+				embeds: messageData.embeds,
 			});
 		},
 		[channel?.id, referencedMessage, replyingMessage],

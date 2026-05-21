@@ -25,6 +25,7 @@ import UserStore from '@app/stores/UserStore';
 import * as KlipyUtils from '@app/utils/KlipyUtils';
 import * as TenorUtils from '@app/utils/TenorUtils';
 import type {MentionSegment} from '@app/utils/TextareaSegmentManager';
+import type {RichEmbedRequest} from '@fluxer/schema/src/domains/message/MessageRequestSchemas';
 import type {MessageAttachment, MessageStickerItem} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useEffect} from 'react';
 
@@ -42,7 +43,12 @@ interface UseTextareaExpressionHandlersOptions {
 	) => {newText: string; newSegments: Array<MentionSegment>};
 	previousValueRef: React.MutableRefObject<string>;
 	sendOptimisticMessage: (
-		messageData: {content: string; stickers?: Array<MessageStickerItem>; attachments?: Array<MessageAttachment>},
+		messageData: {
+			content: string;
+			stickers?: Array<MessageStickerItem>;
+			attachments?: Array<MessageAttachment>;
+			embeds?: Array<RichEmbedRequest>;
+		},
 		sendOptions: {hasAttachments: boolean; favoriteMemeId?: string},
 	) => void;
 }

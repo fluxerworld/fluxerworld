@@ -19,6 +19,7 @@
 
 import UnicodeEmojis from '@app/lib/UnicodeEmojis';
 import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
+import type {RichEmbedRequest} from '@fluxer/schema/src/domains/message/MessageRequestSchemas';
 import type {
 	AllowedMentions,
 	MessageReference,
@@ -41,6 +42,7 @@ export interface MessageCreateRequest {
 	content?: string | null;
 	nonce?: string;
 	attachments?: Array<ApiAttachmentMetadata>;
+	embeds?: Array<RichEmbedRequest>;
 	allowed_mentions?: AllowedMentions;
 	message_reference?: MessageReference;
 	flags?: number;
@@ -81,6 +83,7 @@ export interface MessageCreatePayload {
 	favoriteMemeId?: string;
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
+	embeds?: Array<RichEmbedRequest>;
 	encryptedPayload?:
 		| {
 				v: number;
@@ -122,6 +125,7 @@ export function buildMessageCreateRequest(payload: MessageCreatePayload): Messag
 		favoriteMemeId,
 		stickers,
 		tts,
+		embeds,
 		encryptedPayload,
 	} = payload;
 
@@ -137,6 +141,10 @@ export function buildMessageCreateRequest(payload: MessageCreatePayload): Messag
 
 	if (attachments?.length) {
 		requestBody.attachments = attachments;
+	}
+
+	if (embeds?.length) {
+		requestBody.embeds = embeds;
 	}
 
 	if (messageReference != null || shouldIncludeAllowedMentions(allowedMentions)) {
