@@ -75,8 +75,13 @@ export async function encryptFileForUpload(
 		iv: encodeBase64(iv),
 		mime: file.type || 'application/octet-stream',
 		name: file.name,
-		...(metadata.width !== undefined ? {width: metadata.width} : {}),
-		...(metadata.height !== undefined ? {height: metadata.height} : {}),
+		// Treat 0 as "unknown" — createAttachments initialises width/height
+		// to 0 and only overwrites them when getImageDimensions resolves.
+		// Persisting 0 here breaks the receiver's `entry.width ?? fallback`
+		// (?? only catches null/undefined), so the bubble would render at
+		// zero pixels. Drop the field entirely when it's missing.
+		...(metadata.width && metadata.width > 0 ? {width: metadata.width} : {}),
+		...(metadata.height && metadata.height > 0 ? {height: metadata.height} : {}),
 	};
 
 	return {encryptedFile, envelopeEntry};

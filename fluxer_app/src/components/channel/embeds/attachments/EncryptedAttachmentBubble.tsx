@@ -17,8 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MediaViewerActionCreators from '@app/actions/MediaViewerActionCreators';
 import {Spinner} from '@app/components/uikit/Spinner';
-import {getAttachmentKey} from '@app/lib/e2ee/E2EEMessageIntegration';
+import {getAttachmentKey, loadAttachmentKeysFromStorage} from '@app/lib/e2ee/E2EEMessageIntegration';
 import {useDecryptedAttachment} from '@app/lib/e2ee/EncryptedAttachmentLoader';
 import type {MessageRecord} from '@app/records/MessageRecord';
 import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
@@ -42,8 +43,30 @@ const MAX_INLINE_DIMENSION = 400;
 //     wasteful and feels unsafe; the user should opt in.
 export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
 	const {t} = useLingui();
+	// Re-read on every render after hydration so a successful IDB load
+	// surfaces the entry without forcing a separate state slot for it.
+	const [, setHydrationTick] = useState(0);
 	const entry = getAttachmentKey(message.id, attachment.id);
 	const ciphertextUrl = attachment.url ?? '';
+
+	// After a page refresh attachmentKeyCache is empty. Pull keys from
+	// IDB before falling through to the "key missing" placeholder.
+	const [hydrated, setHydrated] = useState(() => entry !== null);
+	useEffect(() => {
+		if (entry) {
+			setHydrated(true);
+			return;
+		}
+		let cancelled = false;
+		void loadAttachmentKeysFromStorage(message.id).then((loaded) => {
+			if (cancelled) return;
+			setHydrated(true);
+			if (loaded) setHydrationTick((n) => n + 1);
+		});
+		return () => {
+			cancelled = true;
+		};
+	}, [entry, message.id]);
 
 	const isImageMime = entry?.mime.startsWith('image/') ?? false;
 	const [requested, setRequested] = useState(false);
@@ -77,6 +100,13 @@ export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
 	}, []);
 
 	if (!entry) {
+		if (!hydrated) {
+			return (
+				<div style={{...skeletonStyle, width: MAX_INLINE_DIMENSION, height: 80}}>
+					<Spinner />
+				</div>
+			);
+		}
 		return (
 			<div style={placeholderStyle}>
 				<Trans>Encrypted attachment — key missing</Trans>
@@ -85,9 +115,13 @@ export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
 	}
 
 	if (isImageMime) {
-		const targetWidth = Math.min(entry.width ?? MAX_INLINE_DIMENSION, MAX_INLINE_DIMENSION);
-		const targetHeight =
-			entry.width && entry.height ? Math.round((entry.height / entry.width) * targetWidth) : undefined;
+		const hasRealDims = (entry.width ?? 0) > 0 && (entry.height ?? 0) > 0;
+		const targetWidth = hasRealDims
+			? Math.min(entry.width!, MAX_INLINE_DIMENSION)
+			: MAX_INLINE_DIMENSION;
+		const targetHeight = hasRealDims
+			? Math.round((entry.height! / entry.width!) * targetWidth)
+			: undefined;
 
 		if (result.status === 'loading' || result.status === 'idle') {
 			return (
@@ -103,13 +137,40 @@ export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
 				</div>
 			);
 		}
+		const openInViewer = () => {
+			if (!result.blobUrl) return;
+			MediaViewerActionCreators.openMediaViewer(
+				[
+					{
+						src: result.blobUrl,
+						originalSrc: result.blobUrl,
+						naturalWidth: entry.width ?? targetWidth,
+						naturalHeight: entry.height ?? targetHeight ?? 200,
+						type: 'image' as const,
+						contentHash: undefined,
+						embedIndex: undefined,
+						expiresAt: undefined,
+						expired: undefined,
+						animated: false,
+					},
+				],
+				0,
+				{channelId: message.channelId, messageId: message.id, message},
+			);
+		};
 		return (
-			<a
-				href={result.blobUrl}
-				target="_blank"
-				rel="noreferrer"
-				download={entry.name}
-				style={{display: 'inline-block', maxWidth: '100%'}}
+			<button
+				type="button"
+				onClick={openInViewer}
+				aria-label={t`Open image in full view`}
+				style={{
+					display: 'inline-block',
+					maxWidth: '100%',
+					padding: 0,
+					border: 0,
+					background: 'none',
+					cursor: 'pointer',
+				}}
 			>
 				<img
 					src={result.blobUrl}
@@ -118,7 +179,7 @@ export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
 					height={targetHeight}
 					style={{maxWidth: '100%', borderRadius: '0.25rem', display: 'block'}}
 				/>
-			</a>
+			</button>
 		);
 	}
 

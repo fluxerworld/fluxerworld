@@ -22,11 +22,13 @@ import {
 	deleteAllGroupSessionsForChannel,
 	deleteOutboundGroupSession,
 	deleteSessionsForRemoteDevice,
+	getAttachmentKeys,
 	getInboundGroupSession,
 	getMessagePlaintext,
 	getOutboundGroupSession,
 	getPeerIdentityKey,
 	getSessionsForRemoteDevice,
+	putAttachmentKeys,
 	putMessagePlaintext,
 	putOutboundGroupSession,
 	setPeerIdentityKey,
@@ -225,6 +227,24 @@ export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<C
 		attachmentKeyCache.set(messageId, bucket);
 	}
 	for (const entry of entries) bucket.set(entry.id, entry);
+	// Persist alongside the in-memory cache so attachments still decrypt
+	// after a page refresh. Olm ratchets are one-shot, so without this
+	// the bubble can never recover the AES key for a historical message.
+	void putAttachmentKeys({
+		message_id: messageId,
+		entries: entries.map((e) => ({
+			id: e.id,
+			key: e.key,
+			iv: e.iv,
+			mime: e.mime,
+			name: e.name,
+			width: e.width,
+			height: e.height,
+		})),
+		created_at: Date.now(),
+	}).catch((err: unknown) => {
+		logger.warn('Failed to persist attachment keys', {messageId, err});
+	});
 }
 
 export function getAttachmentKey(messageId: string, attachmentId: string): CachedAttachmentEntry | null {
@@ -233,6 +253,26 @@ export function getAttachmentKey(messageId: string, attachmentId: string): Cache
 
 export function hasAttachmentKey(messageId: string, attachmentId: string): boolean {
 	return attachmentKeyCache.get(messageId)?.has(attachmentId) ?? false;
+}
+
+// Lazy-load attachment keys from IDB for a message that's about to be
+// rendered. Returns true if anything was hydrated. The bubble calls
+// this on mount when hasAttachmentKey misses in memory — after this
+// resolves, hasAttachmentKey/getAttachmentKey will return the durable
+// entry.
+export async function loadAttachmentKeysFromStorage(messageId: string): Promise<boolean> {
+	if (attachmentKeyCache.has(messageId)) return true;
+	try {
+		const stored = await getAttachmentKeys(messageId);
+		if (!stored || stored.entries.length === 0) return false;
+		const bucket = new Map<string, CachedAttachmentEntry>();
+		for (const entry of stored.entries) bucket.set(entry.id, entry);
+		attachmentKeyCache.set(messageId, bucket);
+		return true;
+	} catch (err) {
+		logger.warn('Failed to load attachment keys from storage', {messageId, err});
+		return false;
+	}
 }
 
 // Pair the envelope's order-matched attachment entries with the wire

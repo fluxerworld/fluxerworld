@@ -19,18 +19,24 @@
 
 const DB_NAME = 'FluxerE2EE';
 // One-way ratchet — see feedback_idb_version_bump.md in agent memory.
-// v6 adds message_plaintexts: per-message plaintext cache so the
+// v7 adds attachment_keys: standalone per-message persistence of the
+// AES keys we pulled out of the v2 envelope. Without this the bubble
+// can't decrypt previously-loaded attachments after a reload, since
+// the in-memory attachmentKeyCache resets and re-decrypt fails (Olm
+// ratchets are one-shot).
+// v6 added message_plaintexts: per-message plaintext cache so the
 // receiver can re-render encrypted history on refresh without
 // re-running decrypt (Olm/Megolm both consume per-message material on
 // decrypt — re-attempting fails). v5 had the Megolm stores; v4 the
 // 1:1 Olm stores. Idempotent upgrades preserve data.
-const DB_VERSION = 6;
+const DB_VERSION = 7;
 const ACCOUNT_STORE = 'accounts';
 const SESSION_STORE = 'sessions';
 const META_STORE = 'meta';
 const OUTBOUND_GROUP_SESSION_STORE = 'outbound_group_sessions';
 const INBOUND_GROUP_SESSION_STORE = 'inbound_group_sessions';
 const MESSAGE_PLAINTEXT_STORE = 'message_plaintexts';
+const ATTACHMENT_KEYS_STORE = 'attachment_keys';
 const VERIFICATION_STORE = 'verifications';
 
 // Pickled Olm state is encrypted at rest using a per-install random key
@@ -178,6 +184,9 @@ function attemptOpen(): Promise<IDBDatabase> {
 			}
 			if (!db.objectStoreNames.contains(MESSAGE_PLAINTEXT_STORE)) {
 				db.createObjectStore(MESSAGE_PLAINTEXT_STORE, {keyPath: 'message_id'});
+			}
+			if (!db.objectStoreNames.contains(ATTACHMENT_KEYS_STORE)) {
+				db.createObjectStore(ATTACHMENT_KEYS_STORE, {keyPath: 'message_id'});
 			}
 		};
 	});
@@ -496,4 +505,43 @@ export async function deleteAllMessagePlaintexts(): Promise<void> {
 	const db = await openDB();
 	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readwrite');
 	await reqToPromise(tx.objectStore(MESSAGE_PLAINTEXT_STORE).clear());
+}
+
+// ── Attachment key cache ────────────────────────────────────────────────
+// Stores the per-attachment AES keys extracted from the v2 envelope so
+// the EncryptedAttachmentBubble can decrypt previously-rendered images
+// after a page refresh. In-memory attachmentKeyCache resets on reload;
+// this is the durable backing.
+
+export interface AttachmentKeysEntry {
+	message_id: string;
+	entries: ReadonlyArray<{
+		id: string;
+		key: string;
+		iv: string;
+		mime: string;
+		name: string;
+		width?: number;
+		height?: number;
+	}>;
+	created_at: number;
+}
+
+export async function getAttachmentKeys(messageId: string): Promise<AttachmentKeysEntry | null> {
+	const db = await openDB();
+	const tx = db.transaction([ATTACHMENT_KEYS_STORE], 'readonly');
+	const result = await reqToPromise(tx.objectStore(ATTACHMENT_KEYS_STORE).get(messageId));
+	return (result as AttachmentKeysEntry | undefined) ?? null;
+}
+
+export async function putAttachmentKeys(entry: AttachmentKeysEntry): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([ATTACHMENT_KEYS_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(ATTACHMENT_KEYS_STORE).put(entry));
+}
+
+export async function deleteAllAttachmentKeys(): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([ATTACHMENT_KEYS_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(ATTACHMENT_KEYS_STORE).clear());
 }

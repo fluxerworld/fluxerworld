@@ -246,10 +246,12 @@ const AttachmentMedia: FC<AttachmentMediaProps & {message?: MessageRecord; isPre
 			responsive: true,
 		});
 
+		const fallbackWidth = attachment.width ?? 400;
+		const fallbackHeight = attachment.height ?? 300;
 		const {dimensions} = mediaCalculator.calculate(
 			{
-				width: attachment.width!,
-				height: attachment.height!,
+				width: fallbackWidth,
+				height: fallbackHeight,
 			},
 			{forceScale: true},
 		);
@@ -270,8 +272,8 @@ const AttachmentMedia: FC<AttachmentMediaProps & {message?: MessageRecord; isPre
 					<EmbedImage
 						src={optimizedSrc}
 						originalSrc={attachment.url ?? ''}
-						naturalWidth={attachment.width!}
-						naturalHeight={attachment.height!}
+						naturalWidth={attachment.width ?? fallbackWidth}
+						naturalHeight={attachment.height ?? fallbackHeight}
 						width={dimensions.width}
 						height={dimensions.height}
 						placeholder={attachment.placeholder}
@@ -401,7 +403,7 @@ export const Attachment: FC<AttachmentProps> = observer(
 			);
 		}
 
-		if (!hasValidDimensions(att)) {
+		if (!hasValidDimensions(att) && !isImageType(att.content_type)) {
 			return renderWithFootnote(
 				wrapSpoiler(
 					<FocusRing within ringClassName={messageStyles.mediaFocusRing}>

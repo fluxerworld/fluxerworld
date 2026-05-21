@@ -473,9 +473,21 @@ class E2EEStore {
 			}
 			if (ours.one_time_prekey_count > 10) return;
 
+			const previousCount = ours.one_time_prekey_count;
 			const fresh = await e2eeManager.generateAdditionalOneTimeKeys();
 			await E2EEActionCreators.topUpOneTimePrekeys(this.deviceId, fresh);
-			logger.debug('Topped up one-time prekeys', {added: fresh.length});
+			logger.info('Topped up one-time prekeys', {
+				added: fresh.length,
+				deviceId: this.deviceId,
+				previousCount,
+			});
+			// When we topped up from a critically low count, peers are likely
+			// still draining what we just uploaded as fast as we can post it.
+			// Reset the throttle so the very next encrypt re-checks instead of
+			// waiting the full 5 minutes.
+			if (previousCount <= 1) {
+				this.lastReplenishCheckAt = 0;
+			}
 		} catch (error) {
 			logger.warn('One-time prekey replenish failed', {error});
 		}
