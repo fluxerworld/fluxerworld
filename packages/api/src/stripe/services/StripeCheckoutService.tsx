@@ -189,27 +189,27 @@ export class StripeCheckoutService {
 		const currency = getCurrency(countryCode);
 		const prices = Config.stripe.prices;
 
+		// Return null for any missing price ID rather than throwing. The
+		// response type already permits nulls — Plutonium hides purchase
+		// options for null entries. Throwing on missing IDs makes the
+		// whole modal fail to load even when the configured subset is
+		// enough for the UI (e.g. subscriptions on Stripe but gifts
+		// handled by a different provider).
 		if (currency === 'EUR') {
-			if (!prices?.monthlyEur || !prices.yearlyEur || !prices.gift1MonthEur || !prices.gift1YearEur) {
-				throw new StripeError('Stripe price ids missing for EUR');
-			}
 			return {
-				monthly: prices.monthlyEur,
-				yearly: prices.yearlyEur,
-				gift_1_month: prices.gift1MonthEur,
-				gift_1_year: prices.gift1YearEur,
+				monthly: prices?.monthlyEur ?? null,
+				yearly: prices?.yearlyEur ?? null,
+				gift_1_month: prices?.gift1MonthEur ?? null,
+				gift_1_year: prices?.gift1YearEur ?? null,
 				currency,
 			};
 		}
 
-		if (!prices?.monthlyUsd || !prices.yearlyUsd || !prices.gift1MonthUsd || !prices.gift1YearUsd) {
-			throw new StripeError('Stripe price ids missing for USD');
-		}
 		return {
-			monthly: prices.monthlyUsd,
-			yearly: prices.yearlyUsd,
-			gift_1_month: prices.gift1MonthUsd,
-			gift_1_year: prices.gift1YearUsd,
+			monthly: prices?.monthlyUsd ?? null,
+			yearly: prices?.yearlyUsd ?? null,
+			gift_1_month: prices?.gift1MonthUsd ?? null,
+			gift_1_year: prices?.gift1YearUsd ?? null,
 			currency,
 		};
 	}
