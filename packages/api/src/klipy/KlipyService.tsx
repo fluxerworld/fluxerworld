@@ -131,9 +131,18 @@ export class KlipyService implements IKlipyService {
 		throw new Error('Exceeded maximum retries');
 	}
 
+	private isUsableKlipyGif(gif: KlipyGif): boolean {
+		// Some upstream responses include malformed gifs that lack the webm
+		// format entirely. transformKlipyGif assumes webm.url/dims exist, so
+		// pre-filter to avoid 500ing the whole /featured payload over one
+		// bad row.
+		const webm = gif.media_formats?.webm;
+		return Boolean(webm && typeof webm.url === 'string' && Array.isArray(webm.dims) && webm.dims.length === 2);
+	}
+
 	private async fetchAndTransformGifs(url: URL): Promise<Array<KlipyGifResponse>> {
 		const {results} = await this.fetchKlipyData<{results: Array<KlipyGif>}>(url);
-		return results.map((gif) => this.transformKlipyGif(gif));
+		return results.filter((gif) => this.isUsableKlipyGif(gif)).map((gif) => this.transformKlipyGif(gif));
 	}
 
 	private async getCache<T>(key: string): Promise<{data: T; isStale: boolean} | null> {
