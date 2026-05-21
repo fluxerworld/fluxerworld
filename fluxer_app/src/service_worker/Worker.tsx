@@ -202,3 +202,10 @@ self.addEventListener('pushsubscriptionchange', (event: ExtendableEvent) => {
 			.catch(() => undefined),
 	);
 });
+
+// No-op fetch handler. We don't ship offline caching, but Chrome
+// requires a fetch listener before it will surface the "Install app"
+// prompt in the address bar — without this users can still install via
+// the browser menu, but the inline banner never appears. Returning
+// undefined lets every request fall through to the network unchanged.
+self.addEventListener('fetch', () => {});
