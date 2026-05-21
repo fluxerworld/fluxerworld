@@ -65,7 +65,15 @@ const getSelectionSnapshot = (): SelectionSnapshot => {
 		return {text: '', range: null};
 	}
 
-	const text = selection.toString().trim();
+	// Selection.toString() inserts a newline at every block-level DOM
+	// boundary, which for our nested message bubble structure
+	// (avatar + timestamp + content blocks) produces clumps of 3-5
+	// blank lines between selected segments. Native Ctrl+C avoids
+	// this because the browser's clipboard event uses a smarter
+	// traversal. Collapse runs of 2+ newlines down to a single
+	// newline so the "Copy text" menu item matches Ctrl+C output.
+	const raw = selection.toString();
+	const text = raw.replace(/\n{2,}/g, '\n').trim();
 	if (!text) {
 		return {text: '', range: null};
 	}
