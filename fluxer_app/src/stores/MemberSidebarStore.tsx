@@ -221,6 +221,57 @@ class MemberSidebarStore {
 			return;
 		}
 
+		// Detect group-count shifts caused by gateway sending UPDATE
+		// without DELETE+INSERT pairs. When counts change, the previous
+		// boundedRows row indices no longer align with the new layout —
+		// members can land on group-header rows (which get skipped),
+		// silently disappearing. Force a fresh SYNC by re-issuing
+		// LAZY_REQUEST so the server repopulates the list with current
+		// positions.
+		const previousListState = this.lists[guildId]?.[listId];
+		const previousGroups = previousListState?.groups ?? [];
+		const groupsShifted =
+			previousGroups.length > 0 &&
+			(previousGroups.length !== groups.length ||
+				previousGroups.some(
+					(g, i) => g.id !== groups[i]?.id || g.count !== groups[i]?.count,
+				));
+		if (groupsShifted) {
+			const ranges = previousListState?.subscribedRanges ?? [];
+			let ch: string | undefined = channelId;
+			if (!ch) {
+				const channelMap = this.channelListIds[guildId] ?? {};
+				for (const [cid, lid] of Object.entries(channelMap)) {
+					if (lid === listId) {
+						ch = cid;
+						break;
+					}
+				}
+			}
+			if (!ch) ch = listId;
+			if (ranges.length > 0 && ch) {
+				const socket = GatewayConnectionStore.socket;
+				// Unsubscribe then re-subscribe — the server skips
+				// no-op LAZY_REQUESTs (same ranges) but unsub + resub
+				// forces a fresh SYNC, which is what we need to realign
+				// row positions after a group-count shift.
+				socket?.updateGuildSubscriptions({
+					subscriptions: {
+						[guildId]: {
+							member_list_channels: {[ch]: []},
+						},
+					},
+				});
+				socket?.updateGuildSubscriptions({
+					subscriptions: {
+						[guildId]: {
+							member_list_channels: {[ch]: ranges},
+						},
+					},
+				});
+			}
+		}
+
 		const storageKey = listId;
 		const existingGuildLists = this.lists[guildId] ?? {};
 		const guildLists: Record<string, MemberListState> = {...existingGuildLists};
