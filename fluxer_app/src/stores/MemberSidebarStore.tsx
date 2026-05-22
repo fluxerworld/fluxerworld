@@ -251,10 +251,9 @@ class MemberSidebarStore {
 			if (!ch) ch = listId;
 			if (ranges.length > 0 && ch) {
 				const socket = GatewayConnectionStore.socket;
-				// Unsubscribe then re-subscribe — the server skips
-				// no-op LAZY_REQUESTs (same ranges) but unsub + resub
-				// forces a fresh SYNC, which is what we need to realign
-				// row positions after a group-count shift.
+				// Unsub + resub forces the server to send a fresh SYNC
+				// with correct row positions. Same-range LAZY_REQUEST
+				// gets short-circuited as a no-op, so we need the pair.
 				socket?.updateGuildSubscriptions({
 					subscriptions: {
 						[guildId]: {
@@ -270,6 +269,12 @@ class MemberSidebarStore {
 					},
 				});
 			}
+			// Don't process the current ops — applying them against the
+			// stale row positions would cause visible drops (members
+			// landing on group-header rows get skipped). The incoming
+			// fresh SYNC will repopulate cleanly. Keep the previously
+			// rendered state visible in the meantime.
+			return;
 		}
 
 		const storageKey = listId;
