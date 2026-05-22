@@ -127,6 +127,56 @@ class MemberSidebarStore {
 		this.sessionVersion += 1;
 	}
 
+	// Called on EVERY gateway READY (not just new-session READY). The
+	// gateway forgets all member_list_subscriptions when it restarts, but
+	// the client cache thinks it's still subscribed, so subscribeToChannel
+	// short-circuits and never re-sends LAZY_REQUEST. As a consequence,
+	// new joiners after a server restart never propagate to active panels.
+	// Capture previous ranges, clear them, then actively re-subscribe so
+	// the server gets the LAZY_REQUEST again and resumes broadcasting.
+	handleConnectionReady(): void {
+		const socket = GatewayConnectionStore.socket;
+		const previousRanges: Array<{guildId: string; channelId: string; ranges: Array<[number, number]>}> = [];
+		for (const guildId of Object.keys(this.lists)) {
+			const guildLists = this.lists[guildId];
+			if (!guildLists) continue;
+			const reset: Record<string, MemberListState> = {};
+			const channelMap = this.channelListIds[guildId] ?? {};
+			for (const [listKey, list] of Object.entries(guildLists)) {
+				if (list.subscribedRanges.length > 0) {
+					// Find the channel ID this list was scoped to so we can
+					// re-issue the LAZY_REQUEST with the same ranges.
+					const channelId = Object.entries(channelMap).find(([, key]) => key === listKey)?.[0];
+					if (channelId) {
+						previousRanges.push({guildId, channelId, ranges: list.subscribedRanges});
+					}
+				}
+				reset[listKey] = {...list, subscribedRanges: []};
+			}
+			this.lists = {...this.lists, [guildId]: reset};
+		}
+		// Re-issue LAZY_REQUESTs for everything that had an active sub.
+		for (const {guildId, channelId, ranges} of previousRanges) {
+			socket?.updateGuildSubscriptions({
+				subscriptions: {
+					[guildId]: {
+						member_list_channels: {[channelId]: ranges},
+					},
+				},
+			});
+			// Track the re-issued ranges so future visibility checks
+			// short-circuit correctly until something changes.
+			const storageKey = this.resolveListKey(guildId, channelId);
+			const existing = this.lists[guildId]?.[storageKey];
+			if (existing) {
+				this.lists = {
+					...this.lists,
+					[guildId]: {...this.lists[guildId], [storageKey]: {...existing, subscribedRanges: ranges}},
+				};
+			}
+		}
+	}
+
 	handleGuildDelete(guildId: string): void {
 		if (this.lists[guildId]) {
 			const {[guildId]: _, ...remainingLists} = this.lists;

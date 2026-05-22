@@ -106,6 +106,15 @@ export function handleReady(data: ReadyPayload, context: GatewayHandlerContext):
 		MemberSidebarStore.handleSessionInvalidated();
 	}
 
+	// Always reset member-list subscription markers on READY. The server
+	// loses all subscriptions across restarts, but the client cache
+	// remembers what it last asked for and short-circuits the next
+	// LAZY_REQUEST. Result: new joiners never propagate to existing
+	// member panels post-restart. Clearing subscribedRanges (without
+	// dropping the displayed members) lets the next visibility check
+	// re-subscribe cleanly.
+	MemberSidebarStore.handleConnectionReady();
+
 	context.setPreviousSessionId(currentSessionId);
 
 	const guilds = data.guilds;
