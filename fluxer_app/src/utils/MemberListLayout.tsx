@@ -39,18 +39,22 @@ export function buildMemberListLayout(groups: ReadonlyArray<MemberListGroupSnaps
 	let memberIndex = 0;
 
 	for (const group of groups) {
-		if (group.count <= 0) {
-			continue;
-		}
-
+		// Zero-count groups still get a header row in our layout because
+		// the gateway emits one in the flat item list for each group it
+		// reports — even empty ones. Skipping them client-side made every
+		// row after the first empty group drift by 1, so members landed
+		// on header slots (filtered out by the row→member conversion) and
+		// disappeared from the panel. Allocate the header row but no
+		// member rows; renderers already skip empty headers.
+		const count = Math.max(0, group.count);
 		const headerRowIndex = rowIndex;
 		const memberStartIndex = memberIndex;
-		const memberEndIndex = memberIndex + group.count - 1;
-		const rowEndIndex = headerRowIndex + group.count;
+		const memberEndIndex = count === 0 ? memberIndex - 1 : memberIndex + count - 1;
+		const rowEndIndex = headerRowIndex + count;
 
 		layouts.push({
 			id: group.id,
-			count: group.count,
+			count,
 			headerRowIndex,
 			memberStartIndex,
 			memberEndIndex,

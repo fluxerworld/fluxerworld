@@ -251,9 +251,6 @@ class MemberSidebarStore {
 			if (!ch) ch = listId;
 			if (ranges.length > 0 && ch) {
 				const socket = GatewayConnectionStore.socket;
-				// Unsub + resub forces the server to send a fresh SYNC
-				// with correct row positions. Same-range LAZY_REQUEST
-				// gets short-circuited as a no-op, so we need the pair.
 				socket?.updateGuildSubscriptions({
 					subscriptions: {
 						[guildId]: {
@@ -269,11 +266,18 @@ class MemberSidebarStore {
 					},
 				});
 			}
-			// Don't process the current ops — applying them against the
-			// stale row positions would cause visible drops (members
-			// landing on group-header rows get skipped). The incoming
-			// fresh SYNC will repopulate cleanly. Keep the previously
-			// rendered state visible in the meantime.
+			// MUST update listState.groups to the new value before
+			// returning — otherwise the next SYNC compares to the OLD
+			// groups, re-detects "shift", fires unsub+resub again, and
+			// loops forever. Found the hard way 2026-05-23 with dozens
+			// of SYNC ops per second hammering the gateway.
+			if (previousListState) {
+				const updated = {...previousListState, groups, memberCount, onlineCount};
+				this.lists = {
+					...this.lists,
+					[guildId]: {...(this.lists[guildId] ?? {}), [listId]: updated},
+				};
+			}
 			return;
 		}
 
