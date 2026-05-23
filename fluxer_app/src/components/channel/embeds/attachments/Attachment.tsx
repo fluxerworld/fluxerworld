@@ -318,9 +318,12 @@ export const Attachment: FC<AttachmentProps> = observer(
 		// Encrypted attachments are stored as opaque ciphertext on the
 		// server, so the wire content_type is application/octet-stream and
 		// the original mime/dimensions live in the per-message envelope
-		// cache. Short-circuit the standard mime dispatch when we have a
-		// key — the bubble handles fetch+decrypt and renders inline.
-		if (message && hasAttachmentKey(message.id, attachment.id)) {
+		// cache. Route to the bubble whenever the message is encrypted —
+		// keying only off the in-memory cache meant on restart the bubble
+		// never mounted (cache empty until the bubble itself hydrates it
+		// from IDB), so screenshots in DM history rendered as opaque
+		// files instead of the original image.
+		if (message && (message.isEncrypted || hasAttachmentKey(message.id, attachment.id))) {
 			return wrapSpoiler(<EncryptedAttachmentBubble attachment={attachment} message={message} />);
 		}
 
