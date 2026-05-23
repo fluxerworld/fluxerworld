@@ -63,10 +63,11 @@ const E2EEExplainer: React.FC = () => (
 			</strong>
 			<p style={{fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4}}>
 				<Trans>
-					When you turn on the lock in a 1:1 DM, your messages are encrypted on your device before they leave it.
+					When you turn on the lock in a DM, your messages are encrypted on your device before they leave it.
 					The server only sees opaque ciphertext — no one running this server (including us) can read your DMs or
 					listen to your calls. Verify a peer's fingerprint over a separate channel to confirm the keys are theirs.
-					Phase 1 covers DMs and 1:1 voice; group chats are not yet protected.
+					Both 1:1 and group DMs are protected. Voice/video is 1:1-only for now; guild voice still goes through
+					SFU media.
 				</Trans>
 			</p>
 		</div>
