@@ -74,10 +74,26 @@ The rule: **every token in `color-system.css` whose default contains `hsl(220, �
 --border-color-hover
 ```
 
-**Inline code blocks** (also locked to hue 220):
+**The `--bg-*` family + secondary buttons + plutonium UI** (restore cascade from `--background-*`):
 ```css
---bg-code
+--bg-primary           --bg-secondary           --bg-tertiary
+--bg-hover             --bg-active              --bg-code
+--bg-code-block        --bg-blockquote
+--bg-table-header      --bg-table-row-odd       --bg-table-row-even
+--button-secondary-fill --button-secondary-active-fill
+--button-secondary-text --button-secondary-active-text
+--button-outline-border --button-outline-active-border --button-outline-active-fill
+--button-outline-text  --button-ghost-text
+--button-inverted-fill --button-inverted-text
+--control-button-normal-bg --control-button-normal-text
+--control-button-hover-text --control-button-active-text
+--markup-mention-border --markup-jump-link-fill
+--plutonium --plutonium-hover --plutonium-text
+--text-code --text-selection
+--border-color-focus --invite-verified-icon-color
 ```
+
+**Gotcha — `.theme-light` / `.theme-coal` break the cascade**: in the dark `:root` defaults these are written as `--bg-primary: var(--background-primary)`, etc. — so they cascade from your themed `--background-*` and you'd think you don't need to touch them. BUT `.theme-light` and `.theme-coal` redefine each with a hardcoded light/coal-specific value, *breaking* that cascade. If a user switches their built-in theme preference (Dark → Light, Coal, etc.) while your custom theme is applied, these 40+ tokens revert to the built-in theme's hardcoded values and your purple becomes a half-purple-half-light hybrid. Re-state the cascade in your custom theme (`--bg-primary: var(--background-primary)`, etc.) and your `--background-*` overrides propagate again.
 
 **Text** (the muted/secondary shades are at hue 220 too — set them so muted text reads as faint-themed rather than faint-cool-grey):
 ```css
