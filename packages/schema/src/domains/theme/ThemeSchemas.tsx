@@ -44,8 +44,26 @@ export const ThemeGallerySubmitRequest = z.object({
 export type ThemeGallerySubmitRequest = z.infer<typeof ThemeGallerySubmitRequest>;
 
 export const ThemeGallerySubmitResponse = z.object({
-	id: z.string().describe('Submission id for tracking review status'),
-	status: z.literal('pending').describe('Always pending immediately after submission'),
+	id: z.string().describe('Theme id (content-hashed). Same value used in /media/themes/<id>.css.'),
+	status: z.literal('pending').describe('Reserved; submissions are auto-published immediately.'),
 });
 
 export type ThemeGallerySubmitResponse = z.infer<typeof ThemeGallerySubmitResponse>;
+
+export const ThemeGalleryListResponse = z.object({
+	themes: z.array(
+		z.object({
+			theme_id: HexString16Type,
+			slug: z.string(),
+			name: z.string(),
+			author: z.string(),
+			description: z.string(),
+			tags: z.array(z.string()),
+			preview: z.array(z.string()),
+			added_at: z.string(),
+			status: z.literal('approved'),
+		}),
+	),
+});
+
+export type ThemeGalleryListResponse = z.infer<typeof ThemeGalleryListResponse>;

@@ -331,9 +331,30 @@ function renderCards(themes) {
 
 (async () => {
   try {
-    const res = await fetch('/themes.json', {cache: 'no-store'});
-    const data = await res.json();
-    renderCards(data.themes || []);
+    // Curated themes live in /themes.json; community submissions come from
+    // the API. Merge both into one grid, dedupe by theme_id.
+    const [curatedRes, communityRes] = await Promise.allSettled([
+      fetch('/themes.json', {cache: 'no-store'}),
+      fetch('/api/v1/themes/gallery', {cache: 'no-store'}),
+    ]);
+
+    const curated = curatedRes.status === 'fulfilled' && curatedRes.value.ok
+      ? ((await curatedRes.value.json()).themes || [])
+      : [];
+
+    const community = communityRes.status === 'fulfilled' && communityRes.value.ok
+      ? ((await communityRes.value.json()).themes || [])
+      : [];
+
+    const seen = new Set();
+    const merged = [];
+    for (const t of curated.concat(community)) {
+      const id = t.theme_id;
+      if (id && seen.has(id)) continue;
+      if (id) seen.add(id);
+      merged.push(t);
+    }
+    renderCards(merged);
   } catch (err) {
     $grid.innerHTML = '<div class="empty">Failed to load themes. Try again later.</div>';
     console.error(err);

@@ -124,7 +124,7 @@
 <div class="container">
   <div class="page-header">
     <h1>Submit a theme</h1>
-    <p>Add your theme to the public Fluxer World gallery. Fill the form, hit Submit — we'll review and publish it.</p>
+    <p>Add your theme to the public Fluxer World gallery. Fill the form, hit Submit — it goes live immediately.</p>
   </div>
 
   <div class="info-card">
@@ -171,7 +171,7 @@
     </div>
 
     <div class="actions">
-      <button type="submit" class="btn btn-primary">Submit for review</button>
+      <button type="submit" class="btn btn-primary">Publish theme</button>
       <button type="button" class="btn btn-secondary" onclick="copyJson()">Copy JSON</button>
     </div>
   </form>
@@ -253,7 +253,7 @@ async function submitForm() {
       return;
     }
     const data = await res.json().catch(() => ({}));
-    alert(`Theme submitted for review. Reference id: ${data.id || 'unknown'}.\n\nYou'll see it land in the gallery once it's approved.`);
+    alert(`Theme published! Theme id: ${data.id || 'unknown'}.\n\nIt should show up in the gallery immediately. Hard-refresh fluxer.world/themes if you don't see it.`);
     const form = document.getElementById('theme-form');
     if (form) form.reset();
     refreshPreview();
