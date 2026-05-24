@@ -108,7 +108,10 @@ export class User {
 		this.premiumType = row.premium_type ?? null;
 		this.premiumSince = row.premium_since ?? null;
 		this.premiumUntil = row.premium_until ?? null;
-		this.premiumWillCancel = row.premium_will_cancel ?? false;
+		// Legacy rows sometimes store this as 0/1 (number) instead of
+		// boolean. The response schema is strict z.boolean(); `0 ?? false`
+		// keeps `0`, which then fails response validation. Coerce.
+		this.premiumWillCancel = Boolean(row.premium_will_cancel ?? false);
 		this.premiumBillingCycle = row.premium_billing_cycle ?? null;
 		this.premiumLifetimeSequence = row.premium_lifetime_sequence ?? null;
 		this.stripeSubscriptionId = row.stripe_subscription_id ?? null;
