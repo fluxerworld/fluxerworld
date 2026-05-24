@@ -36,7 +36,7 @@ import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 import RelationshipStore from '@app/stores/RelationshipStore';
 import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
-import {MagnifyingGlassIcon, UsersThreeIcon} from '@phosphor-icons/react';
+import {MagnifyingGlassIcon, UserPlusIcon, UsersThreeIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
@@ -48,11 +48,12 @@ interface TabButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonEleme
 	label: string;
 	badge?: number;
 	primary?: boolean;
+	icon?: React.ReactNode;
 }
 
 const TabButton = observer(
 	React.forwardRef<HTMLButtonElement, TabButtonProps>(
-		({tab, activeTab, onClick, label, badge, primary, ...props}, ref) => {
+		({tab, activeTab, onClick, label, badge, primary, icon, ...props}, ref) => {
 			const isActive = activeTab === tab && !primary;
 
 			return (
@@ -68,9 +69,11 @@ const TabButton = observer(
 							[styles.primary]: primary,
 						})}
 						onClick={() => onClick(tab)}
+						aria-label={label}
 						{...props}
 					>
 						<div className={styles.tabContent}>
+							{icon}
 							{label}
 							{badge !== undefined && badge > 0 && <MentionBadge mentionCount={badge} />}
 						</div>
@@ -205,6 +208,7 @@ export const DMFriendsView: React.FC = observer(() => {
 							activeTab={activeTab}
 							onClick={setActiveTab}
 							label={t`Add Friend`}
+							icon={<UserPlusIcon size={18} weight="bold" />}
 							primary
 							onKeyDown={(e) => handleKeyDown(e, 3)}
 						/>
