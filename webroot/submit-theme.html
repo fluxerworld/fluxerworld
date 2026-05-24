@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit a theme — Fluxerworld</title>
+  <meta name="description" content="Submit your Fluxer World theme for the public gallery.">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.12);
+      --radius: 12px;
+      --max-w: 760px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+      -webkit-font-smoothing: antialiased; min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 6rem 2rem 4rem; }
+    .page-header { margin-bottom: 1.5rem; }
+    .page-header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .page-header p { color: var(--text-muted); }
+
+    .info-card {
+      padding: 1rem; margin-bottom: 1.5rem;
+      background: var(--accent-subtle); border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      color: var(--text); font-size: 0.875rem;
+    }
+
+    .form-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+
+    .form-row { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-row label {
+      font-size: 0.875rem; font-weight: 600;
+    }
+    .label-hint { color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-left: 0.5rem; }
+    .help { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.15rem; }
+
+    input, textarea {
+      background: #0a0b0d; border: 1px solid var(--border); color: var(--text);
+      padding: 0.6rem 0.75rem; border-radius: 8px; font: inherit;
+      font-family: inherit;
+    }
+    textarea { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.85rem; line-height: 1.5; resize: vertical; }
+    input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-subtle); }
+
+    .swatch-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .swatch-input { display: flex; align-items: center; gap: 0.35rem; }
+    .swatch-input input[type="color"] {
+      width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 6px;
+      background: none; padding: 0; cursor: pointer;
+    }
+
+    .actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 0.4rem; padding: 0.6rem 1.1rem; border-radius: 8px;
+      font-size: 0.875rem; font-weight: 600; cursor: pointer;
+      border: 1px solid transparent; transition: background 0.2s, border-color 0.2s;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-secondary:hover { background: var(--bg-card-hover); }
+
+    .preview {
+      margin-top: 1.5rem; padding: 1rem;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.8rem;
+      white-space: pre-wrap; word-break: break-word;
+      color: var(--text-muted);
+      max-height: 320px; overflow: auto;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxer World</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/bots.html">Bots</a>
+      <a href="/themes.html" class="active">Themes</a>
+      <a href="/help.html">Help</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Submit a theme</h1>
+    <p>Add your theme to the public Fluxer World gallery. Fill the form, send the email — we'll review and publish it.</p>
+  </div>
+
+  <div class="info-card">
+    The easiest way to get the CSS: open Fluxer's settings → Appearance, customise your theme, click <strong>Export as CSS</strong>, then paste the contents below. Or use the <strong>Load current theme into editor</strong> button inside the CSS overrides box.
+  </div>
+
+  <form id="theme-form" class="form-card" onsubmit="event.preventDefault(); submitForm();">
+    <div class="form-row">
+      <label for="name">Theme name <span class="label-hint">required</span></label>
+      <input type="text" id="name" required maxlength="48" placeholder="e.g. Midnight Violet" />
+    </div>
+
+    <div class="form-row">
+      <label for="author">Your name / handle <span class="label-hint">required</span></label>
+      <input type="text" id="author" required maxlength="48" placeholder="How you want to be credited" />
+    </div>
+
+    <div class="form-row">
+      <label for="description">Description <span class="label-hint">required, max 200 chars</span></label>
+      <input type="text" id="description" required maxlength="200" placeholder="One sentence about the vibe / palette." />
+    </div>
+
+    <div class="form-row">
+      <label>Preview swatches <span class="label-hint">5 colours used on the card</span></label>
+      <div class="swatch-row">
+        <div class="swatch-input"><input type="color" id="s0" value="#1a1424"></div>
+        <div class="swatch-input"><input type="color" id="s1" value="#241830"></div>
+        <div class="swatch-input"><input type="color" id="s2" value="#332447"></div>
+        <div class="swatch-input"><input type="color" id="s3" value="#a98cf5"></div>
+        <div class="swatch-input"><input type="color" id="s4" value="#e4e4f7"></div>
+      </div>
+      <p class="help">Pick the 5 colours that best represent your theme — typically bg / surface / hover / accent / text.</p>
+    </div>
+
+    <div class="form-row">
+      <label for="tags">Tags <span class="label-hint">comma-separated, max 5</span></label>
+      <input type="text" id="tags" placeholder="dark, purple, low-contrast" />
+    </div>
+
+    <div class="form-row">
+      <label for="css">CSS <span class="label-hint">required</span></label>
+      <textarea id="css" required rows="10" placeholder=":root {&#10;  --background-primary: #1a1424;&#10;  ...&#10;}"></textarea>
+      <p class="help">A <code>:root { … }</code> block with CSS variable overrides. Use Export as CSS from inside the app to get yours.</p>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary">Send via email</button>
+      <button type="button" class="btn btn-secondary" onclick="copyJson()">Copy JSON</button>
+    </div>
+  </form>
+
+  <div id="preview" class="preview" style="display:none"></div>
+</div>
+
+<script>
+function buildEntry() {
+  const slug = (document.getElementById('name').value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const tagsRaw = document.getElementById('tags').value.trim();
+  const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean).slice(0, 5) : [];
+  return {
+    slug,
+    name: document.getElementById('name').value.trim(),
+    author: document.getElementById('author').value.trim(),
+    description: document.getElementById('description').value.trim(),
+    preview: [0,1,2,3,4].map(i => document.getElementById('s'+i).value),
+    tags,
+    added_at: new Date().toISOString().slice(0, 10),
+    css: document.getElementById('css').value.trim(),
+  };
+}
+
+function refreshPreview() {
+  const entry = buildEntry();
+  if (!entry.name && !entry.css) {
+    document.getElementById('preview').style.display = 'none';
+    return;
+  }
+  document.getElementById('preview').textContent = JSON.stringify(entry, null, 2);
+  document.getElementById('preview').style.display = 'block';
+}
+document.querySelectorAll('#theme-form input, #theme-form textarea').forEach((el) => {
+  el.addEventListener('input', refreshPreview);
+});
+
+function submitForm() {
+  const entry = buildEntry();
+  if (!entry.name || !entry.author || !entry.description || !entry.css) {
+    alert('Fill out the required fields first.');
+    return;
+  }
+  if (!/--[a-zA-Z0-9_-]+\s*:\s*[^;]+;/.test(entry.css)) {
+    alert('That CSS doesn\'t look like it contains any --variable: value; declarations. Double-check before sending.');
+    return;
+  }
+  const subject = `Theme submission: ${entry.name}`;
+  const body = [
+    `Theme submission for the Fluxer World gallery.`,
+    ``,
+    `JSON entry to add to /webroot/themes.json:`,
+    ``,
+    JSON.stringify(entry, null, 2),
+    ``,
+    `Submitted via /submit-theme.html`,
+  ].join('\n');
+  window.location.href = `mailto:themes@fluxer.world?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+async function copyJson() {
+  const entry = buildEntry();
+  if (!entry.name) {
+    alert('Enter at least a theme name first.');
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(entry, null, 2));
+    alert('JSON copied to clipboard. Paste it in your submission email or DM.');
+  } catch {
+    alert('Copy failed — select the preview and copy manually.');
+  }
+}
+</script>
+</body>
+</html>

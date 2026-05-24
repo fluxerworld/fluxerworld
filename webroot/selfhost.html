@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Hosting Guide — Fluxer World</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="description" content="A guide to self-hosting your own Fluxer server with Docker, Caddy, and configuration examples.">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.1);
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --red: #f87171;
+      --radius: 12px;
+      --max-w: 840px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* MAIN */
+    main {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+    }
+
+    /* TYPOGRAPHY */
+    h1 {
+      font-size: 2.5rem; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-size: 1.5rem; font-weight: 700; margin-top: 3.5rem; margin-bottom: 1rem;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    h2:first-of-type { border-top: none; margin-top: 2.5rem; }
+    h3 { font-size: 1.15rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    p { color: var(--text-muted); margin-bottom: 1rem; }
+    p strong { color: var(--text); }
+
+    /* SUBTITLE */
+    .subtitle {
+      font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;
+    }
+
+    /* TABLE OF CONTENTS */
+    .toc {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem 2rem; margin-bottom: 2.5rem;
+    }
+    .toc h4 {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .toc ol {
+      list-style: decimal; padding-left: 1.25rem;
+    }
+    .toc li {
+      padding: 0.25rem 0; font-size: 0.9rem;
+    }
+    .toc a { color: var(--text-muted); }
+    .toc a:hover { color: var(--accent); }
+
+    /* CODE BLOCKS */
+    pre {
+      background: #111218; border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem 1.5rem;
+      overflow-x: auto; margin: 1rem 0 1.5rem;
+      font-size: 0.875rem; line-height: 1.6;
+    }
+    code {
+      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.875rem;
+    }
+    p code, li code {
+      background: rgba(109, 140, 245, 0.1); color: var(--accent);
+      padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.825rem;
+    }
+
+    /* FILENAME LABEL */
+    .code-label {
+      display: inline-block; background: var(--bg-card); border: 1px solid var(--border);
+      border-bottom: none; border-radius: 6px 6px 0 0;
+      padding: 0.35rem 0.9rem; font-size: 0.775rem; font-weight: 500;
+      color: var(--text-muted); margin-bottom: -1px; position: relative; z-index: 1;
+      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+    }
+    .code-label + pre { border-top-left-radius: 0; margin-top: 0; }
+
+    /* CALLOUTS */
+    .callout {
+      border-radius: 8px; padding: 1rem 1.25rem; margin: 1.25rem 0;
+      font-size: 0.9rem; border-left: 3px solid;
+    }
+    .callout p { margin-bottom: 0; }
+    .callout-info {
+      background: rgba(109, 140, 245, 0.08); border-color: var(--accent); color: var(--text-muted);
+    }
+    .callout-warn {
+      background: rgba(251, 191, 36, 0.08); border-color: var(--yellow); color: var(--text-muted);
+    }
+    .callout-danger {
+      background: rgba(248, 113, 113, 0.08); border-color: var(--red); color: var(--text-muted);
+    }
+    .callout-success {
+      background: rgba(52, 211, 153, 0.08); border-color: var(--green); color: var(--text-muted);
+    }
+    .callout strong { color: var(--text); }
+
+    /* LISTS */
+    ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; color: var(--text-muted); }
+    li { padding: 0.2rem 0; }
+
+    /* STEPS */
+    .step {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-top: 2rem; margin-bottom: 1rem;
+    }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent-subtle); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+    }
+    .step h3 { margin: 0; }
+
+    /* DIVIDER */
+    hr {
+      border: none; border-top: 1px solid var(--border); margin: 3rem 0;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--text-muted); color: var(--text); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem;
+      text-align: center; font-size: 0.85rem; color: var(--text-muted);
+    }
+
+    /* JSON SYNTAX */
+    .json-key { color: #7dd3fc; }
+    .json-str { color: #86efac; }
+    .json-num { color: #fbbf24; }
+    .json-bool { color: #c4b5fd; }
+    .json-comment { color: #6b7280; font-style: italic; }
+    .sh-comment { color: #6b7280; }
+    .sh-cmd { color: #7dd3fc; }
+    .caddy-directive { color: #c4b5fd; }
+    .caddy-domain { color: #86efac; }
+    .caddy-value { color: #fbbf24; }
+
+    @media (max-width: 640px) {
+      main { padding: 6rem 1.25rem 3rem; }
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.25rem; }
+      pre { padding: 1rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Fluxer World</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#top">Self-Hosting Guide</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> / Self-Hosting Guide
+  </div>
+
+  <h1>Self-Hosting Guide</h1>
+  <p class="subtitle">
+    Deploy your own Fluxer server with Docker, configure it with JSON, and put it behind Caddy as a reverse proxy.
+  </p>
+
+  <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: var(--radius); padding: 1rem 1.25rem; margin: 1.5rem 0;">
+    <strong style="color: var(--yellow);">Heads up:</strong>
+    <span style="color: var(--text-muted);">Self-hosting support is provided through <a href="https://github.com/fluxerworld/fluxerworld/issues" style="color: var(--accent);">GitHub Issues</a> only. Support requests sent through the Fluxer World app will not be answered — the app is for chatting with your community, not a helpdesk!</span>
+  </div>
+
+  <div class="toc">
+    <h4>Contents</h4>
+    <ol>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#ports">Ports &amp; Network</a></li>
+      <li><a href="#directory-structure">Directory Structure</a></li>
+      <li><a href="#configuration">Configuration (config.json)</a></li>
+      <li><a href="#docker-compose">Docker Compose Setup</a></li>
+      <li><a href="#caddy">Caddy Reverse Proxy</a></li>
+      <li><a href="#starting">Starting the Server</a></li>
+      <li><a href="#updating">Updating</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. PREREQUISITES -->
+  <h2 id="prerequisites">1. Prerequisites</h2>
+
+  <p>Before starting, make sure your server meets these requirements. If any of these are missing, the setup <strong>will not work</strong>.</p>
+
+  <div style="background: rgba(109, 140, 245, 0.1); border: 1px solid rgba(109, 140, 245, 0.3); border-radius: var(--radius); padding: 1rem 1.25rem; margin: 1rem 0;">
+    <strong style="color: var(--accent);">Minimum hardware:</strong>
+    <span style="color: var(--text-muted);">2 CPU cores, 2 GB RAM, 20 GB disk. A VPS from any provider works (Contabo, Hetzner, DigitalOcean, etc). Home networks and Windows/macOS are not supported.</span>
+  </div>
+
+  <ul>
+    <li><strong>A Linux VPS or dedicated server</strong> &mdash; Ubuntu 22.04+ or Debian 12+ recommended. Other distros may work but are untested.</li>
+    <li><strong>Docker 24+</strong> and <strong>Docker Compose v2</strong> &mdash; older versions will cause issues</li>
+    <li><strong>Caddy v2.7+</strong> &mdash; used as the reverse proxy with automatic HTTPS</li>
+    <li><strong>A domain name</strong> with an A record pointed at your server's public IP</li>
+    <li><strong>Ports 80 and 443</strong> open and not used by another service</li>
+    <li><strong>Basic Linux knowledge</strong> &mdash; you should be comfortable with the terminal, editing files, and reading error messages</li>
+  </ul>
+
+  <div class="callout callout-info">
+    <p><strong>Note:</strong> Caddy automatically provisions and renews TLS certificates via Let's Encrypt. No manual certificate setup is needed.</p>
+  </div>
+
+  <h3>Install Docker</h3>
+<pre><code><span class="sh-comment"># Install Docker (Ubuntu/Debian)</span>
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+
+<span class="sh-comment"># Verify installation</span>
+docker --version
+docker compose version</code></pre>
+
+  <h3>Install Caddy</h3>
+<pre><code><span class="sh-comment"># Install Caddy (Ubuntu/Debian)</span>
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy</code></pre>
+
+  <!-- 2. PORTS & NETWORK -->
+  <h2 id="ports">2. Ports &amp; Network</h2>
+
+  <p>Understanding which ports are used and how traffic flows is important before deploying.</p>
+
+  <h3>Required Ports</h3>
+
+  <table style="width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.9rem;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border); text-align: left;">
+        <th style="padding: 0.6rem 1rem; color: var(--text);">Port</th>
+        <th style="padding: 0.6rem 1rem; color: var(--text);">Protocol</th>
+        <th style="padding: 0.6rem 1rem; color: var(--text);">Service</th>
+        <th style="padding: 0.6rem 1rem; color: var(--text);">Exposure</th>
+      </tr>
+    </thead>
+    <tbody style="color: var(--text-muted);">
+      <tr style="border-bottom: 1px solid var(--border);">
+        <td style="padding: 0.6rem 1rem;"><code>80</code></td>
+        <td style="padding: 0.6rem 1rem;">TCP</td>
+        <td style="padding: 0.6rem 1rem;">Caddy (HTTP)</td>
+        <td style="padding: 0.6rem 1rem;">Public — redirects to HTTPS</td>
+      </tr>
+      <tr style="border-bottom: 1px solid var(--border);">
+        <td style="padding: 0.6rem 1rem;"><code>443</code></td>
+        <td style="padding: 0.6rem 1rem;">TCP</td>
+        <td style="padding: 0.6rem 1rem;">Caddy (HTTPS)</td>
+        <td style="padding: 0.6rem 1rem;">Public — serves all external traffic</td>
+      </tr>
+      <tr style="border-bottom: 1px solid var(--border);">
+        <td style="padding: 0.6rem 1rem;"><code>3000</code></td>
+        <td style="padding: 0.6rem 1rem;">TCP</td>
+        <td style="padding: 0.6rem 1rem;">Fluxer API server</td>
+        <td style="padding: 0.6rem 1rem;">Localhost only (127.0.0.1)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid var(--border);">
+        <td style="padding: 0.6rem 1rem;"><code>5432</code></td>
+        <td style="padding: 0.6rem 1rem;">TCP</td>
+        <td style="padding: 0.6rem 1rem;">PostgreSQL (optional)</td>
+        <td style="padding: 0.6rem 1rem;">Internal Docker network only</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Traffic Flow</h3>
+
+  <p>All external traffic goes through Caddy. The Fluxer server is never exposed directly to the internet.</p>
+
+<pre><code>User (browser/client)
+  │
+  │  HTTPS (:443)
+  ▼
+Caddy (reverse proxy)
+  │
+  │  ── HTTP redirect (:80 → :443)
+  │
+  │  HTTP (:3000, localhost only)
+  ▼
+Fluxer Server (Docker)
+  │
+  │  Internal Docker network
+  ▼
+PostgreSQL / SQLite</code></pre>
+
+  <h3>Redirects</h3>
+
+  <p>Caddy handles the following redirects automatically:</p>
+
+  <ul>
+    <li><strong>HTTP → HTTPS</strong> — All traffic on port 80 is redirected to port 443. Caddy does this by default when you specify a domain in the Caddyfile.</li>
+    <li><strong>www → non-www</strong> (optional) — Add a redirect block if you want <code>www.fluxer.example.com</code> to redirect to <code>fluxer.example.com</code>.</li>
+  </ul>
+
+  <p>Optional www redirect in your Caddyfile:</p>
+
+<pre><code><span class="caddy-domain">www.fluxer.example.com</span> {
+    <span class="caddy-directive">redir</span> <span class="caddy-value">https://fluxer.example.com{uri} permanent</span>
+}</code></pre>
+
+  <h3>Firewall Setup</h3>
+
+  <p>If you use <code>ufw</code>, open only the ports Caddy needs:</p>
+
+<pre><code><span class="sh-comment"># Allow HTTP (for ACME challenges and redirect)</span>
+sudo ufw allow 80/tcp
+
+<span class="sh-comment"># Allow HTTPS</span>
+sudo ufw allow 443/tcp
+
+<span class="sh-comment"># Allow SSH (don't lock yourself out)</span>
+sudo ufw allow 22/tcp
+
+<span class="sh-comment"># Enable firewall</span>
+sudo ufw enable
+
+<span class="sh-comment"># Verify</span>
+sudo ufw status</code></pre>
+
+  <div class="callout callout-warn">
+    <p><strong>Do not</strong> open port 3000 in your firewall. The Fluxer server binds to <code>127.0.0.1:3000</code> and should only be accessible through the Caddy reverse proxy. Exposing it directly bypasses TLS and security headers.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <p><strong>Port 5432</strong> (PostgreSQL) does not need a firewall rule. It runs inside the Docker network and is not exposed to the host at all.</p>
+  </div>
+
+  <!-- 3. DIRECTORY STRUCTURE -->
+  <h2 id="directory-structure">3. Directory Structure</h2>
+
+  <p>Create a directory for your Fluxer deployment:</p>
+
+<pre><code>mkdir -p /opt/fluxer/{config,data}
+cd /opt/fluxer</code></pre>
+
+  <p>Your final directory structure will look like this:</p>
+
+<pre><code>/opt/fluxer/
+├── docker-compose.yml
+├── config/
+│   └── config.json
+└── data/
+    ├── db/            <span class="sh-comment"># Database files</span>
+    ├── uploads/       <span class="sh-comment"># User uploads</span>
+    └── logs/          <span class="sh-comment"># Server logs</span></code></pre>
+
+  <!-- 3. CONFIGURATION -->
+  <h2 id="configuration">4. Configuration (config.json)</h2>
+
+  <p>The main configuration file controls how your Fluxer server behaves. Create it at <code>/opt/fluxer/config/config.json</code>.</p>
+
+  <h3>Minimal Configuration</h3>
+
+  <p>A basic configuration to get started:</p>
+
+  <div class="code-label">config/config.json</div>
+<pre><code>{
+  <span class="json-key">"server"</span>: {
+    <span class="json-key">"name"</span>: <span class="json-str">"My Fluxer Server"</span>,
+    <span class="json-key">"host"</span>: <span class="json-str">"0.0.0.0"</span>,
+    <span class="json-key">"port"</span>: <span class="json-num">3000</span>,
+    <span class="json-key">"publicUrl"</span>: <span class="json-str">"https://fluxer.example.com"</span>
+  },
+  <span class="json-key">"database"</span>: {
+    <span class="json-key">"type"</span>: <span class="json-str">"sqlite"</span>,
+    <span class="json-key">"path"</span>: <span class="json-str">"/data/db/fluxer.db"</span>
+  },
+  <span class="json-key">"storage"</span>: {
+    <span class="json-key">"uploadsPath"</span>: <span class="json-str">"/data/uploads"</span>,
+    <span class="json-key">"maxFileSize"</span>: <span class="json-str">"50MB"</span>
+  },
+  <span class="json-key">"auth"</span>: {
+    <span class="json-key">"registrationEnabled"</span>: <span class="json-bool">true</span>,
+    <span class="json-key">"requireEmailVerification"</span>: <span class="json-bool">false</span>
+  }
+}</code></pre>
+
+  <h3>Full Configuration Reference</h3>
+
+  <p>A more complete configuration with all common options:</p>
+
+  <div class="code-label">config/config.json</div>
+<pre><code>{
+  <span class="json-key">"server"</span>: {
+    <span class="json-key">"name"</span>: <span class="json-str">"My Fluxer Server"</span>,
+    <span class="json-key">"host"</span>: <span class="json-str">"0.0.0.0"</span>,
+    <span class="json-key">"port"</span>: <span class="json-num">3000</span>,
+    <span class="json-key">"publicUrl"</span>: <span class="json-str">"https://fluxer.example.com"</span>,
+    <span class="json-key">"trustedProxies"</span>: [<span class="json-str">"127.0.0.1"</span>, <span class="json-str">"172.16.0.0/12"</span>]
+  },
+
+  <span class="json-key">"database"</span>: {
+    <span class="json-key">"type"</span>: <span class="json-str">"sqlite"</span>,
+    <span class="json-key">"path"</span>: <span class="json-str">"/data/db/fluxer.db"</span>
+  },
+
+  <span class="json-key">"storage"</span>: {
+    <span class="json-key">"uploadsPath"</span>: <span class="json-str">"/data/uploads"</span>,
+    <span class="json-key">"maxFileSize"</span>: <span class="json-str">"50MB"</span>,
+    <span class="json-key">"allowedFileTypes"</span>: [<span class="json-str">"image/*"</span>, <span class="json-str">"video/*"</span>, <span class="json-str">"audio/*"</span>, <span class="json-str">"application/pdf"</span>]
+  },
+
+  <span class="json-key">"auth"</span>: {
+    <span class="json-key">"registrationEnabled"</span>: <span class="json-bool">true</span>,
+    <span class="json-key">"requireEmailVerification"</span>: <span class="json-bool">false</span>,
+    <span class="json-key">"sessionTimeout"</span>: <span class="json-str">"30d"</span>,
+    <span class="json-key">"maxSessionsPerUser"</span>: <span class="json-num">10</span>
+  },
+
+  <span class="json-key">"email"</span>: {
+    <span class="json-key">"enabled"</span>: <span class="json-bool">false</span>,
+    <span class="json-key">"smtp"</span>: {
+      <span class="json-key">"host"</span>: <span class="json-str">"smtp.example.com"</span>,
+      <span class="json-key">"port"</span>: <span class="json-num">587</span>,
+      <span class="json-key">"secure"</span>: <span class="json-bool">true</span>,
+      <span class="json-key">"user"</span>: <span class="json-str">"noreply@example.com"</span>,
+      <span class="json-key">"password"</span>: <span class="json-str">"your-smtp-password"</span>
+    },
+    <span class="json-key">"from"</span>: <span class="json-str">"Fluxer &lt;noreply@example.com&gt;"</span>
+  },
+
+  <span class="json-key">"rateLimit"</span>: {
+    <span class="json-key">"enabled"</span>: <span class="json-bool">true</span>,
+    <span class="json-key">"windowMs"</span>: <span class="json-num">60000</span>,
+    <span class="json-key">"maxRequests"</span>: <span class="json-num">100</span>
+  },
+
+  <span class="json-key">"voice"</span>: {
+    <span class="json-key">"enabled"</span>: <span class="json-bool">true</span>,
+    <span class="json-key">"maxParticipants"</span>: <span class="json-num">25</span>
+  },
+
+  <span class="json-key">"logging"</span>: {
+    <span class="json-key">"level"</span>: <span class="json-str">"info"</span>,
+    <span class="json-key">"path"</span>: <span class="json-str">"/data/logs"</span>
+  }
+}</code></pre>
+
+  <h3>Configuration Options</h3>
+
+  <div class="callout callout-info">
+    <p><strong>server.publicUrl</strong> — Must match the domain you configure in Caddy. This is used for generating invite links, email links, and API responses.</p>
+  </div>
+
+  <div class="callout callout-warn">
+    <p><strong>Security:</strong> If you enable email verification, make sure to configure the <code>email.smtp</code> section with valid SMTP credentials. Without it, users won't be able to verify their accounts.</p>
+  </div>
+
+  <!-- 4. DOCKER COMPOSE -->
+  <h2 id="docker-compose">5. Docker Compose Setup</h2>
+
+  <p>Create a <code>docker-compose.yml</code> in <code>/opt/fluxer/</code>:</p>
+
+  <div class="code-label">docker-compose.yml</div>
+<pre><code><span class="json-key">version</span>: <span class="json-str">"3.8"</span>
+
+<span class="json-key">services</span>:
+  <span class="json-key">fluxer</span>:
+    <span class="json-key">image</span>: ghcr.io/fluxerworld/fluxer-server:stable
+    <span class="json-key">container_name</span>: fluxer_server
+    <span class="json-key">restart</span>: unless-stopped
+    <span class="json-key">ports</span>:
+      - <span class="json-str">"127.0.0.1:3000:3000"</span>
+    <span class="json-key">volumes</span>:
+      - ./config:/usr/src/app/config:ro
+      - ./data:/data
+    <span class="json-key">environment</span>:
+      - NODE_ENV=production
+    <span class="json-key">healthcheck</span>:
+      <span class="json-key">test</span>: [<span class="json-str">"CMD"</span>, <span class="json-str">"curl"</span>, <span class="json-str">"-f"</span>, <span class="json-str">"http://localhost:3000/api/health"</span>]
+      <span class="json-key">interval</span>: 30s
+      <span class="json-key">timeout</span>: 10s
+      <span class="json-key">retries</span>: 3</code></pre>
+
+  <div class="callout callout-info">
+    <p><strong>Why 127.0.0.1:3000?</strong> — Binding to <code>127.0.0.1</code> ensures the port is only accessible locally. Caddy will handle all external traffic and TLS termination.</p>
+  </div>
+
+  <h3>Using PostgreSQL instead of SQLite</h3>
+
+  <p>For larger deployments, you may want to use PostgreSQL. Add a database service to your compose file:</p>
+
+  <div class="code-label">docker-compose.yml (with PostgreSQL)</div>
+<pre><code><span class="json-key">version</span>: <span class="json-str">"3.8"</span>
+
+<span class="json-key">services</span>:
+  <span class="json-key">fluxer</span>:
+    <span class="json-key">image</span>: ghcr.io/fluxerworld/fluxer-server:stable
+    <span class="json-key">container_name</span>: fluxer_server
+    <span class="json-key">restart</span>: unless-stopped
+    <span class="json-key">ports</span>:
+      - <span class="json-str">"127.0.0.1:3000:3000"</span>
+    <span class="json-key">volumes</span>:
+      - ./config:/usr/src/app/config:ro
+      - ./data:/data
+    <span class="json-key">environment</span>:
+      - NODE_ENV=production
+    <span class="json-key">depends_on</span>:
+      <span class="json-key">postgres</span>:
+        <span class="json-key">condition</span>: service_healthy
+
+  <span class="json-key">postgres</span>:
+    <span class="json-key">image</span>: postgres:16-alpine
+    <span class="json-key">container_name</span>: fluxer_db
+    <span class="json-key">restart</span>: unless-stopped
+    <span class="json-key">volumes</span>:
+      - ./data/postgres:/var/lib/postgresql/data
+    <span class="json-key">environment</span>:
+      <span class="json-key">POSTGRES_DB</span>: fluxer
+      <span class="json-key">POSTGRES_USER</span>: fluxer
+      <span class="json-key">POSTGRES_PASSWORD</span>: <span class="json-str">change-this-password</span>
+    <span class="json-key">healthcheck</span>:
+      <span class="json-key">test</span>: [<span class="json-str">"CMD-SHELL"</span>, <span class="json-str">"pg_isready -U fluxer"</span>]
+      <span class="json-key">interval</span>: 10s
+      <span class="json-key">timeout</span>: 5s
+      <span class="json-key">retries</span>: 5</code></pre>
+
+  <p>Update your <code>config.json</code> database section to match:</p>
+
+<pre><code>{
+  <span class="json-key">"database"</span>: {
+    <span class="json-key">"type"</span>: <span class="json-str">"postgres"</span>,
+    <span class="json-key">"host"</span>: <span class="json-str">"postgres"</span>,
+    <span class="json-key">"port"</span>: <span class="json-num">5432</span>,
+    <span class="json-key">"name"</span>: <span class="json-str">"fluxer"</span>,
+    <span class="json-key">"user"</span>: <span class="json-str">"fluxer"</span>,
+    <span class="json-key">"password"</span>: <span class="json-str">"change-this-password"</span>
+  }
+}</code></pre>
+
+  <div class="callout callout-danger">
+    <p><strong>Important:</strong> Change the default database password before deploying. Use a strong, randomly generated password.</p>
+  </div>
+
+  <!-- 5. CADDY -->
+  <h2 id="caddy">6. Caddy Reverse Proxy</h2>
+
+  <p>Caddy handles HTTPS and proxies requests to the Fluxer container. Edit the Caddyfile at <code>/etc/caddy/Caddyfile</code>.</p>
+
+  <h3>Basic Setup</h3>
+
+  <div class="code-label">/etc/caddy/Caddyfile</div>
+<pre><code><span class="caddy-domain">fluxer.example.com</span> {
+    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:3000</span>
+
+    <span class="caddy-directive">encode</span> gzip zstd
+
+    <span class="caddy-directive">header</span> {
+        X-Content-Type-Options    <span class="caddy-value">nosniff</span>
+        X-Frame-Options           <span class="caddy-value">DENY</span>
+        Referrer-Policy           <span class="caddy-value">strict-origin-when-cross-origin</span>
+        -Server
+    }
+
+    <span class="caddy-directive">log</span> {
+        output file <span class="caddy-value">/var/log/caddy/fluxer-access.log</span>
+        format json
+    }
+}</code></pre>
+
+  <h3>With WebSocket Support</h3>
+
+  <p>If your Fluxer server uses WebSockets for real-time features, the basic config above already works — Caddy handles WebSocket upgrades automatically. For explicit configuration:</p>
+
+  <div class="code-label">/etc/caddy/Caddyfile</div>
+<pre><code><span class="caddy-domain">fluxer.example.com</span> {
+    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:3000</span> {
+        <span class="caddy-directive">header_up</span> X-Real-IP <span class="caddy-value">{remote_host}</span>
+        <span class="caddy-directive">header_up</span> X-Forwarded-For <span class="caddy-value">{remote_host}</span>
+        <span class="caddy-directive">header_up</span> X-Forwarded-Proto <span class="caddy-value">{scheme}</span>
+
+        <span class="sh-comment"># Timeouts for long-lived connections</span>
+        <span class="caddy-directive">transport</span> http {
+            <span class="caddy-directive">read_timeout</span>  <span class="caddy-value">300s</span>
+            <span class="caddy-directive">write_timeout</span> <span class="caddy-value">300s</span>
+        }
+    }
+
+    <span class="caddy-directive">encode</span> gzip zstd
+
+    <span class="caddy-directive">header</span> {
+        X-Content-Type-Options    <span class="caddy-value">nosniff</span>
+        X-Frame-Options           <span class="caddy-value">DENY</span>
+        Referrer-Policy           <span class="caddy-value">strict-origin-when-cross-origin</span>
+        Strict-Transport-Security <span class="caddy-value">"max-age=31536000; includeSubDomains"</span>
+        -Server
+    }
+
+    <span class="caddy-directive">log</span> {
+        output file <span class="caddy-value">/var/log/caddy/fluxer-access.log</span> {
+            roll_size 100mb
+            roll_keep 5
+        }
+        format json
+    }
+}</code></pre>
+
+  <h3>Multiple Services</h3>
+
+  <p>If you're also hosting a web client on a different subdomain:</p>
+
+  <div class="code-label">/etc/caddy/Caddyfile</div>
+<pre><code><span class="sh-comment"># API / Server</span>
+<span class="caddy-domain">fluxer.example.com</span> {
+    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:3000</span>
+    <span class="caddy-directive">encode</span> gzip zstd
+}
+
+<span class="sh-comment"># Web Client</span>
+<span class="caddy-domain">app.example.com</span> {
+    <span class="caddy-directive">root</span> * <span class="caddy-value">/var/www/fluxer-web</span>
+    <span class="caddy-directive">file_server</span>
+    <span class="caddy-directive">try_files</span> {path} <span class="caddy-value">/index.html</span>
+    <span class="caddy-directive">encode</span> gzip zstd
+}</code></pre>
+
+  <p>After editing the Caddyfile, reload Caddy:</p>
+
+<pre><code>sudo systemctl reload caddy</code></pre>
+
+  <!-- 6. STARTING -->
+  <h2 id="starting">7. Starting the Server</h2>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <h3>Start the containers</h3>
+  </div>
+
+<pre><code>cd /opt/fluxer
+docker compose up -d</code></pre>
+
+  <div class="step">
+    <span class="step-num">2</span>
+    <h3>Check the logs</h3>
+  </div>
+
+<pre><code><span class="sh-comment"># Follow logs in real time</span>
+docker compose logs -f fluxer
+
+<span class="sh-comment"># Check container status</span>
+docker compose ps</code></pre>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    <h3>Verify Caddy</h3>
+  </div>
+
+<pre><code><span class="sh-comment"># Check Caddy status</span>
+sudo systemctl status caddy
+
+<span class="sh-comment"># Test the endpoint</span>
+curl -I https://fluxer.example.com/api/health</code></pre>
+
+  <div class="callout callout-success">
+    <p><strong>Done!</strong> Your Fluxer server should now be accessible at <code>https://fluxer.example.com</code>. Caddy handles TLS certificates automatically.</p>
+  </div>
+
+  <!-- 7. UPDATING -->
+  <h2 id="updating">8. Updating</h2>
+
+  <p>To update your Fluxer server to the latest stable version:</p>
+
+<pre><code>cd /opt/fluxer
+
+<span class="sh-comment"># Pull the current stable image</span>
+docker compose pull
+
+<span class="sh-comment"># Restart with the new stable image</span>
+docker compose up -d
+
+<span class="sh-comment"># Verify it's running</span>
+docker compose ps
+docker compose logs --tail=80 fluxer_server</code></pre>
+
+  <div class="callout callout-info">
+    <p><strong>Note:</strong> Self-hosted installs should use the <code>:stable</code> Docker image tag. Do not use <code>:latest</code>. If you see <code>ERR_PNPM_NO_SCRIPT_OR_SERVER</code>, check that your Compose file is using <code>ghcr.io/fluxerworld/fluxer-server:stable</code>.</p>
+  </div>
+
+  <div class="callout callout-warn">
+    <p><strong>Backups:</strong> Always back up your <code>data/</code> directory before updating, especially the database. For SQLite: <code>cp data/db/fluxer.db data/db/fluxer.db.bak</code>. For PostgreSQL: <code>docker exec fluxer_db pg_dump -U fluxer fluxer > backup.sql</code></p>
+  </div>
+
+  <!-- 8. TROUBLESHOOTING -->
+  <h2 id="troubleshooting">9. Troubleshooting</h2>
+
+  <h3>Container won't start</h3>
+<pre><code><span class="sh-comment"># Check logs for errors</span>
+docker compose logs fluxer
+
+<span class="sh-comment"># Verify config is valid JSON</span>
+python3 -m json.tool config/config.json
+
+<span class="sh-comment"># Check file permissions</span>
+ls -la config/ data/</code></pre>
+
+  <h3>502 Bad Gateway from Caddy</h3>
+  <ul>
+    <li>Ensure the Fluxer container is running: <code>docker compose ps</code></li>
+    <li>Verify the port binding matches the Caddyfile: <code>docker compose port fluxer 3000</code></li>
+    <li>Check if the health endpoint responds locally: <code>curl http://127.0.0.1:3000/api/health</code></li>
+  </ul>
+
+  <h3>TLS certificate issues</h3>
+  <ul>
+    <li>Ensure your domain's DNS A record points to your server</li>
+    <li>Check ports 80 and 443 are open: <code>sudo ss -tlnp | grep -E ':80|:443'</code></li>
+    <li>Review Caddy logs: <code>sudo journalctl -u caddy --no-pager -n 50</code></li>
+  </ul>
+
+  <h3>Database permission errors</h3>
+<pre><code><span class="sh-comment"># Fix ownership for SQLite</span>
+sudo chown -R 1000:1000 /opt/fluxer/data/db
+
+<span class="sh-comment"># Fix ownership for uploads</span>
+sudo chown -R 1000:1000 /opt/fluxer/data/uploads</code></pre>
+
+  <h3>Check resource usage</h3>
+<pre><code>docker stats fluxer_server</code></pre>
+
+  <hr>
+
+  <div style="text-align: center; margin: 2rem 0;">
+    <p>Need help? Open an issue on GitHub. Please note that self-hosting support is not provided through the Fluxer World app &mdash; all questions should go through GitHub Issues where the community and maintainers can help.</p>
+    <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem;">
+      <a href="index.html#community" class="btn btn-primary">Join Fluxer World</a>
+      <a href="index.html" class="btn btn-outline">Back to Home</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Fluxer World &mdash; A community instance built on the open-source <a href="https://fluxer.app">Fluxer</a> platform.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluxer World — A community instance powered by Fluxer</title>
+  <meta name="description" content="Fluxer World is an independent public community built on the open-source Fluxer platform.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.1);
+      --green: #34d399;
+      --radius: 12px;
+      --max-w: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; }
+
+    /* SECTIONS */
+    section { padding: 6rem 2rem; }
+    .container { max-width: var(--max-w); margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 2rem; font-weight: 700; line-height: 1.25; margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1.05rem; color: var(--text-muted); max-width: 640px; line-height: 1.7;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline {
+      background: transparent; color: var(--text); border-color: var(--border);
+    }
+    .btn-outline:hover { border-color: var(--text-muted); color: var(--text); }
+    .btn-group { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+
+    /* HERO */
+    .hero {
+      padding: 10rem 2rem 6rem; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(109, 140, 245, 0.08) 0%, transparent 60%);
+    }
+    .hero h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .hero .subtitle { font-size: 1.15rem; color: var(--accent); font-weight: 500; margin-bottom: 1.5rem; }
+    .hero .desc {
+      font-size: 1.05rem; color: var(--text-muted); max-width: 600px;
+      margin: 0 auto 0.75rem; line-height: 1.7;
+    }
+    .hero .note {
+      font-size: 0.85rem; color: var(--text-muted); opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+    .hero .btn-group { justify-content: center; }
+
+    /* GRID CARDS */
+    .grid {
+      display: grid; gap: 1.25rem; margin-top: 2.5rem;
+    }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-5 { grid-template-columns: repeat(5, 1fr); }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .card:hover { background: var(--bg-card-hover); border-color: #2e323c; }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-subtle); display: flex;
+      align-items: center; justify-content: center;
+      margin-bottom: 1rem; color: var(--accent); font-size: 1.2rem;
+    }
+    .card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* FEATURE LIST */
+    .feature-list { list-style: none; margin-top: 1.5rem; }
+    .feature-list li {
+      padding: 0.5rem 0; color: var(--text-muted); font-size: 0.95rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .feature-list li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+
+    /* STATS */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem; margin-top: 2.5rem;
+    }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem; text-align: center;
+    }
+    .stat-value {
+      font-size: 2.5rem; font-weight: 800; color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-value .pulse {
+      display: inline-block; width: 8px; height: 8px;
+      background: var(--green); border-radius: 50%; margin-right: 0.5rem;
+      vertical-align: middle; animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .stat-label {
+      font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;
+      text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500;
+    }
+
+    /* DOWNLOADS */
+    .download-group h3 {
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .download-group + .download-group { margin-top: 1.5rem; }
+    .download-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .download-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.6rem 1.2rem;
+      font-size: 0.9rem; color: var(--text); transition: all 0.2s;
+      text-decoration: none;
+    }
+    .download-item:hover { border-color: var(--accent); color: var(--text); }
+    .download-item .badge {
+      font-size: 0.7rem; color: var(--text-muted);
+      background: rgba(255,255,255,0.05); padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    /* TWO COL */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none; border-top: 1px solid var(--border);
+      max-width: var(--max-w); margin: 0 auto;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+    }
+    .footer-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: start;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; max-width: 280px; }
+    .footer-links { display: flex; gap: 3rem; }
+    .footer-col h4 {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .footer-col a {
+      display: block; font-size: 0.875rem; color: var(--text-muted);
+      padding: 0.25rem 0;
+    }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      max-width: var(--max-w); margin: 2rem auto 0;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--text-muted);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .section-title { font-size: 1.5rem; }
+      .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 60px; left: 0; right: 0;
+        background: rgba(14, 15, 17, 0.95); backdrop-filter: blur(16px);
+        padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border);
+      }
+      .nav-toggle { display: block; font-size: 1.5rem; }
+      .footer-inner { flex-direction: column; }
+      .footer-links { flex-direction: column; gap: 1.5rem; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 8rem 1.25rem 4rem; }
+    }
+
+    /* SVG icons inline */
+    .icon { width: 20px; height: 20px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Fluxer World</a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="bots.html">Bots</a>
+      <a href="premium.html">Premium</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="#contribute">Contribute</a>
+      <a href="#community">Community</a>
+      <a href="https://status.fluxer.world" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;">
+        <span id="nav-status-dot" style="width:8px;height:8px;border-radius:50%;background:var(--text-muted);box-shadow:0 0 6px rgba(255,255,255,0.15);transition:all 0.3s;"></span>
+        <span>Status</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <h1>Fluxer World</h1>
+    <p class="subtitle">A community instance powered by the Fluxer platform.</p>
+    <p class="desc">
+      Fluxer World is an independent public community built on the open-source
+      <a href="https://fluxer.app">Fluxer</a> platform. It provides chat communities,
+      voice channels, and an open ecosystem where anyone can participate or host their own server.
+    </p>
+    <p class="note">Fluxer World is not the official Fluxer instance.</p>
+    <div class="btn-group">
+      <a href="https://fluxer.world/channels/@me" class="btn btn-primary">Open Fluxer World</a>
+      <a href="downloads.html" class="btn btn-outline">Download Clients</a>
+      <a href="https://github.com/fluxerworld/fluxerworld" class="btn btn-outline">View on GitHub</a>
+      <a href="premium.html" class="btn btn-outline">Premium Benefits</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS FLUXER -->
+<section id="about">
+  <div class="container two-col">
+    <div>
+      <span class="section-label">About</span>
+      <h2 class="section-title">What is Fluxer?</h2>
+      <p class="section-desc">
+        Fluxer World runs on <a href="https://fluxer.app">Fluxer</a>, an open-source
+        communication platform. Unlike centralized chat platforms, Fluxer allows anyone
+        to run their own server and build their own communities.
+      </p>
+      <p class="section-desc" style="margin-top: 1rem;">
+        Fluxer World exists to support and grow this ecosystem.
+      </p>
+    </div>
+    <div>
+      <ul class="feature-list">
+        <li>Community servers</li>
+        <li>Text chat</li>
+        <li>Voice channels</li>
+        <li>Customizable clients</li>
+        <li>Self-hosting capabilities</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHY FLUXER WORLD -->
+<section id="why">
+  <div class="container">
+    <span class="section-label">Mission</span>
+    <h2 class="section-title">Why Fluxer World exists</h2>
+    <p class="section-desc">
+      Fluxer World was created to help build a strong public home for Fluxer communities.
+    </p>
+    <div class="grid grid-3" style="margin-top: 2.5rem;">
+      <div class="card">
+        <h3>Open platforms</h3>
+        <p>Support open communication platforms that respect users and communities.</p>
+      </div>
+      <div class="card">
+        <h3>Lower the barrier</h3>
+        <p>Make self-hosting easier and more accessible for new users getting started with Fluxer.</p>
+      </div>
+      <div class="card">
+        <h3>Polished tools</h3>
+        <p>Provide stable, well-maintained clients and tools that make using Fluxer reliable and enjoyable.</p>
+      </div>
+      <div class="card">
+        <h3>Grow the ecosystem</h3>
+        <p>Help improve the Fluxer platform through contributions, testing, and community feedback.</p>
+      </div>
+      <div class="card">
+        <h3>Community first</h3>
+        <p>Keep the platform community-driven and independent from corporate control.</p>
+      </div>
+      <div class="card">
+        <h3>Open development</h3>
+        <p>Build transparently with open-source code, public issue tracking, and community input.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <span class="section-label">Features</span>
+    <h2 class="section-title">What Fluxer World provides</h2>
+    <div class="grid grid-5">
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>End-to-End Encrypted</h3>
+        <p>Direct messages — both 1:1 and group — and 1:1 voice/video calls are end-to-end encrypted. Not even the server can read them.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        </div>
+        <h3>Open Source</h3>
+        <p>Fluxer and many tools around it are open source and community driven.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>
+        </div>
+        <h3>Self-Hosted</h3>
+        <p>Anyone can run their own Fluxer server and maintain full control over their data.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        </div>
+        <h3>Polished Clients</h3>
+        <p>Stable and well-maintained desktop and mobile clients for everyday use.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Community Driven</h3>
+        <p>Built for communities and collaboration rather than corporate control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- BOTS -->
+<section id="bots">
+  <div class="container">
+    <span class="section-label">Bots</span>
+    <h2 class="section-title">Extend your server with bots</h2>
+    <p class="section-desc">
+      Browse community-built bots — moderation, music, role management, bridging, and more — and add them to your
+      Fluxer World server with one click. Got a bot of your own? List it.
+    </p>
+    <div class="btn-group">
+      <a href="bots.html" class="btn btn-primary">Browse Bots</a>
+      <a href="submit-bot.html" class="btn btn-outline">List Your Bot</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DOWNLOADS -->
+<section id="downloads">
+  <div class="container">
+    <span class="section-label">Downloads</span>
+    <h2 class="section-title">Get the clients</h2>
+    <p class="section-desc">
+      Fluxer World runs in any modern browser, with desktop apps for Windows, macOS, and Linux,
+      and mobile apps for Android and iOS. Available on the Snap Store, AUR, Copr, F-Droid,
+      GitHub Releases, and more.
+    </p>
+    <div class="btn-group">
+      <a href="downloads.html" class="btn btn-primary">View All Downloads</a>
+      <a href="https://github.com/fluxerworld/fluxerworld/releases/latest" class="btn btn-outline">Latest Release on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SELF HOSTING -->
+<section id="selfhost">
+  <div class="container" style="text-align: center; max-width: 640px;">
+    <span class="section-label">Self-Hosting</span>
+    <h2 class="section-title">Run your own Fluxer server</h2>
+    <p class="section-desc" style="margin: 0 auto 2rem;">
+      Interested in running your own instance? Fluxer World provides guides and documentation
+      to help you deploy your own Fluxer server.
+    </p>
+    <a href="selfhost.html" class="btn btn-outline">View Self-Hosting Guide</a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTRIBUTE -->
+<section id="contribute">
+  <div class="container two-col">
+    <div>
+      <span class="section-label">Contribute</span>
+      <h2 class="section-title">Help build Fluxer World</h2>
+      <p class="section-desc">
+        Fluxer World is community driven and contributions are welcome.
+      </p>
+      <div class="btn-group">
+        <a href="https://github.com/fluxerworld/fluxerworld" class="btn btn-outline">Contribute on GitHub</a>
+      </div>
+    </div>
+    <div>
+      <ul class="feature-list">
+        <li>Contribute code</li>
+        <li>Report bugs</li>
+        <li>Improve documentation</li>
+        <li>Test new builds</li>
+        <li>Help grow the community</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GITHUB -->
+<section id="github">
+  <div class="container" style="text-align: center; max-width: 640px;">
+    <span class="section-label">Development</span>
+    <h2 class="section-title">Open development on GitHub</h2>
+    <p class="section-desc" style="margin: 0 auto;">
+      Development for Fluxer World happens openly on GitHub. This includes client development,
+      deployment tools, documentation, and issue tracking.
+    </p>
+    <div class="btn-group" style="justify-content: center;">
+      <a href="https://github.com/fluxerworld/fluxerworld" class="btn btn-primary">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View the Repository
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="container" style="text-align: center; max-width: 640px;">
+    <span class="section-label">Community</span>
+    <h2 class="section-title">Join Fluxer World</h2>
+    <p class="section-desc" style="margin: 0 auto;">
+      Chat with other users, report bugs, help develop tools, and build new communities.
+    </p>
+    <div class="btn-group" style="justify-content: center;">
+      <a href="#" class="btn btn-primary">Join Fluxer World</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- LIVE STATS -->
+<section id="stats">
+  <div class="container">
+    <span class="section-label" style="text-align: center; display: block;">Live Stats</span>
+    <h2 class="section-title" style="text-align: center;">Server at a glance</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value"><span class="pulse"></span>142</div>
+        <div class="stat-label">Users Online</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">38</div>
+        <div class="stat-label">Servers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4,821</div>
+        <div class="stat-label">Messages Today</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>Fluxer World</strong>
+      <p>An independent community instance built on the open-source Fluxer platform.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Project</h4>
+        <a href="https://fluxer.app">Fluxer Website</a>
+        <a href="https://github.com/fluxerworld/fluxerworld">GitHub</a>
+        <a href="https://status.fluxer.world/" target="_blank" rel="noopener">Server Status</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Fluxer World is not affiliated with the official Fluxer project.</span>
+    <span>Built with the community, for the community.</span>
+  </div>
+</footer>
+
+<script>
+  (function pollStatus() {
+    var dot = document.getElementById('nav-status-dot');
+    if (!dot) return;
+    var paint = function (state) {
+      var colour = state === 'healthy' ? '#34d399'
+        : state === 'degraded' ? '#fbbf24'
+        : state === 'down' ? '#f87171'
+        : '#9ca3af';
+      dot.style.background = colour;
+      dot.style.boxShadow = '0 0 6px ' + colour + '80';
+    };
+    var check = function () {
+      fetch('/api/v1/health', {cache: 'no-store'})
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var statuses = Object.values(d.services || {})
+            .map(function (s) { return s && s.status; })
+            .filter(function (s) { return s && s !== 'disabled'; });
+          if (statuses.some(function (s) { return s === 'unhealthy'; })) paint('down');
+          else if (statuses.some(function (s) { return s === 'degraded'; })) paint('degraded');
+          else paint('healthy');
+        })
+        .catch(function () { paint('down'); });
+    };
+    check();
+    setInterval(check, 60000);
+  })();
+</script>
+</body>
+</html>

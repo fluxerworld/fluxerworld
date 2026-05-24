@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Themes — Fluxerworld</title>
+  <meta name="description" content="Community-made themes for Fluxer World. Click a theme to preview the page in it, then apply to your account.">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.12);
+      --radius: 12px;
+      --max-w: 1120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+      -webkit-font-smoothing: antialiased; min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-toggle {
+      display: none; background: none; border: 0; color: var(--text);
+      cursor: pointer;
+    }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+    .page-header {
+      padding: 8rem 2rem 2rem; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(109, 140, 245, 0.08) 0%, transparent 60%);
+    }
+    .page-header h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .page-header .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+    main { padding: 2rem 2rem 6rem; }
+
+    .preview-banner {
+      max-width: var(--max-w); margin: 0 auto 1.5rem; padding: 0.75rem 1rem;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      display: none; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .preview-banner.shown { display: flex; }
+    .preview-banner .label { color: var(--text-muted); font-size: 0.875rem; }
+    .preview-banner .label strong { color: var(--text); }
+    .preview-banner .actions { display: flex; gap: 0.5rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex; flex-direction: column; gap: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.05s;
+    }
+    .card:hover { background: var(--bg-card-hover); border-color: #2f3340; }
+    .card:active { transform: translateY(1px); }
+    .card.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-subtle); }
+
+    .card h3 { font-size: 1.05rem; font-weight: 700; }
+    .card .author { color: var(--text-muted); font-size: 0.8rem; }
+    .card .desc { color: var(--text-muted); font-size: 0.875rem; flex: 1; }
+
+    .swatches { display: flex; gap: 4px; }
+    .swatch {
+      flex: 1; height: 38px; border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.7rem; padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 0.4rem; padding: 0.55rem 1rem; border-radius: 8px;
+      font-size: 0.875rem; font-weight: 600; cursor: pointer;
+      border: 1px solid transparent; transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: white;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      background: transparent; color: var(--text); border-color: var(--border);
+    }
+    .btn-secondary:hover { background: var(--bg-card-hover); }
+
+    .empty {
+      padding: 3rem 1rem; text-align: center;
+      color: var(--text-muted); font-size: 0.95rem;
+      border: 1px dashed var(--border); border-radius: var(--radius);
+    }
+
+    footer {
+      max-width: var(--max-w); margin: 0 auto; padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.875rem; text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        flex-direction: column; padding: 1rem 2rem; gap: 1rem;
+        background: var(--bg); border-bottom: 1px solid var(--border);
+      }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: block; font-size: 1.5rem; }
+      .page-header h1 { font-size: 1.875rem; }
+      .preview-banner { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxer World</a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/bots.html">Bots</a>
+      <a href="/themes.html" class="active">Themes</a>
+      <a href="/premium.html">Premium</a>
+      <a href="/help.html">Help</a>
+      <a href="https://github.com/fluxerworld/fluxerworld">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Themes for Fluxer World</h1>
+  <p class="subtitle">Click a theme to preview it on this page. Apply your favourite to your account.</p>
+</div>
+
+<main>
+  <div class="container">
+    <div id="preview-banner" class="preview-banner">
+      <div class="label">Previewing <strong id="preview-name"></strong> by <span id="preview-author"></span></div>
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="clearPreview()">Reset</button>
+        <button class="btn btn-primary" id="apply-btn">Apply to my account</button>
+      </div>
+    </div>
+
+    <div id="grid" class="grid"></div>
+  </div>
+</main>
+
+<footer>
+  Made a theme? <a href="/submit-theme.html">Submit it</a> — community themes welcome.
+</footer>
+
+<script>
+const $grid = document.getElementById('grid');
+const $banner = document.getElementById('preview-banner');
+const $previewName = document.getElementById('preview-name');
+const $previewAuthor = document.getElementById('preview-author');
+const $applyBtn = document.getElementById('apply-btn');
+
+let activeTheme = null;
+let injectedStyle = null;
+
+function previewTheme(theme) {
+  if (injectedStyle) injectedStyle.remove();
+  injectedStyle = document.createElement('style');
+  injectedStyle.textContent = theme.css;
+  document.head.appendChild(injectedStyle);
+
+  // Map a few of the theme's vars onto the page's own variables so this
+  // page itself recolours immediately. Most users only care that the
+  // background and text shift — that sells the preview.
+  const compute = getComputedStyle(document.documentElement);
+  const themeBg = compute.getPropertyValue('--background-primary').trim();
+  const themeText = compute.getPropertyValue('--text-primary').trim();
+  const themeAccent = compute.getPropertyValue('--brand-primary').trim();
+  const themeCard = compute.getPropertyValue('--background-secondary').trim();
+  const themeBorder = compute.getPropertyValue('--border-color').trim();
+  if (themeBg)    document.documentElement.style.setProperty('--bg', themeBg);
+  if (themeText)  document.documentElement.style.setProperty('--text', themeText);
+  if (themeAccent) document.documentElement.style.setProperty('--accent', themeAccent);
+  if (themeCard)  document.documentElement.style.setProperty('--bg-card', themeCard);
+  if (themeBorder) document.documentElement.style.setProperty('--border', themeBorder);
+
+  document.querySelectorAll('.card').forEach((c) => c.classList.toggle('active', c.dataset.slug === theme.slug));
+  $previewName.textContent = theme.name;
+  $previewAuthor.textContent = theme.author || 'unknown';
+  $banner.classList.add('shown');
+  activeTheme = theme;
+}
+
+function clearPreview() {
+  if (injectedStyle) { injectedStyle.remove(); injectedStyle = null; }
+  ['--bg','--text','--accent','--bg-card','--border'].forEach(v =>
+    document.documentElement.style.removeProperty(v)
+  );
+  document.querySelectorAll('.card').forEach((c) => c.classList.remove('active'));
+  $banner.classList.remove('shown');
+  activeTheme = null;
+}
+
+$applyBtn.addEventListener('click', () => {
+  if (!activeTheme) return;
+  if (!activeTheme.theme_id) {
+    alert('This theme has no server id yet; ping an admin.');
+    return;
+  }
+  // Hands off to the existing /theme/<id> route which loads
+  // ThemeAcceptModal in the app and applies on confirm. Works for
+  // logged-out users too — that route prompts login first.
+  window.location.href = `/theme/${activeTheme.theme_id}`;
+});
+
+function renderCards(themes) {
+  if (!themes || themes.length === 0) {
+    $grid.innerHTML = '<div class="empty">No themes yet. <a href="/submit-theme.html">Submit one</a> to be the first.</div>';
+    return;
+  }
+  $grid.innerHTML = '';
+  for (const theme of themes) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.slug = theme.slug;
+    card.onclick = () => previewTheme(theme);
+
+    const swatches = (theme.preview || []).map(c =>
+      `<div class="swatch" style="background:${c}"></div>`
+    ).join('');
+
+    const tags = (theme.tags || []).map(t =>
+      `<span class="tag">${t}</span>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="swatches">${swatches}</div>
+      <h3>${theme.name}</h3>
+      <div class="author">by ${theme.author || 'unknown'}</div>
+      <div class="desc">${theme.description || ''}</div>
+      ${tags ? `<div class="tags">${tags}</div>` : ''}
+    `;
+    $grid.appendChild(card);
+  }
+}
+
+(async () => {
+  try {
+    const res = await fetch('/themes.json', {cache: 'no-store'});
+    const data = await res.json();
+    renderCards(data.themes || []);
+  } catch (err) {
+    $grid.innerHTML = '<div class="empty">Failed to load themes. Try again later.</div>';
+    console.error(err);
+  }
+})();
+</script>
+</body>
+</html>

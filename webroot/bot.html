@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot — Fluxer World</title>
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --bg-elev: #1a1d22;
+      --border: #23262e;
+      --border-strong: #2e3340;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.12);
+      --green: #34d399;
+      --radius: 12px;
+      --max-w: 880px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+      -webkit-font-smoothing: antialiased; min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; }
+
+    main { max-width: var(--max-w); margin: 0 auto; padding: 6.5rem 2rem 5rem; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.875rem;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(180deg, var(--bg-elev) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 2rem; margin-bottom: 1rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 0% 0%, var(--accent-subtle) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-row {
+      display: flex; gap: 1.25rem; align-items: center; position: relative;
+    }
+    .bot-icon-lg {
+      width: 96px; height: 96px; border-radius: 24px; flex-shrink: 0;
+      background: var(--accent-subtle); display: flex;
+      align-items: center; justify-content: center; font-weight: 700;
+      color: var(--accent); font-size: 2.2rem; overflow: hidden;
+      object-fit: cover; border: 1px solid var(--border-strong);
+    }
+    .hero-meta { flex: 1; min-width: 0; }
+    .bot-name {
+      font-size: 1.875rem; font-weight: 800; letter-spacing: -0.02em;
+      line-height: 1.15; margin-bottom: 0.4rem;
+    }
+    .bot-tagline {
+      color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    /* STAT BADGES */
+    .stat-badges {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 1.25rem; position: relative;
+    }
+    .stat-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem; border-radius: 999px;
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+    .stat-badge strong { color: var(--text); font-weight: 600; }
+
+    /* INVITE CARD */
+    .invite-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .invite-card .copy {
+      flex: 1; min-width: 200px;
+    }
+    .invite-card .title {
+      font-weight: 600; color: var(--text); font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+    .invite-card .sub {
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.4rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; transition: all 0.15s;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border-color: var(--border-strong); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent-hover); }
+    .btn-disabled {
+      background: var(--bg); color: var(--text-dim);
+      border-color: var(--border); cursor: not-allowed; opacity: 0.7;
+    }
+    .btn-disabled:hover { background: var(--bg); color: var(--text-dim); }
+    .btn-svg { width: 16px; height: 16px; }
+
+    /* SECTIONS */
+    .section {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 0.85rem;
+    }
+    .description {
+      color: var(--text); font-size: 0.95rem; line-height: 1.7;
+      white-space: pre-wrap; word-break: break-word;
+    }
+
+    /* CATEGORY TAGS */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag-pill {
+      background: var(--accent-subtle); color: var(--accent-hover);
+      padding: 0.3rem 0.8rem; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 500;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .tag-pill:hover {
+      background: var(--accent); color: #fff;
+    }
+
+    /* DEVELOPER */
+    .developer-row {
+      display: flex; align-items: center; gap: 0.85rem;
+    }
+    .developer-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--accent-subtle); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.95rem; flex-shrink: 0;
+    }
+    .developer-name {
+      font-weight: 600; color: var(--text); font-size: 0.95rem;
+    }
+    .developer-name a { color: var(--text); }
+    .developer-name a:hover { color: var(--accent-hover); }
+    .developer-sub {
+      color: var(--text-muted); font-size: 0.825rem;
+    }
+
+    /* LINKS LIST */
+    .link-list {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.5rem;
+    }
+    .link-row {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.7rem 0.9rem; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 0.875rem; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .link-row:hover { border-color: var(--accent); color: var(--accent-hover); }
+    .link-row .icon { color: var(--text-muted); display: flex; }
+    .link-row:hover .icon { color: var(--accent-hover); }
+
+    /* META FOOTER */
+    .meta-footer {
+      display: flex; flex-wrap: wrap; gap: 1.25rem 2rem;
+      padding-top: 1rem; margin-top: 0.25rem;
+    }
+    .meta-footer .item .label {
+      font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-dim);
+      font-weight: 600; margin-bottom: 0.2rem;
+    }
+    .meta-footer .item .value {
+      color: var(--text); font-size: 0.875rem;
+    }
+    .meta-footer .item .mono {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 0.825rem;
+    }
+
+    /* ERROR */
+    .error-state {
+      text-align: center; padding: 4rem 1rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .error-state h2 { color: var(--text); margin-bottom: 0.5rem; }
+    .error-state p { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem;
+      text-align: center; color: var(--text-muted); font-size: 0.825rem;
+    }
+    footer a { color: var(--text); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 60px; left: 0; right: 0;
+        background: rgba(14, 15, 17, 0.95); backdrop-filter: blur(16px);
+        padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border);
+      }
+      .nav-toggle { display: block; font-size: 1.5rem; }
+      main { padding: 5.5rem 1.25rem 4rem; }
+      .hero { padding: 1.5rem; }
+      .hero-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .bot-name { font-size: 1.5rem; }
+      .bot-icon-lg { width: 80px; height: 80px; font-size: 1.8rem; }
+      .invite-card { flex-direction: column; align-items: stretch; }
+      .invite-card .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxer World</a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/bots.html" class="active">Bots</a>
+      <a href="/themes.html">Themes</a>
+      <a href="/premium.html">Premium</a>
+      <a href="/help.html">Help</a>
+      <a href="https://github.com/fluxerworld/fluxerworld">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <a href="/bots.html" class="back-link">← All bots</a>
+      <a href="/themes.html">Themes</a>
+  <div id="content"><p style="color: var(--text-muted)">Loading…</p></div>
+</main>
+
+<footer>
+  Want your bot listed? <a href="/submit-bot.html">List your bot</a>.
+</footer>
+
+<script>
+const ICON_GITHUB = '<svg class="btn-svg icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.5 15.6c.4.1.5-.2.5-.4v-1.4c-2.2.5-2.7-1.1-2.7-1.1-.3-.9-.9-1.1-.9-1.1-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.2 1.9.9 2.4.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-3.9 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.6 7.6 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.5.8 1.2.8 2.1 0 3-1.8 3.7-3.6 3.9.3.2.5.7.5 1.5v2.2c0 .2.1.5.5.4A8 8 0 0 0 8 0z"/></svg>';
+const ICON_LINK = '<svg class="btn-svg icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5A3.5 3.5 0 0 1 9.5 6h2"/><path d="M10 6.5A3.5 3.5 0 0 1 6.5 10h-2"/><path d="M11 4.5L13.5 4.5L13.5 7"/><path d="M5 11.5L2.5 11.5L2.5 9"/></svg>';
+const ICON_PLUS = '<svg class="btn-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>';
+const ICON_LIFE = '<svg class="btn-svg icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/><path d="M3 3l2.5 2.5M13 3l-2.5 2.5M3 13l2.5-2.5M13 13l-2.5-2.5"/></svg>';
+const ICON_BOOK = '<svg class="btn-svg icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2.5h6a2 2 0 0 1 2 2v9H4.5A1.5 1.5 0 0 1 3 12V2.5zM13 2.5v9"/></svg>';
+const ICON_CALENDAR = '<svg class="btn-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6h12M5 1v3M11 1v3"/></svg>';
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;',
+  }[c]));
+}
+
+function getInitials(name) {
+  return name.split(/\s+/).map(s => s[0]).slice(0, 2).join('').toUpperCase();
+}
+
+function inviteUrl(bot) {
+  // If the bot author provided an explicit invite URL (e.g. for a bot
+  // registered on a different Fluxer instance), use it verbatim.
+  if (bot.invite_url) return bot.invite_url;
+  const base = 'https://fluxer.world/oauth2/authorize';
+  const params = new URLSearchParams({
+    client_id: bot.client_id,
+    scope: 'bot',
+  });
+  if (bot.permissions != null) params.set('permissions', String(bot.permissions));
+  return `${base}?${params.toString()}`;
+}
+
+function timeSince(dateString) {
+  if (!dateString) return null;
+  const now = Date.now();
+  const then = new Date(dateString).getTime();
+  if (Number.isNaN(then)) return null;
+  const diffSec = Math.max(0, Math.floor((now - then) / 1000));
+  if (diffSec < 60) return 'just now';
+  if (diffSec < 3600) return `${Math.floor(diffSec / 60)} min ago`;
+  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)} hr ago`;
+  const days = Math.floor(diffSec / 86400);
+  if (days < 7) return `${days} day${days === 1 ? '' : 's'} ago`;
+  if (days < 30) {
+    const w = Math.floor(days / 7);
+    return `${w} week${w === 1 ? '' : 's'} ago`;
+  }
+  if (days < 365) {
+    const m = Math.floor(days / 30);
+    return `${m} month${m === 1 ? '' : 's'} ago`;
+  }
+  const y = Math.floor(days / 365);
+  return `${y} year${y === 1 ? '' : 's'} ago`;
+}
+
+function renderError(title, body) {
+  document.getElementById('content').innerHTML =
+    `<div class="error-state"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(body)}</p>
+     <a href="/bots.html" class="btn btn-primary">Back to bots</a></div>`;
+      <a href="/themes.html">Themes</a>
+  document.title = `${title} — Fluxer World`;
+}
+
+function renderBot(bot) {
+  document.title = `${bot.name} — Fluxer World`;
+  const root = document.getElementById('content');
+  root.innerHTML = '';
+  const hasInvite = Boolean(bot.invite_url) || (bot.client_id && bot.client_id !== '0');
+
+  /* HERO */
+  const hero = document.createElement('div');
+  hero.className = 'hero';
+
+  const heroRow = document.createElement('div');
+  heroRow.className = 'hero-row';
+
+  const icon = bot.icon_url
+    ? Object.assign(document.createElement('img'), {className: 'bot-icon-lg', src: bot.icon_url, alt: ''})
+    : Object.assign(document.createElement('div'), {className: 'bot-icon-lg', textContent: getInitials(bot.name)});
+
+  const heroMeta = document.createElement('div');
+  heroMeta.className = 'hero-meta';
+  heroMeta.innerHTML = `
+    <div class="bot-name">${escapeHtml(bot.name)}</div>
+    ${bot.short_description ? `<p class="bot-tagline">${escapeHtml(bot.short_description)}</p>` : ''}
+  `;
+  heroRow.appendChild(icon);
+  heroRow.appendChild(heroMeta);
+  hero.appendChild(heroRow);
+
+  const stats = document.createElement('div');
+  stats.className = 'stat-badges';
+  const since = timeSince(bot.added_at);
+  if (since) stats.innerHTML += `<span class="stat-badge">Listed <strong>${since}</strong></span>`;
+  if (bot.updated_at && bot.updated_at !== bot.added_at) {
+    const updSince = timeSince(bot.updated_at);
+    if (updSince) stats.innerHTML += `<span class="stat-badge">Updated <strong>${updSince}</strong></span>`;
+  }
+  if (stats.children.length) hero.appendChild(stats);
+  root.appendChild(hero);
+
+  /* INVITE CARD */
+  const inviteCard = document.createElement('div');
+  inviteCard.className = 'invite-card';
+  if (hasInvite) {
+    inviteCard.innerHTML = `
+      <div class="copy">
+        <div class="title">Add ${escapeHtml(bot.name)} to your server</div>
+        <div class="sub">You'll be redirected to grant permissions on a server you manage.</div>
+      </div>
+    `;
+    const inviteBtn = document.createElement('a');
+    inviteBtn.className = 'btn btn-primary';
+    inviteBtn.href = inviteUrl(bot);
+    inviteBtn.innerHTML = `${ICON_PLUS}<span>Invite Bot</span>`;
+    inviteCard.appendChild(inviteBtn);
+  } else {
+    inviteCard.innerHTML = `
+      <div class="copy">
+        <div class="title">Add ${escapeHtml(bot.name)} to your server</div>
+        <div class="sub">This bot isn't registered with Fluxer yet — invite link coming soon.</div>
+      </div>
+    `;
+    const inviteBtn = document.createElement('span');
+    inviteBtn.className = 'btn btn-disabled';
+    inviteBtn.title = "The bot author hasn't registered an OAuth application yet";
+    inviteBtn.innerHTML = `${ICON_PLUS}<span>Invite Bot</span>`;
+    inviteCard.appendChild(inviteBtn);
+  }
+  root.appendChild(inviteCard);
+
+  /* ABOUT */
+  if (bot.description) {
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    sec.innerHTML = `<div class="section-title">About this bot</div><div class="description"></div>`;
+    sec.querySelector('.description').textContent = bot.description;
+    root.appendChild(sec);
+  }
+
+  /* CATEGORIES */
+  if (bot.tags && bot.tags.length) {
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    sec.innerHTML = `<div class="section-title">Categories</div>`;
+    const list = document.createElement('div');
+    list.className = 'tag-list';
+    for (const tag of bot.tags) {
+      const a = document.createElement('a');
+      a.className = 'tag-pill';
+      a.href = `/bots.html?tag=${encodeURIComponent(tag)}`;
+      a.textContent = tag;
+      list.appendChild(a);
+    }
+    sec.appendChild(list);
+    root.appendChild(sec);
+  }
+
+  /* DEVELOPER */
+  if (bot.creator) {
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    sec.innerHTML = `<div class="section-title">Bot developer</div>`;
+    const row = document.createElement('div');
+    row.className = 'developer-row';
+    const avatar = document.createElement('div');
+    avatar.className = 'developer-avatar';
+    avatar.textContent = getInitials(bot.creator);
+    const meta = document.createElement('div');
+    const nameEl = document.createElement('div');
+    nameEl.className = 'developer-name';
+    if (bot.creator_url) {
+      nameEl.innerHTML = `<a href="${escapeHtml(bot.creator_url)}" target="_blank" rel="noopener">${escapeHtml(bot.creator)}</a>`;
+    } else {
+      nameEl.textContent = bot.creator;
+    }
+    const subEl = document.createElement('div');
+    subEl.className = 'developer-sub';
+    subEl.textContent = bot.added_at ? `Bot added ${timeSince(bot.added_at) ?? bot.added_at}` : 'Bot creator';
+    meta.appendChild(nameEl);
+    meta.appendChild(subEl);
+    row.appendChild(avatar);
+    row.appendChild(meta);
+    sec.appendChild(row);
+    root.appendChild(sec);
+  }
+
+  /* LINKS */
+  const linkRows = [];
+  if (bot.github) linkRows.push({label: 'View source on GitHub', href: bot.github, icon: ICON_GITHUB});
+  if (bot.documentation) linkRows.push({label: 'Documentation', href: bot.documentation, icon: ICON_BOOK});
+  if (bot.website) linkRows.push({label: 'Website', href: bot.website, icon: ICON_LINK});
+  if (bot.support_invite) linkRows.push({label: 'Support server', href: bot.support_invite, icon: ICON_LIFE});
+  if (linkRows.length) {
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    sec.innerHTML = `<div class="section-title">Links</div>`;
+    const list = document.createElement('div');
+    list.className = 'link-list';
+    for (const r of linkRows) {
+      const a = document.createElement('a');
+      a.className = 'link-row';
+      a.href = r.href;
+      a.target = '_blank'; a.rel = 'noopener';
+      a.innerHTML = `${r.icon}<span>${escapeHtml(r.label)}</span>`;
+      list.appendChild(a);
+    }
+    sec.appendChild(list);
+    root.appendChild(sec);
+  }
+
+  /* META FOOTER (Bot ID, technical details) */
+  const metaFooter = document.createElement('div');
+  metaFooter.className = 'section';
+  metaFooter.innerHTML = `<div class="section-title">Details</div>`;
+  const grid = document.createElement('div');
+  grid.className = 'meta-footer';
+  if (hasInvite) {
+    grid.innerHTML += `<div class="item"><div class="label">Bot ID</div><div class="value mono">${escapeHtml(bot.client_id)}</div></div>`;
+  } else {
+    grid.innerHTML += `<div class="item"><div class="label">Bot ID</div><div class="value">Not yet registered</div></div>`;
+  }
+  if (bot.added_at) {
+    grid.innerHTML += `<div class="item"><div class="label">Listed</div><div class="value">${escapeHtml(bot.added_at)}</div></div>`;
+  }
+  if (bot.updated_at) {
+    grid.innerHTML += `<div class="item"><div class="label">Last updated</div><div class="value">${escapeHtml(bot.updated_at)}</div></div>`;
+  }
+  if (grid.children.length) {
+    metaFooter.appendChild(grid);
+    root.appendChild(metaFooter);
+  }
+}
+
+async function load() {
+  const slug = new URLSearchParams(location.search).get('id');
+  if (!slug) {
+    renderError('No bot specified', 'Use a link from the directory.');
+    return;
+  }
+  try {
+    const res = await fetch('/bots.json', {cache: 'no-store'});
+    const data = await res.json();
+    const bot = (data.bots ?? []).find(b => b.slug === slug);
+    if (!bot) {
+      renderError('Bot not found', 'This bot may have been removed.');
+      return;
+    }
+    renderBot(bot);
+  } catch {
+    renderError("Couldn't load bot", 'Refresh the page to try again.');
+  }
+}
+
+load();
+</script>
+</body>
+</html>

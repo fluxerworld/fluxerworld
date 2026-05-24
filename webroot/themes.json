@@ -1,0 +1,45 @@
+{
+  "_comment": "Curated theme gallery. Each entry: slug, name, author, description, preview (5 color swatches), css (the full :root { ... } override block). Submissions arrive via /submit-theme.html and are added here manually after review.",
+  "themes": [
+    {
+      "slug": "midnight-violet",
+      "name": "Midnight Violet",
+      "author": "Fluxerworld",
+      "description": "Deep purple surfaces with a violet brand accent. Easy on the eyes for late-night sessions.",
+      "preview": [
+        "#1a1424",
+        "#241830",
+        "#332447",
+        "#a98cf5",
+        "#e4e4f7"
+      ],
+      "tags": [
+        "dark",
+        "purple"
+      ],
+      "added_at": "2026-05-24",
+      "css": ":root {\n\t--background-primary: #1a1424;\n\t--background-secondary: #241830;\n\t--background-secondary-alt: #1f1428;\n\t--background-tertiary: #11091a;\n\t--background-textarea: #2e1f3c;\n\t--background-header-primary: #241830;\n\t--background-header-primary-hover: #2d1f3a;\n\t--background-header-secondary: #1a1424;\n\t--background-modifier-hover: #332447;\n\t--background-modifier-selected: #3d2a55;\n\t--brand-primary: #a98cf5;\n\t--brand-primary-light: #c0a8ff;\n\t--brand-primary-fill: #a98cf5;\n\t--text-primary: #e4e4f7;\n\t--text-secondary: #b8b3d4;\n\t--text-tertiary: #8b86a8;\n\t--text-link: #c0a8ff;\n\t--border-color: #3a2a55;\n}",
+      "theme_id": "f6830fff203edb1c"
+    },
+    {
+      "slug": "warm-amber",
+      "name": "Warm Amber",
+      "author": "Fluxerworld",
+      "description": "Soft warm-grey backgrounds with an amber brand accent. Cozy, low-glare.",
+      "preview": [
+        "#1c1814",
+        "#262019",
+        "#34291f",
+        "#f5b366",
+        "#ebe1d4"
+      ],
+      "tags": [
+        "dark",
+        "warm"
+      ],
+      "added_at": "2026-05-24",
+      "css": ":root {\n\t--background-primary: #1c1814;\n\t--background-secondary: #262019;\n\t--background-secondary-alt: #221c16;\n\t--background-tertiary: #110d09;\n\t--background-textarea: #2d251b;\n\t--background-header-primary: #262019;\n\t--background-header-primary-hover: #2d2620;\n\t--background-header-secondary: #1c1814;\n\t--background-modifier-hover: #34291f;\n\t--background-modifier-selected: #3d3024;\n\t--brand-primary: #f5b366;\n\t--brand-primary-light: #f8c585;\n\t--brand-primary-fill: #f5b366;\n\t--text-primary: #ebe1d4;\n\t--text-secondary: #c8bba9;\n\t--text-tertiary: #968a7a;\n\t--text-link: #f8c585;\n\t--border-color: #3a2f23;\n}",
+      "theme_id": "415bfc85b40294ea"
+    }
+  ]
+}

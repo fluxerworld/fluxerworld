@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help — Fluxer World</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="description" content="Get help with Fluxer World — downloads, self-hosting, contact info, and more.">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.1);
+      --green: #34d399;
+      --radius: 12px;
+      --max-w: 780px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* MAIN */
+    main {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+    }
+
+    h1 {
+      font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle { font-size: 1rem; color: var(--text-muted); margin-bottom: 2.5rem; }
+
+    h2 {
+      font-size: 1.3rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    h2:first-of-type { border-top: none; margin-top: 1.5rem; }
+
+    p { color: var(--text-muted); margin-bottom: 1rem; }
+    p strong { color: var(--text); }
+
+    /* CARDS */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem; margin-bottom: 1rem;
+    }
+
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      transition: background 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .card:hover { background: var(--bg-card-hover); border-color: #2e323c; }
+
+    .card .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-subtle); display: flex;
+      align-items: center; justify-content: center;
+      color: var(--accent); font-size: 1.1rem; flex-shrink: 0;
+    }
+    .card h3 { font-size: 1rem; font-weight: 600; margin: 0; }
+    .card p { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+
+    .icon { width: 20px; height: 20px; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 1.2rem; border-radius: 8px;
+      font-size: 0.875rem; font-weight: 500; transition: all 0.2s;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--text-muted); color: var(--text); }
+
+    /* FAQ */
+    .faq-item { margin-bottom: 1.5rem; }
+    .faq-item summary {
+      font-weight: 600; font-size: 0.95rem; cursor: pointer;
+      color: var(--text); list-style: none; padding: 0.75rem 1rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); transition: background 0.2s;
+    }
+    .faq-item summary:hover { background: var(--bg-card-hover); }
+    .faq-item summary::before { content: '+ '; color: var(--accent); font-weight: 700; }
+    .faq-item[open] summary::before { content: '- '; }
+    .faq-item .faq-body {
+      padding: 1rem 1rem 0.5rem;
+      font-size: 0.925rem; color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem;
+      text-align: center; font-size: 0.85rem; color: var(--text-muted);
+      max-width: var(--max-w); margin: 2rem auto 0;
+    }
+
+    @media (max-width: 640px) {
+      main { padding: 6rem 1.25rem 3rem; }
+      h1 { font-size: 1.8rem; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxer World</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/contact.html">Contact</a>
+      <a href="#">Help</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <h1>Help Center</h1>
+  <p class="subtitle">Everything you need to get started with Fluxer World.</p>
+
+  <!-- QUICK LINKS -->
+  <h2>Quick Links</h2>
+  <div class="card-grid">
+
+    <a href="/downloads.html" class="card" style="text-decoration:none;color:inherit;">
+      <div class="card-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </div>
+      <h3>Download</h3>
+      <p>Get the desktop app for Windows, macOS, or Linux.</p>
+    </a>
+
+    <a href="/contact.html" class="card" style="text-decoration:none;color:inherit;">
+      <div class="card-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </div>
+      <h3>Contact Us</h3>
+      <p>Email, community support, or file a bug report.</p>
+    </a>
+
+    <a href="/selfhost.html" class="card" style="text-decoration:none;color:inherit;">
+      <div class="card-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+      </div>
+      <h3>Self-Hosting</h3>
+      <p>Run your own Fluxer server with Docker.</p>
+    </a>
+
+    <a href="https://github.com/fluxerworld/fluxerworld" class="card" style="text-decoration:none;color:inherit;">
+      <div class="card-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </div>
+      <h3>Source Code</h3>
+      <p>Fluxer is open source. Browse the code on GitHub.</p>
+    </a>
+
+  </div>
+
+  <!-- GETTING STARTED -->
+  <h2>Getting Started</h2>
+  <p>Fluxer World is a free, open-source chat and voice platform. You can use it right in your browser at <a href="https://fluxer.world">fluxer.world</a>, or download the desktop app for the best experience.</p>
+  <p><strong>To create an account:</strong> visit <a href="https://fluxer.world/register">fluxer.world/register</a> and sign up with your email. No phone number required.</p>
+  <p><strong>To join a community:</strong> click any invite link (they look like <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:0.85em;">fluxer.world/invite/abc123</code>) or browse the community discovery page.</p>
+
+  <!-- FAQ -->
+  <h2>Frequently Asked Questions</h2>
+
+  <details class="faq-item">
+    <summary>Is Fluxer World free?</summary>
+    <div class="faq-body">
+      <p>Yes! Fluxer World is completely free to use. The platform is open source under the AGPL-3.0 license.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>What platforms are supported?</summary>
+    <div class="faq-body">
+      <p>Fluxer World works in any modern browser. Desktop apps are available for <strong>Windows</strong> (.exe), <strong>macOS</strong> (.dmg), and <strong>Linux</strong> (.deb, .rpm, .AppImage, .tar.gz, AUR, and Flatpak). See the <a href="/downloads.html">downloads section</a> for all options.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Can I host my own Fluxer server?</summary>
+    <div class="faq-body">
+      <p>Absolutely! Fluxer is designed to be self-hosted. Check out the <a href="/selfhost.html">self-hosting guide</a> for step-by-step instructions using Docker.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>How do I report a bug or request a feature?</summary>
+    <div class="faq-body">
+      <p>You can open an issue on <a href="https://github.com/fluxerworld/fluxerworld/issues">GitHub</a>, or reach out via the <a href="/contact.html">contact page</a>. You can also join the support group directly on Fluxer World.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Is my data private?</summary>
+    <div class="faq-body">
+      <p>Fluxer World takes privacy seriously. We don't sell your data or show ads. You can read our full <a href="/privacy.html">privacy policy</a> for details. Since Fluxer is open source, you can also audit the code yourself or host your own instance for full control.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>How do I get desktop notifications working?</summary>
+    <div class="faq-body">
+      <p>The desktop app handles notifications automatically. If you're using the browser, make sure you've allowed notifications when prompted. You can check notification permissions in your browser settings.</p>
+    </div>
+  </details>
+
+  <!-- STILL NEED HELP -->
+  <h2>Still Need Help?</h2>
+  <p>If you can't find what you're looking for, don't hesitate to reach out.</p>
+  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1rem;">
+    <a href="/contact.html" class="btn btn-primary">Contact Us</a>
+    <a href="https://fluxer.world/invite/0JT1rgHR" class="btn btn-outline">Join Support Group</a>
+    <a href="https://github.com/fluxerworld/fluxerworld/issues" class="btn btn-outline">Open a GitHub Issue</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>Fluxer World &mdash; A community instance built on the open-source <a href="https://fluxer.app">Fluxer</a> platform.</p>
+</footer>
+
+</body>
+</html>

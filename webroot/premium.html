@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluxer Premium — Fluxer World</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="description" content="Fluxer Premium unlocks enhanced features on your account: larger uploads, HD streaming, animated avatars, custom themes, and more.">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.1);
+      --gold: #fbbf24;
+      --green: #34d399;
+      --radius: 12px;
+      --max-w: 960px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover { color: var(--text); }
+
+    main {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+    }
+
+    .breadcrumb {
+      font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem;
+    }
+    .breadcrumb a { color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    .hero-block { text-align: center; margin-bottom: 3rem; }
+    h1 {
+      font-size: 2.75rem; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .subtitle {
+      font-size: 1.15rem; color: var(--text-muted); margin: 0 auto;
+      max-width: 640px;
+    }
+
+    h2 {
+      font-size: 1.5rem; font-weight: 700; margin-top: 4rem; margin-bottom: 1.25rem;
+    }
+
+    /* Feature list */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .feature {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .feature h3 {
+      font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .feature p { color: var(--text-muted); font-size: 0.9rem; margin: 0; line-height: 1.55; }
+
+    /* Pricing grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .tier {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tier:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .tier .tier-label {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .tier .tier-name {
+      font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .tier .tier-price {
+      font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .tier .tier-price .unit {
+      font-size: 0.9rem; color: var(--text-muted); font-weight: 500;
+    }
+    .tier .tier-desc {
+      font-size: 0.875rem; color: var(--text-muted);
+      margin-bottom: 1.25rem; flex-grow: 1;
+    }
+    .tier.gift {
+      border-color: rgba(251, 191, 36, 0.25);
+    }
+    .tier.gift .tier-label { color: var(--gold); }
+    .tier.gift:hover { border-color: var(--gold); }
+    .tier.best .tier-label { color: var(--green); }
+
+    /* CTA button */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 600; font-size: 0.925rem;
+      transition: background 0.2s, transform 0.2s;
+      text-align: center;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0b0d12;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover); color: #0b0d12; transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      color: var(--text); background: var(--bg-card-hover); border-color: var(--accent);
+    }
+    .tier .btn { width: 100%; }
+
+    /* Faq */
+    .faq { margin-top: 1.5rem; }
+    .faq details {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .faq summary {
+      font-weight: 600; cursor: pointer;
+      color: var(--text);
+      list-style: none;
+    }
+    .faq summary::marker, .faq summary::-webkit-details-marker { display: none; }
+    .faq details[open] summary { margin-bottom: 0.75rem; }
+    .faq p { color: var(--text-muted); font-size: 0.925rem; margin: 0; }
+
+    footer {
+      max-width: var(--max-w); margin: 4rem auto 2rem;
+      padding: 1.5rem 2rem; text-align: center;
+      color: var(--text-muted); font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 2.1rem; }
+      .nav-links { gap: 1rem; }
+      main { padding: 6rem 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Fluxer World</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#tiers">Pricing</a>
+      <a href="https://fluxer.world/channels/@me">Open App</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> / Premium
+  </div>
+
+  <div class="hero-block">
+    <h1>Fluxer Premium</h1>
+    <p class="subtitle">
+      Unlock enhanced features on your account — larger uploads, HD streaming, animated profile,
+      custom themes, and more. Same features for every subscriber. Cancel anytime.
+    </p>
+  </div>
+
+  <h2 id="features">What you get</h2>
+  <div class="features-grid">
+    <div class="feature">
+      <h3>Up to 4K / 60 FPS video</h3>
+      <p>Stream your screen or camera at up to 4K resolution and 60 frames per second. Non-Premium tops out at 720p / 30 FPS.</p>
+    </div>
+    <div class="feature">
+      <h3>Animated avatars &amp; banners</h3>
+      <p>Use animated GIFs or WebP as your profile avatar and banner everywhere — visible across every server and DM.</p>
+    </div>
+    <div class="feature">
+      <h3>Per-community profiles</h3>
+      <p>Set a unique profile (name, avatar, banner, bio) for each server you're in, so you can present differently to different communities.</p>
+    </div>
+    <div class="feature">
+      <h3>4-digit custom tag</h3>
+      <p>Pick your own 4-digit discriminator number (e.g. Xuruh#4242) instead of the auto-assigned one. Stand out and claim memorable tags.</p>
+    </div>
+    <div class="feature">
+      <h3>Premium profile badge</h3>
+      <p>A visible Premium badge on your profile that identifies you as a supporter across the service.</p>
+    </div>
+    <div class="feature">
+      <h3>Global emoji &amp; stickers</h3>
+      <p>Use any custom emoji or sticker from any server you're in, in any other server or DM. Your full expression library travels with you.</p>
+    </div>
+    <div class="feature">
+      <h3>Early access to new features</h3>
+      <p>Try new Fluxer features before everyone else. Premium subscribers get experimental features and public betas rolled out first.</p>
+    </div>
+    <div class="feature">
+      <h3>500 MB file uploads</h3>
+      <p>Upload files up to 500 MB in any channel or DM — 10× the 50 MB non-Premium cap. Great for raw screenshots, video clips, and project assets.</p>
+    </div>
+  </div>
+
+  <h2 id="tiers">Pricing</h2>
+  <div class="pricing-grid">
+
+    <div class="tier">
+      <span class="tier-label">Subscription</span>
+      <div class="tier-name">Monthly</div>
+      <div class="tier-price">$4.99<span class="unit"> / month</span></div>
+      <p class="tier-desc">All Premium features, billed monthly. Cancel anytime from account settings.</p>
+      <a href="https://fluxer.world/channels/@me" class="btn btn-primary">Upgrade in app</a>
+    </div>
+
+    <div class="tier best">
+      <span class="tier-label">Subscription · Best value</span>
+      <div class="tier-name">Yearly</div>
+      <div class="tier-price">$49.99<span class="unit"> / year</span></div>
+      <p class="tier-desc">All Premium features, billed yearly. Cancel anytime from account settings.</p>
+      <a href="https://fluxer.world/channels/@me" class="btn btn-primary">Upgrade in app</a>
+    </div>
+
+    <div class="tier gift">
+      <span class="tier-label">Gift</span>
+      <div class="tier-name">1-month gift code</div>
+      <div class="tier-price">$4.99<span class="unit"> · one-time</span></div>
+      <p class="tier-desc">A redeemable code the recipient applies to their account for one month of Premium.</p>
+      <a href="https://fluxer.world/channels/@me" class="btn btn-outline">Buy gift in app</a>
+    </div>
+
+    <div class="tier gift">
+      <span class="tier-label">Gift</span>
+      <div class="tier-name">1-year gift code</div>
+      <div class="tier-price">$49.99<span class="unit"> · one-time</span></div>
+      <p class="tier-desc">A redeemable code the recipient applies to their account for one year of Premium.</p>
+      <a href="https://fluxer.world/channels/@me" class="btn btn-outline">Buy gift in app</a>
+    </div>
+
+  </div>
+
+  <h2 id="faq">Frequently asked</h2>
+  <div class="faq">
+
+    <details>
+      <summary>Does Premium give me access to any private communities or servers?</summary>
+      <p>No. Premium is strictly an account-level feature unlock. Every subscriber receives the same feature set across the entire service. There is no subscriber-only community, channel, or gated content.</p>
+    </details>
+
+    <details>
+      <summary>Can I cancel anytime?</summary>
+      <p>Yes. Open Fluxer, go to Settings → Premium, and click Cancel. Your subscription stays active until the end of the current billing period, then stops renewing. No fees.</p>
+    </details>
+
+    <details>
+      <summary>Who processes my payment?</summary>
+      <p>Payments are processed by <a href="https://polar.sh">Polar</a>, our merchant of record. Polar handles billing, tax collection, and customer support for transactions. Your payment methods and tax info are managed through them.</p>
+    </details>
+
+    <details>
+      <summary>How do gift codes work?</summary>
+      <p>Purchase a gift and you receive a redeemable code that you can share. The recipient opens Fluxer, goes to Settings → Gift Inventory, pastes the code, and their account is upgraded for the gift duration.</p>
+    </details>
+
+    <details>
+      <summary>What if I'm already a Premium subscriber and someone gifts me a code?</summary>
+      <p>The gift stacks onto your existing subscription — the extra duration is added to the end of your current term. You don't lose anything.</p>
+    </details>
+
+    <details>
+      <summary>Is Premium the same as a donation?</summary>
+      <p>No. Premium is a paid subscription that unlocks specific features on your account. If you want to support the project, the simplest way is to subscribe yourself or buy a gift code for a friend — there is no separate donation flow.</p>
+    </details>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>Fluxer World &mdash; A community instance built on the open-source <a href="https://fluxer.app">Fluxer</a> platform.</p>
+</footer>
+
+</body>
+</html>

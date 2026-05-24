@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluxer World — A community instance powered by Fluxer</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="description" content="Fluxer World is an independent public community built on the open-source Fluxer platform.">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.1);
+      --green: #34d399;
+      --radius: 12px;
+      --max-w: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; }
+
+    /* SECTIONS */
+    section { padding: 6rem 2rem; }
+    .container { max-width: var(--max-w); margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 2rem; font-weight: 700; line-height: 1.25; margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1.05rem; color: var(--text-muted); max-width: 640px; line-height: 1.7;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline {
+      background: transparent; color: var(--text); border-color: var(--border);
+    }
+    .btn-outline:hover { border-color: var(--text-muted); color: var(--text); }
+    .btn-group { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+
+    /* HERO */
+    .hero {
+      padding: 10rem 2rem 6rem; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(109, 140, 245, 0.08) 0%, transparent 60%);
+    }
+    .hero h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .hero .subtitle { font-size: 1.15rem; color: var(--accent); font-weight: 500; margin-bottom: 1.5rem; }
+    .hero .desc {
+      font-size: 1.05rem; color: var(--text-muted); max-width: 600px;
+      margin: 0 auto 0.75rem; line-height: 1.7;
+    }
+    .hero .note {
+      font-size: 0.85rem; color: var(--text-muted); opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+    .hero .btn-group { justify-content: center; }
+
+    /* GRID CARDS */
+    .grid {
+      display: grid; gap: 1.25rem; margin-top: 2.5rem;
+    }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .card:hover { background: var(--bg-card-hover); border-color: #2e323c; }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-subtle); display: flex;
+      align-items: center; justify-content: center;
+      margin-bottom: 1rem; color: var(--accent); font-size: 1.2rem;
+    }
+    .card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* FEATURE LIST */
+    .feature-list { list-style: none; margin-top: 1.5rem; }
+    .feature-list li {
+      padding: 0.5rem 0; color: var(--text-muted); font-size: 0.95rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .feature-list li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+
+    /* STATS */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem; margin-top: 2.5rem;
+    }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem; text-align: center;
+    }
+    .stat-value {
+      font-size: 2.5rem; font-weight: 800; color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-value .pulse {
+      display: inline-block; width: 8px; height: 8px;
+      background: var(--green); border-radius: 50%; margin-right: 0.5rem;
+      vertical-align: middle; animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .stat-label {
+      font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;
+      text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500;
+    }
+
+    /* DOWNLOADS */
+    .download-group h3 {
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .download-group + .download-group { margin-top: 1.5rem; }
+    .download-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .download-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.6rem 1.2rem;
+      font-size: 0.9rem; color: var(--text); transition: all 0.2s;
+      text-decoration: none;
+    }
+    .download-item:hover { border-color: var(--accent); color: var(--text); }
+    .download-item .badge {
+      font-size: 0.7rem; color: var(--text-muted);
+      background: rgba(255,255,255,0.05); padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    /* TWO COL */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none; border-top: 1px solid var(--border);
+      max-width: var(--max-w); margin: 0 auto;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+    }
+    .footer-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: start;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; max-width: 280px; }
+    .footer-links { display: flex; gap: 3rem; }
+    .footer-col h4 {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .footer-col a {
+      display: block; font-size: 0.875rem; color: var(--text-muted);
+      padding: 0.25rem 0;
+    }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      max-width: var(--max-w); margin: 2rem auto 0;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--text-muted);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .section-title { font-size: 1.5rem; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 60px; left: 0; right: 0;
+        background: rgba(14, 15, 17, 0.95); backdrop-filter: blur(16px);
+        padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border);
+      }
+      .nav-toggle { display: block; font-size: 1.5rem; }
+      .footer-inner { flex-direction: column; }
+      .footer-links { flex-direction: column; gap: 1.5rem; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 8rem 1.25rem 4rem; }
+    }
+
+    /* SVG icons inline */
+    .icon { width: 20px; height: 20px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxer World</a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#features">Features</a>
+      <a href="bots.html">Bots</a>
+      <a href="premium.html">Premium</a>
+      <a href="downloads.html" style="color: var(--text);">Downloads</a>
+      <a href="/#contribute">Contribute</a>
+      <a href="/#community">Community</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="container">
+    <h1>Get Fluxer World</h1>
+    <p class="desc">
+      Download the desktop and mobile clients. Available on the Snap Store, AUR, Copr, F-Droid,
+      GitHub Releases, and more.
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DOWNLOADS -->
+<section id="downloads">
+  <div class="container">
+    <span class="section-label">Downloads</span>
+    <h2 class="section-title">Get the clients</h2>
+    <p class="section-desc">
+      Fluxer World provides clients for multiple platforms. Available on the Snap Store, AUR,
+      Copr, F-Droid, GitHub Releases, and more.
+    </p>
+
+    <!-- Store install commands -->
+    <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem;">
+      <a href="https://snapcraft.io/fluxer-world" class="download-item" style="flex: 1; min-width: 200px; text-align: center;">
+        <svg class="icon" viewBox="0 0 24 24" fill="#82BEA0"><path d="M13.804 13.367V5.69l5.292 2.362-5.292 5.315zM4.907 23.994l7.476-5.963V12.01l-7.476 11.985zM.002 10.918l4.905 1.788V.504L.002 10.918zm12.381 7.393l7.476-2.262L12.383.007v18.304zM4.907 12.706L.002 10.918 4.907.504v12.202z"/></svg>
+        Snap Store
+      </a>
+      <a href="https://aur.archlinux.org/packages/fluxer-world-bin" class="download-item" style="flex: 1; min-width: 200px; text-align: center;">
+        <svg class="icon" viewBox="0 0 24 24" fill="#1793D1"><path d="M11.39.605C10.376 3.092 9.764 4.72 8.58 7.67c.924.684 2.022 1.444 3.468 2.378-1.636-.9-2.756-1.404-3.828-1.852-1.72 4.107-4.226 9.468-8.22 15.199 3.376-1.92 6.04-3.2 8.672-3.908a7.617 7.617 0 0 1-.196-1.776l.008-.12c.056-2.436 1.296-4.308 2.768-4.18 1.472.128 2.596 2.18 2.54 4.616-.008.32-.036.632-.084.924 2.616.736 5.272 2.024 8.604 3.952-.924-1.548-1.748-3.028-2.508-4.456l-.072-.124c-1.04-1.952-1.96-3.784-2.824-5.636-.084-.172-.168-.348-.252-.524a142.627 142.627 0 0 1-2.452-5.724C13.464 4.984 12.88 3.34 11.39.605z"/></svg>
+        AUR
+      </a>
+      <a href="https://copr.fedorainfracloud.org/coprs/xuruh/fluxer-world/" class="download-item" style="flex: 1; min-width: 200px; text-align: center;">
+        <svg class="icon" viewBox="0 0 24 24" fill="#51A2DA"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm-1.5 5v10h3V7z"/></svg>
+        Fedora Copr
+      </a>
+      <a href="https://fluxer.world/fdroid/repo" class="download-item" style="flex: 1; min-width: 200px; text-align: center;">
+        <svg class="icon" viewBox="0 0 24 24" fill="#1976D2"><path d="M20.472 10.081a5.01 5.01 0 0 0-1.455-2.573 4.99 4.99 0 0 0-2.57-1.46A5.01 5.01 0 0 0 12 4a5.01 5.01 0 0 0-4.447 2.048A4.99 4.99 0 0 0 4.983 7.508 5.01 5.01 0 0 0 3.528 10.081 5.01 5.01 0 0 0 4 14.472 5.01 5.01 0 0 0 5.455 17.045a4.99 4.99 0 0 0 2.57 1.46A5.01 5.01 0 0 0 12 20.553a5.01 5.01 0 0 0 4.447-2.048 4.99 4.99 0 0 0 2.57-1.46A5.01 5.01 0 0 0 20.472 14.472 5.01 5.01 0 0 0 20.472 10.081zM12 18.6a4.3 4.3 0 0 1-2.1-.547l.295-.17 3.497-2.02a.569.569 0 0 0 .287-.496V10.08l1.478.854a.052.052 0 0 1 .029.041v4.088A4.314 4.314 0 0 1 12 18.6z"/></svg>
+        F-Droid
+      </a>
+      <a href="https://github.com/fluxerworld/fluxerworld/releases/latest" class="download-item" style="flex: 1; min-width: 200px; text-align: center;">
+        <svg class="icon" viewBox="0 0 24 24" fill="#fff"><path d="M2.4 0L0 2.4 2.4 4.8 0 7.2l2.4 2.4L0 12l2.4 2.4L0 16.8l2.4 2.4L0 21.6 2.4 24l2.4-2.4L7.2 24l2.4-2.4L12 24l2.4-2.4 2.4 2.4 2.4-2.4 2.4 2.4 2.4-2.4L24 24l-2.4-2.4L24 19.2l-2.4-2.4L24 14.4l-2.4-2.4L24 9.6l-2.4-2.4L24 4.8 21.6 2.4 24 0l-2.4 0-2.4 2.4L16.8 0l-2.4 2.4L12 0 9.6 2.4 7.2 0 4.8 2.4zM9.6 7.2h4.8v4.8h2.4L12 16.8 7.2 12h2.4z"/></svg>
+        AppImage
+      </a>
+    </div>
+
+    <details style="margin-top: 1.5rem; color: var(--text-muted);">
+      <summary style="cursor: pointer; color: var(--text); font-weight: 500;">Install via terminal</summary>
+      <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem; font-family: monospace; font-size: 0.85rem;">
+        <div><strong style="color: var(--accent);">Snap:</strong> <code>sudo snap install fluxer-world</code></div>
+        <div><strong style="color: var(--accent);">Arch (AUR):</strong> <code>yay -S fluxer-world-bin</code></div>
+        <div><strong style="color: var(--accent);">Fedora (Copr):</strong> <code>sudo dnf copr enable xuruh/fluxer-world && sudo dnf install fluxer-world</code></div>
+        <div><strong style="color: var(--accent);">F-Droid:</strong> Add repo <code>https://fluxer.world/fdroid/repo</code> in F-Droid settings</div>
+      </div>
+    </details>
+
+    <div style="margin-top: 2.5rem;">
+      <div class="download-group">
+        <h3>Windows</h3>
+        <div class="download-list">
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-win-x64.exe" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            Installer <span class="badge">x64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-win-arm64.exe" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            Installer <span class="badge">ARM64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-portable-x64.exe" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            Portable <span class="badge">x64</span>
+          </a>
+        </div>
+      </div>
+      <div class="download-group">
+        <h3>macOS</h3>
+        <div class="download-list">
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-mac-arm64.dmg" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83z"/></svg>
+            DMG <span class="badge">Apple Silicon</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-mac-x64.dmg" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83z"/></svg>
+            DMG <span class="badge">Intel</span>
+          </a>
+        </div>
+      </div>
+      <div class="download-group">
+        <h3>Linux</h3>
+        <div class="download-list">
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-amd64.deb" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            .deb <span class="badge">x64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-arm64.deb" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            .deb <span class="badge">ARM64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-x86_64.rpm" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            .rpm <span class="badge">x64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-aarch64.rpm" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            .rpm <span class="badge">ARM64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-x86_64.AppImage" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            AppImage <span class="badge">x64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-arm64.AppImage" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            AppImage <span class="badge">ARM64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-x64.tar.gz" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            tar.gz <span class="badge">x64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86-linux-arm64.tar.gz" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            tar.gz <span class="badge">ARM64</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/fluxer-world.flatpak" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            Flatpak
+          </a>
+          <a href="https://aur.archlinux.org/packages/fluxer-world-bin" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.015-.466.046l-.458.093a8.87 8.87 0 0 0-.39.107L9.2 1.087l-.905.525a8.7 8.7 0 0 0-.472.345l-.238.19-.164.144-.182.18-.11.12-.18.231c-.14.184-.257.352-.367.54l-.12.207-.16.326c-.094.21-.163.395-.226.593l-.057.186-.07.3A8 8 0 0 0 6 5.63V8H4v4h2v7.5a2.5 2.5 0 0 0 2.5 2.5h7a2.5 2.5 0 0 0 2.5-2.5V12h2V8h-2V5.63a8 8 0 0 0-.05-.956l-.07-.3-.057-.186a7 7 0 0 0-.226-.593l-.16-.326-.12-.207a7 7 0 0 0-.367-.54l-.18-.231-.11-.12-.182-.18-.164-.144-.238-.19a8.7 8.7 0 0 0-.472-.345L14.8 1.087l-1.99-.841a9 9 0 0 0-.39-.107L11.96.046A3 3 0 0 0 11.496 0z"/></svg>
+            AUR <span class="badge">Arch Linux</span>
+          </a>
+        </div>
+      </div>
+      <div class="download-group">
+        <h3>Mobile</h3>
+        <div class="download-list">
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/Fluxer-World-1.0.86.apk" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2c1.26 0 2.287.456 3.002 1.26.698.784 1.025 1.85 1.025 3.14v11.2c0 1.29-.327 2.356-1.025 3.14-.715.804-1.742 1.26-3.002 1.26H6.477c-1.26 0-2.287-.456-3.002-1.26C2.777 19.956 2.45 18.89 2.45 17.6V6.4c0-1.29.327-2.356 1.025-3.14C4.19 2.456 5.217 2 6.477 2zm-5.511 4L7.5 18h2.1l.9-2.4h3l.9 2.4h2.1L12.012 6z"/></svg>
+            Android <span class="badge">APK</span>
+          </a>
+          <a href="https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.86/FluxerWorld.ipa" class="download-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83z"/></svg>
+            iOS <span class="badge">IPA</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>Fluxer World</strong>
+      <p>An independent community instance built on the open-source Fluxer platform.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Project</h4>
+        <a href="https://fluxer.app">Fluxer Website</a>
+        <a href="https://github.com/fluxerworld/fluxerworld">GitHub</a>
+        <a href="https://status.fluxer.world/" target="_blank" rel="noopener">Server Status</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Fluxer World is not affiliated with the official Fluxer project.</span>
+    <span>Built with the community, for the community.</span>
+  </div>
+</footer>
+
+</body>
+</html>

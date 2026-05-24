@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Your Bot — Fluxer World</title>
+  <meta name="description" content="List your Fluxer-compatible bot in the Fluxer World bot directory.">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --bg-elev: #1a1d22;
+      --border: #23262e;
+      --border-strong: #2e3340;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.12);
+      --danger: #f97070;
+      --radius: 12px;
+      --max-w: 720px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+      -webkit-font-smoothing: antialiased; min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; }
+
+    main { max-width: var(--max-w); margin: 0 auto; padding: 6.5rem 2rem 5rem; }
+    .page-header { margin-bottom: 1.5rem; }
+    .page-header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    .page-header p { color: var(--text-muted); font-size: 0.95rem; }
+
+    .form-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+    }
+    .form-row { margin-bottom: 1rem; }
+    .form-row label {
+      display: block; font-weight: 600; font-size: 0.85rem;
+      color: var(--text); margin-bottom: 0.35rem;
+    }
+    .form-row .label-hint {
+      color: var(--text-muted); font-weight: 400; font-size: 0.8rem; margin-left: 0.4rem;
+    }
+    .form-row input,
+    .form-row textarea {
+      width: 100%;
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); padding: 0.6rem 0.85rem;
+      border-radius: 8px; font-size: 0.9rem; outline: none;
+      font-family: inherit; transition: border-color 0.15s;
+    }
+    .form-row input:focus,
+    .form-row textarea:focus { border-color: var(--accent); }
+    .form-row textarea { resize: vertical; min-height: 100px; }
+    .help {
+      color: var(--text-dim); font-size: 0.8rem; margin-top: 0.25rem;
+    }
+    .actions {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;
+      margin-top: 1.25rem;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.4rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; transition: all 0.15s;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border-color: var(--border-strong); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent-hover); }
+
+    .preview {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.85rem;
+      margin-top: 1rem; font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      white-space: pre-wrap; word-break: break-word;
+      max-height: 280px; overflow: auto;
+    }
+    .preview-label {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-dim); font-weight: 600; margin-top: 1.25rem;
+    }
+
+    .info-card {
+      background: var(--accent-subtle); border: 1px solid var(--accent-subtle);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px; padding: 0.85rem 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem; color: var(--text);
+    }
+    .info-card strong { color: var(--accent-hover); }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem;
+      text-align: center; color: var(--text-muted); font-size: 0.825rem;
+    }
+    footer a { color: var(--text); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 60px; left: 0; right: 0;
+        background: rgba(14, 15, 17, 0.95); backdrop-filter: blur(16px);
+        padding: 1rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border);
+      }
+      .nav-toggle { display: block; font-size: 1.5rem; }
+      main { padding: 5.5rem 1.25rem 4rem; }
+      .form-card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxer World</a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/bots.html" class="active">Bots</a>
+      <a href="/themes.html">Themes</a>
+      <a href="/premium.html">Premium</a>
+      <a href="/help.html">Help</a>
+      <a href="https://github.com/fluxerworld/fluxerworld">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>List your bot</h1>
+    <p>Submit your Fluxer-compatible bot for review. We'll add it to the directory after a quick check.</p>
+  </div>
+
+  <div class="info-card">
+    <strong>Privacy:</strong> Your bot's source doesn't have to be public. Closed-source bots are welcome — just leave the GitHub field empty.
+  </div>
+
+  <form id="bot-form" class="form-card" onsubmit="event.preventDefault(); submitForm();">
+    <div class="form-row">
+      <label for="name">Bot name <span class="label-hint">required</span></label>
+      <input type="text" id="name" required maxlength="64" placeholder="e.g. MyAwesomeBot" />
+    </div>
+
+    <div class="form-row">
+      <label for="creator">Creator name <span class="label-hint">required</span></label>
+      <input type="text" id="creator" required maxlength="64" placeholder="Your username or team name" />
+    </div>
+
+    <div class="form-row">
+      <label for="creator_url">Creator profile URL <span class="label-hint">optional</span></label>
+      <input type="url" id="creator_url" placeholder="https://github.com/yourname" />
+    </div>
+
+    <div class="form-row">
+      <label for="client_id">Bot client ID <span class="label-hint">required for hosted bots</span></label>
+      <input type="text" id="client_id" pattern="\d*" inputmode="numeric" placeholder="1234567890123456789" />
+      <p class="help">If you're running a hosted instance with OAuth, this is the bot user's snowflake ID. Leave blank if you're listing a self-host-only bot.</p>
+    </div>
+
+    <div class="form-row">
+      <label for="invite_url">Invite URL <span class="label-hint">optional, overrides default</span></label>
+      <input type="url" id="invite_url" placeholder="https://fluxer.world/oauth2/authorize?client_id=..." />
+      <p class="help">Only set this if your bot is registered on a different Fluxer instance (e.g. fluxer.app or fluxer.gg).</p>
+    </div>
+
+    <div class="form-row">
+      <label for="short_description">Short description <span class="label-hint">required, max 140 chars</span></label>
+      <input type="text" id="short_description" required maxlength="140" placeholder="One-line pitch shown on the directory card." />
+    </div>
+
+    <div class="form-row">
+      <label for="description">Long description <span class="label-hint">required</span></label>
+      <textarea id="description" required maxlength="2000" placeholder="What does your bot do? Commands, features, anything you want users to know."></textarea>
+    </div>
+
+    <div class="form-row">
+      <label for="tags">Tags <span class="label-hint">comma-separated</span></label>
+      <input type="text" id="tags" placeholder="moderation, music, utility" />
+    </div>
+
+    <div class="form-row">
+      <label for="github">GitHub URL <span class="label-hint">optional</span></label>
+      <input type="url" id="github" placeholder="https://github.com/yourname/yourbot" />
+    </div>
+
+    <div class="form-row">
+      <label for="website">Website <span class="label-hint">optional</span></label>
+      <input type="url" id="website" placeholder="https://yourbot.example.com" />
+    </div>
+
+    <div class="form-row">
+      <label for="documentation">Documentation URL <span class="label-hint">optional</span></label>
+      <input type="url" id="documentation" placeholder="https://yourbot.example.com/docs" />
+    </div>
+
+    <div class="form-row">
+      <label for="support_invite">Support server invite <span class="label-hint">optional</span></label>
+      <input type="url" id="support_invite" placeholder="https://fluxer.world/invite/abcd1234" />
+    </div>
+
+    <div class="form-row">
+      <label for="icon_url">Icon URL <span class="label-hint">optional</span></label>
+      <input type="url" id="icon_url" placeholder="https://example.com/icon.png" />
+      <p class="help">Square 256×256 or larger. We'll mirror it locally if approved.</p>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary">Email Submission</button>
+      <button type="button" class="btn btn-outline" onclick="copyJson()">Copy JSON</button>
+    </div>
+    <p class="preview-label">Preview (this is what gets sent / copied)</p>
+    <pre id="preview" class="preview">Fill out the form above to see the entry.</pre>
+  </form>
+</main>
+
+<footer>
+  Prefer to file a pull request directly? Open one against
+  <a href="https://github.com/fluxerworld/fluxerworld">fluxerworld/fluxerworld</a>
+  on <code>webroot/bots.json</code>.
+</footer>
+
+<script>
+const FIELDS = [
+  ['name', true],
+  ['creator', true],
+  ['creator_url', false],
+  ['client_id', false],
+  ['invite_url', false],
+  ['short_description', true],
+  ['description', true],
+  ['tags', false],
+  ['github', false],
+  ['website', false],
+  ['documentation', false],
+  ['support_invite', false],
+  ['icon_url', false],
+];
+
+function buildEntry() {
+  const get = (id) => document.getElementById(id).value.trim();
+  const entry = {};
+  const slugSource = get('name').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  if (slugSource) entry.slug = slugSource;
+  for (const [id] of FIELDS) {
+    const v = get(id);
+    if (!v) continue;
+    if (id === 'tags') {
+      const tags = v.split(',').map(s => s.trim()).filter(Boolean);
+      if (tags.length) entry.tags = tags;
+    } else {
+      entry[id] = v;
+    }
+  }
+  if (entry.client_id == null && entry.invite_url == null) {
+    entry.client_id = '0';
+  }
+  const today = new Date().toISOString().slice(0, 10);
+  entry.added_at = today;
+  entry.updated_at = today;
+  return entry;
+}
+
+function refreshPreview() {
+  const entry = buildEntry();
+  const valid = entry.name && entry.creator && entry.short_description && entry.description;
+  document.getElementById('preview').textContent = valid
+    ? JSON.stringify(entry, null, 2)
+    : 'Fill out the required fields to see the entry.';
+}
+
+document.querySelectorAll('#bot-form input, #bot-form textarea').forEach((el) => {
+  el.addEventListener('input', refreshPreview);
+});
+
+function submitForm() {
+  const entry = buildEntry();
+  if (!entry.name || !entry.creator || !entry.short_description || !entry.description) {
+    alert('Fill out the required fields first.');
+    return;
+  }
+  const subject = `Bot submission: ${entry.name}`;
+  const body = [
+    `Bot submission for the Fluxer World directory.`,
+    ``,
+    `JSON entry to add to /webroot/bots.json:`,
+    ``,
+    JSON.stringify(entry, null, 2),
+    ``,
+    `Submitted via /submit-bot.html`,
+  ].join('\n');
+  const href = `mailto:bots@fluxer.world?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = href;
+}
+
+async function copyJson() {
+  const entry = buildEntry();
+  if (!entry.name) {
+    alert('Enter at least a bot name first.');
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(entry, null, 2));
+    alert('JSON copied to clipboard. Paste it in your bot submission email or DM.');
+  } catch {
+    alert('Copy failed — select the preview and copy manually.');
+  }
+}
+
+refreshPreview();
+</script>
+</body>
+</html>

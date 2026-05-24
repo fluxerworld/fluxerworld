@@ -1,0 +1,29 @@
+# webroot is bind-mounted into Caddy. Most files here are static
+# assets sourced from /opt/fluxerstatic or build artifacts from
+# fluxer_app — only hand-edited source pages are tracked.
+#
+# Inverted-allow pattern: ignore everything, then re-allow the
+# specific files we treat as source.
+
+*
+!.gitignore
+
+# Source HTML pages (hand-edited)
+!index.html
+!bots.html
+!bot.html
+!contact.html
+!downloads.html
+!help.html
+!premium.html
+!privacy.html
+!selfhost.html
+!status.html
+!submit-bot.html
+!submit-theme.html
+!terms.html
+!themes.html
+
+# Source JSON data (hand-edited)
+!bots.json
+!themes.json
