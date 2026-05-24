@@ -36,7 +36,7 @@ import ThemeStore from '@app/stores/ThemeStore';
 import type {ThemeType} from '@fluxer/constants/src/UserConstants';
 import {ThemeTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
-import {ArrowsCounterClockwiseIcon, CheckIcon, ShareNetworkIcon} from '@phosphor-icons/react';
+import {ArrowsCounterClockwiseIcon, CheckIcon, DownloadIcon, ShareNetworkIcon, UploadIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
@@ -408,6 +408,76 @@ export const ThemeTabContent: React.FC = observer(() => {
 		AccessibilityActionCreators.update({customThemeCss: null});
 	}, []);
 
+	const buildCssFromCurrentTheme = useCallback((): string => {
+		// Snapshot what :root currently resolves to (theme defaults +
+		// any active overrides) so the user can edit values as plain CSS.
+		const lines: Array<string> = [':root {'];
+		const defaults = defaultVariableValues ?? {};
+		for (const variableName of [...THEME_COLOR_VARIABLES, ...THEME_FONT_VARIABLES]) {
+			const value = overrides[variableName] ?? defaults[variableName];
+			if (value && value.trim().length > 0) {
+				lines.push(`\t${variableName}: ${value.trim()};`);
+			}
+		}
+		lines.push('}');
+		return lines.join('\n');
+	}, [defaultVariableValues, overrides]);
+
+	const handleLoadCurrentTheme = useCallback(() => {
+		const css = buildCssFromCurrentTheme();
+		AccessibilityActionCreators.update({customThemeCss: css});
+	}, [buildCssFromCurrentTheme]);
+
+	const handleExportTheme = useCallback(() => {
+		const css = customThemeCss.trim().length > 0 ? customThemeCss : buildCssFromCurrentTheme();
+		const blob = new Blob([css], {type: 'text/css'});
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `fluxerworld-theme-${currentSelectedTheme}.css`;
+		document.body.appendChild(a);
+		a.click();
+		a.remove();
+		URL.revokeObjectURL(url);
+	}, [customThemeCss, buildCssFromCurrentTheme, currentSelectedTheme]);
+
+	const importInputRef = useRef<HTMLInputElement>(null);
+
+	const handleImportTheme = useCallback(() => {
+		importInputRef.current?.click();
+	}, []);
+
+	const handleImportFile = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			const file = event.target.files?.[0];
+			event.target.value = '';
+			if (!file) return;
+			const MAX_BYTES = 64 * 1024;
+			if (file.size > MAX_BYTES) {
+				ToastActionCreators.error(t`That CSS file is too large (max 64 KB).`);
+				return;
+			}
+			const reader = new FileReader();
+			reader.onload = () => {
+				const text = String(reader.result ?? '');
+				// Light validation: must contain at least one `--var: value;`
+				// declaration. Browsers tolerate everything else, so we keep
+				// the check minimal to avoid rejecting legitimate themes.
+				if (!/--[a-zA-Z0-9_-]+\s*:\s*[^;]+;/.test(text)) {
+					ToastActionCreators.error(t`Couldn't find any CSS variables in that file.`);
+					return;
+				}
+				AccessibilityActionCreators.update({customThemeCss: text});
+				ToastActionCreators.success(t`Theme imported.`);
+			};
+			reader.onerror = () => {
+				ToastActionCreators.error(t`Couldn't read that file.`);
+			};
+			reader.readAsText(file);
+		},
+		[t],
+	);
+
 	useEffect(() => {
 		if (defaultVariableValues !== null && themeToFocusRef.current) {
 			const node = buttonRefs.current[themeToFocusRef.current];
@@ -542,6 +612,32 @@ export const ThemeTabContent: React.FC = observer(() => {
 						}}
 					/>
 					<div className={styles.buttonGroup}>
+						<Button variant="secondary" fitContent onClick={handleLoadCurrentTheme}>
+							{t`Load current theme into editor`}
+						</Button>
+						<Button
+							variant="secondary"
+							fitContent
+							leftIcon={<DownloadIcon size={18} />}
+							onClick={handleExportTheme}
+						>
+							{t`Export as CSS`}
+						</Button>
+						<Button
+							variant="secondary"
+							fitContent
+							leftIcon={<UploadIcon size={18} />}
+							onClick={handleImportTheme}
+						>
+							{t`Import from CSS`}
+						</Button>
+						<input
+							ref={importInputRef}
+							type="file"
+							accept=".css,text/css"
+							style={{display: 'none'}}
+							onChange={handleImportFile}
+						/>
 						<Button variant="secondary" fitContent onClick={handleResetAllOverrides}>
 							{t`Reset all overrides to theme default`}
 						</Button>
