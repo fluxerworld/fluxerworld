@@ -41,18 +41,45 @@ These look "automatic" but aren't, and they're the most common source of subtle 
 
 If you only override `--background-primary` and `--brand-primary`, the hover/selected highlights still tint toward the default cool-grey hue. Looks fine for dark themes near the original palette. Falls apart for a violet or amber theme.
 
-**Use transparent white (or black) as overlay, not solid hex.** The default Dark theme sets these to `hsla(..., 100%, 0.1)` — semi-transparent white at low opacity. That way the highlight is *the surface beneath, lightened* — it works on any underlying bg, doesn't pull toward any hue, and produces the "barely-there" effect users expect.
+There are two valid patterns for modifier tokens, depending on what you want the highlight to feel like:
 
-Recommended values for a dark theme:
+**Pattern A — neutral overlay** (use when your theme is intentionally low-chroma / "greyscale"):
 ```css
 --background-modifier-hover:    rgba(255, 255, 255, 0.06);
 --background-modifier-selected: rgba(255, 255, 255, 0.08);
 --background-modifier-accent:   rgba(255, 255, 255, 0.05);
 ```
+The highlight is *the surface beneath, lightened*. Works on any bg, pulls toward no hue, very subtle. This is what the built-in Dark theme does.
 
-For a light theme, invert (use `0, 0, 0` instead).
+**Pattern B — brand-tinted overlay** (use when your theme has a strong brand hue and you want highlights to read as part of the family):
+```css
+/* Pick the same hue as your brand-primary, push saturation, low alpha */
+--background-modifier-hover:    hsla(258, 50%, 70%, 0.08);
+--background-modifier-selected: hsla(258, 60%, 70%, 0.16);
+--background-modifier-accent:   hsla(258, 30%, 60%, 0.08);
+```
+The highlight is *the surface beneath, tinted toward brand*. Reads as a brighter step in the same colour family — not a stuck-on accent stripe. Use this when you've also tinted your surfaces (see next section).
 
-**Do NOT use a solid hex here**, even if it visually "looks right" in isolation. Many sidebar/list-item rules mix this token at 35% opacity again on top — solid hex compounded with transparency produces a visibly tinted bar, not a subtle highlight. (See [the Friends sidebar bug](https://github.com/fluxerworld/fluxerworld/commit/0722c559) for what this looks like in practice.)
+**Do NOT use a solid hex here.** Many sidebar/list-item rules mix this token at 35% opacity *again* on top — solid hex compounded with transparency produces a visibly bright bar, not a subtle highlight.
+
+### Surfaces should match the same logic
+
+If you want a "cohesive purple theme" (or amber, or anything else), the *surfaces* themselves need to carry a desaturated version of your brand hue. Pure-grey surfaces with one purple highlight = the highlight reads as an island stuck on top. Surfaces at the same hue with low saturation = highlights read as a brighter step in the family.
+
+Recipe: pick your brand hue, then build a lightness ladder at low saturation:
+
+```css
+/* Hue stays constant. Saturation 22-30%. Lightness ladder for dark theme: */
+--background-tertiary:  hsl(258, 35%,  7%);   /* deepest */
+--background-primary:   hsl(258, 30%, 11%);
+--background-secondary: hsl(258, 28%, 15%);
+--background-textarea:  hsl(258, 28%, 19%);
+--border-color:         hsl(258, 25%, 22%);   /* lightest still-not-a-control */
+```
+
+The surfaces look "almost grey" but with a perceivable hue cast — exactly how Discord's blue-grey or Slack's purple-grey work.
+
+(See commit-history for the gallery themes after this advice landed — the Midnight Violet bug where the Friends row read as a stuck-on highlight was because the surfaces were too low-saturation to register as violet, so the highlight looked like an island.)
 
 ### Brand / accent
 ```css
@@ -104,33 +131,31 @@ If your theme has a strong personality you may also want:
 - `--status-online`, `--status-idle`, `--status-dnd`, `--status-offline` — presence dots. The defaults match Discord and most users expect them. Override at your own risk.
 - `--font-sans`, `--font-mono` — typeface stack.
 
-## Minimal complete example
+## Minimal complete example — Pattern B (brand-cohesive, recommended)
 
 ```css
 :root {
-	/* Surfaces */
-	--background-primary: #1a1424;
-	--background-secondary: #241830;
-	--background-secondary-alt: #1f1428;
-	--background-tertiary: #11091a;
-	--background-textarea: #2e1f3c;
-	--background-header-primary: #241830;
-	--background-header-secondary: #1a1424;
+	/* Surfaces — same hue (258 / violet) across the lightness ladder.
+	   Saturation low enough to read as desaturated brand, not as solid colour. */
+	--background-tertiary:        hsl(258, 35%,  7%);
+	--background-primary:         hsl(258, 30%, 11%);
+	--background-secondary:       hsl(258, 28%, 15%);
+	--background-secondary-alt:   hsl(258, 30%, 13%);
+	--background-textarea:        hsl(258, 28%, 19%);
+	--background-header-primary:  hsl(258, 28%, 15%);
+	--background-header-secondary: hsl(258, 30%, 11%);
 
-	/* Modifier tokens — these are the gotchas. USE TRANSPARENT WHITE,
-	   NOT SOLID HEX. Many list-item rules already mix these at 35%
-	   opacity on top of the underlying surface; a solid hex compounds
-	   with that transparency and produces a tinted bar instead of the
-	   subtle highlight users expect. */
-	--background-modifier-hover: rgba(255, 255, 255, 0.06);
-	--background-modifier-selected: rgba(255, 255, 255, 0.08);
-	--background-modifier-accent: rgba(255, 255, 255, 0.05);
+	/* Modifier overlays — same hue, low alpha, push saturation a bit
+	   so the tint registers when 35%-mixed by sidebar/list rules. */
+	--background-modifier-hover:    hsla(258, 50%, 70%, 0.08);
+	--background-modifier-selected: hsla(258, 60%, 70%, 0.16);
+	--background-modifier-accent:   hsla(258, 30%, 60%, 0.08);
 
-	/* Brand */
+	/* Brand — the actual saturated colour for primary buttons / accents. */
 	--brand-primary: #a98cf5;
 	--brand-secondary: #8b6ddf;
 	--brand-primary-light: #c0a8ff;
-	--brand-primary-fill: #ffffff;
+	--brand-primary-fill: #ffffff;            /* contrast colour ON brand bg */
 	--text-on-brand-primary: #ffffff;
 
 	/* Text */
@@ -140,12 +165,12 @@ If your theme has a strong personality you may also want:
 	--text-primary-muted: #b8b3d4;
 	--text-link: #c0a8ff;
 
-	/* Border */
-	--border-color: #3a2a55;
+	/* Border — same hue, lifted lightness. */
+	--border-color: hsl(258, 25%, 22%);
 }
 ```
 
-23 tokens. Anything less and you'll hit at least one of: invisible label text, mismatched hover hues, the selected-state purple-bar look, or unreadable buttons.
+Anything less and you'll hit at least one of: invisible label text, mismatched hover hues, highlights that look stuck-on, or unreadable buttons.
 
 ## Pre-flight checklist before submitting
 
