@@ -64,8 +64,11 @@ export const AppZoomLevelTabContent: React.FC = observer(() => {
 export function useAppZoomLevelDescription(): string {
 	const {t} = useLingui();
 	return useMemo(() => {
-		const zoomIn = formatKeyCombo(KeybindStore.keybinds.zoom_in);
-		const zoomOut = formatKeyCombo(KeybindStore.keybinds.zoom_out);
+		// Use getByAction so pre-zoom-keybind persisted state still
+		// resolves to the default combo instead of crashing on
+		// `undefined.ctrl` in formatKeyCombo.
+		const zoomIn = formatKeyCombo(KeybindStore.getByAction('zoom_in').combo);
+		const zoomOut = formatKeyCombo(KeybindStore.getByAction('zoom_out').combo);
 		return t`Adjust the overall zoom level of the app. Use ${zoomIn} / ${zoomOut} to adjust quickly.`;
 	}, [t]);
 }
