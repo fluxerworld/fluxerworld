@@ -45,9 +45,14 @@ The rule: **every token in `color-system.css` whose default contains `hsl(220, �
 
 **User panel** (bottom-left widget with avatar + controls):
 ```css
+--panel-control-bg           /* must override directly, see below */
 --panel-control-border
 --panel-control-divider
+--panel-control-highlight
+--user-area-divider-color
 ```
+
+**Gotcha — color-mix() defaults**: `--panel-control-bg`'s default is `color-mix(in srgb, var(--background-secondary-alt) 80%, hsl(220, 13%, 2%) 20%)`. It looks like it cascades from your themed `--background-secondary-alt`, but the **other** input to the mix is a hardcoded `hsl(220, …)`. Result: the panel paints in a colour that's 80% your theme blended with 20% cool-grey-near-black — visibly off-hue from the rest of your theme. **Override `--panel-control-bg` directly with a final hex/hsl** so the color-mix never runs.
 
 **Control buttons** (volume, settings, etc. — locked to hue 220 by default):
 ```css
@@ -191,8 +196,11 @@ If your theme has a strong personality you may also want:
 
 	/* Server sidebar, user panel, control buttons — own token families */
 	--guild-list-foreground:         hsl(258, 60%, 18%);
+	--panel-control-bg:              hsl(258, 60%, 14%);        /* override directly, default is a color-mix with hardcoded hsl(220, …) */
 	--panel-control-border:          hsla(258, 50%, 65%, 0.45);
 	--panel-control-divider:         hsla(258, 50%, 55%, 0.35);
+	--panel-control-highlight:       hsla(0, 0%, 100%, 0.04);
+	--user-area-divider-color:       hsla(258, 50%, 50%, 0.18);
 	--control-button-hover-bg:       hsl(258, 50%, 25%);
 	--control-button-active-bg:      hsl(258, 50%, 27%);
 
