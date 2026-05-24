@@ -1,0 +1,145 @@
+{
+  "_comment": "Add bots here. Required: slug, name, client_id, short_description. Everything else is optional. Tags drive category counts on the directory page.",
+  "bots": [
+    {
+      "slug": "ratot",
+      "name": "Ratot",
+      "creator": "Ratot-Team",
+      "creator_url": "https://github.com/Ratot-Team",
+      "client_id": "1507931258707931138",
+      "invite_url": "https://fluxer.world/oauth2/authorize?client_id=1507931258707931138&scope=bot&permissions=8",
+      "icon_url": "/bots/icons/ratot.png",
+      "short_description": "A Fluxer bot to help you administrate your server and have some fun.",
+      "description": "Ratot is a Fluxer bot built for server administration and entertainment, created by Captain Ratax.\n\nFeatures:\n• Moderation: message pruning\n• Fun interactions: hugs\n• Customizable command prefix\n• Ping checks\n• Admin-level controls for bot operators\n\nWritten in JavaScript/Node.js with a MongoDB backend.\n\nLicensed under AGPL-3.0.\n",
+      "tags": [
+        "moderation",
+        "fun",
+        "utility"
+      ],
+      "github": "https://github.com/Ratot-Team/Ratot-Fluxer",
+      "website": "https://status.ratot.eu",
+      "added_at": "2026-04-30",
+      "updated_at": "2026-04-30"
+    },
+    {
+      "slug": "remix",
+      "name": "Remix",
+      "creator": "remix-bot",
+      "creator_url": "https://github.com/remix-bot",
+      "client_id": "1507931258707931140",
+      "invite_url": "https://fluxer.world/oauth2/authorize?client_id=1507931258707931140&scope=bot&permissions=8",
+      "icon_url": "/bots/icons/remix.png",
+      "short_description": "Premium, high-quality, open-source music bot for Fluxer.",
+      "description": "Remix is an open-source music bot for Fluxer. 100% free with no paywall features.\n\nSources: YouTube, Spotify, SoundCloud.\n\nCommands:\n• Playback: play, pause, resume, skip\n• Queue: list, remove, clear, shuffle\n• Audio: volume, loop\n• Utilities: join, leave, search, stats\n\nWritten in JavaScript, MIT licensed.\n",
+      "tags": [
+        "music",
+        "voice",
+        "open-source"
+      ],
+      "github": "https://github.com/remix-bot/fluxer",
+      "support_invite": "https://fluxer.gg/Remix",
+      "added_at": "2026-04-30",
+      "updated_at": "2026-04-30"
+    },
+    {
+      "slug": "vinto-music",
+      "name": "Vinto Music",
+      "creator": "invaliduser231",
+      "creator_url": "https://github.com/invaliduser231",
+      "client_id": "1507931258707931139",
+      "invite_url": "https://fluxer.world/oauth2/authorize?client_id=1507931258707931139&scope=bot&permissions=8",
+      "icon_url": "/bots/icons/vinto-music.png",
+      "short_description": "Resilient self-hosted music bot with persistent queues and operational monitoring.",
+      "description": "Vinto Music is a music bot for Fluxer with persistent data, queue safety, and operational monitoring.\n\nPlayback sources: YouTube, SoundCloud, Deezer, Audius, radio streams. Metadata mirroring from Spotify, Apple Music, Amazon Music, Tidal, Bandcamp, Audiomack, Mixcloud, and JioSaavn.\n\nFeatures:\n• Multi-voice playback per guild with separate queues per channel\n• Persistent playlists, favorites, history, queue templates, and recap via MongoDB\n• Gateway reconnect + heartbeat watchdogs\n• Optional 24/7 mode (voice-channel-scoped)\n• Built-in health checks and Prometheus metrics\n\nCommands: play, skip, pause, queue, volume, filters, loop, seek, playlists, favorites, stations, imports, mood, charts, recap, voice profiles, reputation, template management.\n",
+      "tags": [
+        "music",
+        "voice",
+        "self-hostable"
+      ],
+      "github": "https://github.com/invaliduser231/Vinto-Music",
+      "support_invite": "https://fluxer.gg/qDoq4Tf0",
+      "added_at": "2026-04-30",
+      "updated_at": "2026-04-30"
+    },
+    {
+      "slug": "fluxy",
+      "name": "Fluxy",
+      "creator": "DorkyDigital",
+      "creator_url": "https://github.com/dorkydigital",
+      "client_id": "1507931258707931136",
+      "invite_url": "https://fluxer.world/oauth2/authorize?client_id=1507931258707931136&scope=bot&permissions=8",
+      "icon_url": "/bots/icons/fluxy.png",
+      "short_description": "A buggy in-dev moderation bot for Fluxer.",
+      "description": "Fluxy is a moderation bot still in active development. Features:\n\n• Moderation: ban, kick, warn, timeout\n• Automod: anti-link, anti-spam, anti-raid, ghost-ping detection\n• Admin & utility: tickets, reaction roles, verification, logging, lockdown\n• Optional REST API and dashboard for self-hosters\n\nWritten in TypeScript, available both as a hosted service and for self-hosting under the Elastic License 2.0.\n",
+      "tags": [
+        "moderation",
+        "automod",
+        "utility",
+        "tickets",
+        "roles"
+      ],
+      "github": "https://github.com/dorkydigital/fluxy",
+      "support_invite": "https://fluxer.gg/fluxy",
+      "added_at": "2026-04-30",
+      "updated_at": "2026-04-30"
+    },
+    {
+      "slug": "functious",
+      "name": "Functious",
+      "creator": "ForGetFulSkyBro",
+      "creator_url": "https://github.com/forgetfulskybro",
+      "client_id": "1507931258707931137",
+      "invite_url": "https://fluxer.world/oauth2/authorize?client_id=1507931258707931137&scope=bot&permissions=8",
+      "icon_url": "/bots/icons/functious.png",
+      "short_description": "Tempchannels, customizable reaction roles, polls, and giveaways.",
+      "description": "Functious is a community management bot for Fluxer offering:\n\n• Temporary voice channels\n• Fully customizable reaction roles\n• Polls\n• Giveaways\n• Auto-roles\n",
+      "tags": [
+        "utility",
+        "roles",
+        "giveaways",
+        "polls"
+      ],
+      "github": "https://github.com/forgetfulskybro/Fluxer-Functious",
+      "support_invite": "https://fluxer.gg/YnINU09E",
+      "added_at": "2026-04-30",
+      "updated_at": "2026-04-30"
+    },
+    {
+      "slug": "fluxer-rolebot",
+      "name": "Fluxer Bot",
+      "creator": "PerpetualPossum",
+      "creator_url": "https://github.com/PerpetualPossum",
+      "client_id": "1490251490550686507",
+      "icon_url": "/bots/icons/fluxer-rolebot.webp",
+      "short_description": "Reaction roles made simple. Add a role with a single command.",
+      "description": "Fluxer RoleBot lets your community self-assign roles by reacting to messages. Set it up once with !add @Role <emoji> and members can opt in or out by reacting.\n\nCommands:\n  !add <@&RoleID> <emoji>   Set up a reaction role on the bound message\n  !remove <@&RoleID>        Remove a reaction role\n  !list                     Show all reaction roles\n\nThe role doesn't need to be mentionable. Use the raw <@&ID> markup if your client's autocomplete chip doesn't pass through correctly.",
+      "tags": [
+        "utility",
+        "roles",
+        "moderation"
+      ],
+      "github": "https://github.com/PerpetualPossum/fluxer-rolebot",
+      "added_at": "2026-04-30",
+      "updated_at": "2026-04-30"
+    },
+    {
+      "slug": "groovy",
+      "name": "Groovy",
+      "creator": "Bonnie39",
+      "creator_url": "https://github.com/Bonnie39",
+      "client_id": "1507940386452959239",
+      "invite_url": "https://fluxer.world/oauth2/authorize?client_id=1507940386452959239&scope=bot&permissions=8",
+      "icon_url": "/bots/icons/groovy.png",
+      "short_description": "Lightweight music bot — YouTube playback via ffmpeg + LiveKit.",
+      "description": "FluxerGroovy is a small music bot built directly on @discordjs/* and @livekit/rtc-node.\n\nFeatures:\n• Play music from YouTube (URLs or search queries)\n• Queue management — skip, pause, resume, stop\n• Streams audio through LiveKit via ffmpeg\n• Uses yt-dlp under the hood\n\nNo external Lavalink / NodeLink dependency — speaks LiveKit directly.\n",
+      "tags": [
+        "music",
+        "voice",
+        "open-source"
+      ],
+      "github": "https://github.com/Bonnie39/FluxerGroovy",
+      "added_at": "2026-05-24",
+      "updated_at": "2026-05-24"
+    }
+  ]
+}
