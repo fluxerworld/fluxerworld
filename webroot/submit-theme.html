@@ -124,7 +124,7 @@
 <div class="container">
   <div class="page-header">
     <h1>Submit a theme</h1>
-    <p>Add your theme to the public Fluxer World gallery. Fill the form, send the email — we'll review and publish it.</p>
+    <p>Add your theme to the public Fluxer World gallery. Fill the form, hit Submit — we'll review and publish it.</p>
   </div>
 
   <div class="info-card">
@@ -171,7 +171,7 @@
     </div>
 
     <div class="actions">
-      <button type="submit" class="btn btn-primary">Send via email</button>
+      <button type="submit" class="btn btn-primary">Submit for review</button>
       <button type="button" class="btn btn-secondary" onclick="copyJson()">Copy JSON</button>
     </div>
   </form>
@@ -209,7 +209,7 @@ document.querySelectorAll('#theme-form input, #theme-form textarea').forEach((el
   el.addEventListener('input', refreshPreview);
 });
 
-function submitForm() {
+async function submitForm() {
   const entry = buildEntry();
   if (!entry.name || !entry.author || !entry.description || !entry.css) {
     alert('Fill out the required fields first.');
@@ -219,17 +219,49 @@ function submitForm() {
     alert('That CSS doesn\'t look like it contains any --variable: value; declarations. Double-check before sending.');
     return;
   }
-  const subject = `Theme submission: ${entry.name}`;
-  const body = [
-    `Theme submission for the Fluxer World gallery.`,
-    ``,
-    `JSON entry to add to /webroot/themes.json:`,
-    ``,
-    JSON.stringify(entry, null, 2),
-    ``,
-    `Submitted via /submit-theme.html`,
-  ].join('\n');
-  window.location.href = `mailto:themes@fluxer.world?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  const btn = document.querySelector('#theme-form button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+
+  const payload = {
+    name: entry.name,
+    author: entry.author,
+    description: entry.description,
+    tags: entry.tags || [],
+    preview: entry.preview || [],
+    css: entry.css,
+  };
+
+  try {
+    const res = await fetch('/api/v1/themes/gallery/submit', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(payload),
+    });
+    if (res.status === 401) {
+      alert('You need to be logged in to fluxer.world to submit a theme. Open the app, log in, then come back.');
+      return;
+    }
+    if (res.status === 429) {
+      alert('Too many submissions in a short window. Wait a few minutes and try again.');
+      return;
+    }
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      alert(`Submission failed (${res.status}). ${detail.slice(0, 200)}`);
+      return;
+    }
+    const data = await res.json().catch(() => ({}));
+    alert(`Theme submitted for review. Reference id: ${data.id || 'unknown'}.\n\nYou'll see it land in the gallery once it's approved.`);
+    const form = document.getElementById('theme-form');
+    if (form) form.reset();
+    refreshPreview();
+  } catch (err) {
+    alert(`Submission failed — network error. ${err && err.message ? err.message : ''}`);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit for review'; }
+  }
 }
 
 async function copyJson() {

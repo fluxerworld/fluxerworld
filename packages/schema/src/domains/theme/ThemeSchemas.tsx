@@ -31,3 +31,21 @@ export const ThemeCreateResponse = z.object({
 });
 
 export type ThemeCreateResponse = z.infer<typeof ThemeCreateResponse>;
+
+export const ThemeGallerySubmitRequest = z.object({
+	name: z.string().min(1).max(48),
+	author: z.string().min(1).max(48),
+	description: z.string().min(1).max(280),
+	tags: z.array(z.string().max(24)).max(8).optional(),
+	preview: z.array(z.string().regex(/^#[0-9a-fA-F]{3,8}$/)).max(8).optional(),
+	css: z.string().min(1).max(64 * 1024),
+});
+
+export type ThemeGallerySubmitRequest = z.infer<typeof ThemeGallerySubmitRequest>;
+
+export const ThemeGallerySubmitResponse = z.object({
+	id: z.string().describe('Submission id for tracking review status'),
+	status: z.literal('pending').describe('Always pending immediately after submission'),
+});
+
+export type ThemeGallerySubmitResponse = z.infer<typeof ThemeGallerySubmitResponse>;
