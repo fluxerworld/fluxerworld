@@ -34,12 +34,25 @@ Set every one of these for a complete theme:
 ### Modifier tokens — the gotchas
 These look "automatic" but aren't, and they're the most common source of subtle breakage:
 ```css
---background-modifier-hover
---background-modifier-selected   /* baked at hue 220 by default — must override */
---background-modifier-accent     /* same — baked hsla, won't follow brand */
+--background-modifier-hover      /* default hsla(220, 13%, 100%, 0.04) */
+--background-modifier-selected   /* default hsla(220, 13%, 100%, 0.10) */
+--background-modifier-accent     /* default hsla(220, 13%, 80%, 0.15) */
 ```
 
 If you only override `--background-primary` and `--brand-primary`, the hover/selected highlights still tint toward the default cool-grey hue. Looks fine for dark themes near the original palette. Falls apart for a violet or amber theme.
+
+**Use transparent white (or black) as overlay, not solid hex.** The default Dark theme sets these to `hsla(..., 100%, 0.1)` — semi-transparent white at low opacity. That way the highlight is *the surface beneath, lightened* — it works on any underlying bg, doesn't pull toward any hue, and produces the "barely-there" effect users expect.
+
+Recommended values for a dark theme:
+```css
+--background-modifier-hover:    rgba(255, 255, 255, 0.06);
+--background-modifier-selected: rgba(255, 255, 255, 0.08);
+--background-modifier-accent:   rgba(255, 255, 255, 0.05);
+```
+
+For a light theme, invert (use `0, 0, 0` instead).
+
+**Do NOT use a solid hex here**, even if it visually "looks right" in isolation. Many sidebar/list-item rules mix this token at 35% opacity again on top — solid hex compounded with transparency produces a visibly tinted bar, not a subtle highlight. (See [the Friends sidebar bug](https://github.com/fluxerworld/fluxerworld/commit/0722c559) for what this looks like in practice.)
 
 ### Brand / accent
 ```css
@@ -104,9 +117,13 @@ If your theme has a strong personality you may also want:
 	--background-header-primary: #241830;
 	--background-header-secondary: #1a1424;
 
-	/* Modifier tokens — these are the gotchas */
-	--background-modifier-hover: #332447;
-	--background-modifier-selected: #2d2238;
+	/* Modifier tokens — these are the gotchas. USE TRANSPARENT WHITE,
+	   NOT SOLID HEX. Many list-item rules already mix these at 35%
+	   opacity on top of the underlying surface; a solid hex compounds
+	   with that transparency and produces a tinted bar instead of the
+	   subtle highlight users expect. */
+	--background-modifier-hover: rgba(255, 255, 255, 0.06);
+	--background-modifier-selected: rgba(255, 255, 255, 0.08);
 	--background-modifier-accent: rgba(255, 255, 255, 0.05);
 
 	/* Brand */
