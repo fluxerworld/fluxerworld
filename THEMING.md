@@ -24,12 +24,17 @@ Set every one of these for a complete theme:
 ```css
 --background-primary
 --background-secondary
+--background-secondary-lighter   /* easy to miss — controls the right pane and tabs row */
 --background-secondary-alt
 --background-tertiary
+--background-channel-header      /* easy to miss — the channel/friends title bar */
 --background-header-primary
+--background-header-primary-hover
 --background-header-secondary
 --background-textarea
 ```
+
+**Don't skip `-lighter` and `-channel-header`.** They look like minor variants but they're consumed by the entire content area (10+ files including `ChannelChatLayout`, `MemberListContainer`, `ChannelHeader`, `Messages`, etc.). If you only override the 8 "obvious" tokens, those surfaces fall back to the hue-220 default and you get a visibly grey right pane next to a themed sidebar — exactly the bug from the early Midnight Violet revs.
 
 ### Modifier tokens — the gotchas
 These look "automatic" but aren't, and they're the most common source of subtle breakage:
@@ -135,15 +140,19 @@ If your theme has a strong personality you may also want:
 
 ```css
 :root {
-	/* Surfaces — same hue (258 / violet) across the lightness ladder.
-	   Saturation low enough to read as desaturated brand, not as solid colour. */
-	--background-tertiary:        hsl(258, 35%,  7%);
-	--background-primary:         hsl(258, 30%, 11%);
-	--background-secondary:       hsl(258, 28%, 15%);
-	--background-secondary-alt:   hsl(258, 30%, 13%);
-	--background-textarea:        hsl(258, 28%, 19%);
-	--background-header-primary:  hsl(258, 28%, 15%);
-	--background-header-secondary: hsl(258, 30%, 11%);
+	/* Surfaces — full ladder at hue 258 (violet). Saturation 55-75% so
+	   the hue is visible at low lightness. Below ~40% sat the eye reads
+	   as neutral grey, not branded. */
+	--background-tertiary:           hsl(258, 75%,  9%);
+	--background-primary:            hsl(258, 70%, 15%);
+	--background-secondary:          hsl(258, 65%, 19%);
+	--background-secondary-lighter:  hsl(258, 60%, 22%);
+	--background-secondary-alt:      hsl(258, 70%, 17%);
+	--background-channel-header:     hsl(258, 60%, 21%);
+	--background-textarea:           hsl(258, 55%, 24%);
+	--background-header-primary:     hsl(258, 65%, 19%);
+	--background-header-primary-hover: hsl(258, 60%, 23%);
+	--background-header-secondary:   hsl(258, 70%, 15%);
 
 	/* Modifier overlays — same hue, low alpha, push saturation a bit
 	   so the tint registers when 35%-mixed by sidebar/list rules. */
