@@ -20,21 +20,83 @@ Fluxer's CSS variables come in three layers:
 
 Set every one of these for a complete theme:
 
-### Surfaces
+### Required overrides — complete list
+
+The rule: **every token in `color-system.css` whose default contains `hsl(220, …)` must be overridden.** If you skip any, that surface leaks the cool-grey baseline through and you get a single neutral-grey patch in an otherwise themed app. Grouped by what they paint:
+
+**Main content surfaces** (the bulk of the app's chrome):
 ```css
 --background-primary
 --background-secondary
---background-secondary-lighter   /* easy to miss — controls the right pane and tabs row */
+--background-secondary-lighter   /* right pane + tabs row */
 --background-secondary-alt
 --background-tertiary
---background-channel-header      /* easy to miss — the channel/friends title bar */
+--background-channel-header      /* channel / friends title bar */
 --background-header-primary
 --background-header-primary-hover
 --background-header-secondary
 --background-textarea
 ```
 
-**Don't skip `-lighter` and `-channel-header`.** They look like minor variants but they're consumed by the entire content area (10+ files including `ChannelChatLayout`, `MemberListContainer`, `ChannelHeader`, `Messages`, etc.). If you only override the 8 "obvious" tokens, those surfaces fall back to the hue-220 default and you get a visibly grey right pane next to a themed sidebar — exactly the bug from the early Midnight Violet revs.
+**Server sidebar** (far-left vertical guild bar):
+```css
+--guild-list-foreground          /* its own token, doesn't cascade */
+```
+
+**User panel** (bottom-left widget with avatar + controls):
+```css
+--panel-control-border
+--panel-control-divider
+```
+
+**Control buttons** (volume, settings, etc. — locked to hue 220 by default):
+```css
+--control-button-hover-bg
+--control-button-active-bg
+```
+
+**Modifier overlays** (hover/selected/accent tint on surfaces):
+```css
+--background-modifier-hover
+--background-modifier-selected
+--background-modifier-accent
+--background-modifier-accent-focus
+```
+
+**Borders**:
+```css
+--border-color
+--border-color-hover
+```
+
+**Inline code blocks** (also locked to hue 220):
+```css
+--bg-code
+```
+
+**Text** (the muted/secondary shades are at hue 220 too — set them so muted text reads as faint-themed rather than faint-cool-grey):
+```css
+--text-primary
+--text-secondary
+--text-tertiary
+--text-tertiary-muted
+--text-tertiary-secondary
+--text-primary-muted
+--text-chat
+--text-chat-muted
+--text-link
+```
+
+**Brand + on-brand contrast**:
+```css
+--brand-primary
+--brand-secondary
+--brand-primary-light
+--brand-primary-fill             /* contrast colour ON brand bg */
+--text-on-brand-primary
+```
+
+**Quick way to find anything you missed**: pixel-sample the area in DevTools / a screenshot. If the colour resolves to `hsl(220, ~13%, X%)` you forgot a token. Common offenders are tokens that *look* like minor variants of ones you've already set (`-lighter`, `-secondary`, `-accent-focus`) but are separate hue-locked defaults.
 
 ### Modifier tokens — the gotchas
 These look "automatic" but aren't, and they're the most common source of subtle breakage:
@@ -71,50 +133,25 @@ The highlight is *the surface beneath, tinted toward brand*. Reads as a brighter
 
 If you want a "cohesive purple theme" (or amber, or anything else), the *surfaces* themselves need to carry a desaturated version of your brand hue. Pure-grey surfaces with one purple highlight = the highlight reads as an island stuck on top. Surfaces at the same hue with low saturation = highlights read as a brighter step in the family.
 
-Recipe: pick your brand hue, then build a lightness ladder at low saturation:
+Recipe: pick your brand hue, then build a lightness ladder. **Saturation needs to be 55-75% — not 25-30%.** At low lightness the eye doesn't register hue until saturation crosses ~40%; below that, your "purple-tinted" surface is indistinguishable from neutral grey. Discord can sit at 8-13% saturation because the *entire* interface is one cohesive low-chroma palette and there's no other hue to compare against; a branded theme with a saturated accent (e.g. `--brand-primary: #a98cf5`) needs surfaces saturated enough to feel like they belong to the same family.
 
 ```css
-/* Hue stays constant. Saturation 22-30%. Lightness ladder for dark theme: */
---background-tertiary:  hsl(258, 35%,  7%);   /* deepest */
---background-primary:   hsl(258, 30%, 11%);
---background-secondary: hsl(258, 28%, 15%);
---background-textarea:  hsl(258, 28%, 19%);
---border-color:         hsl(258, 25%, 22%);   /* lightest still-not-a-control */
+/* Hue stays constant. Saturation 55-75%. Lightness ladder for dark theme: */
+--background-tertiary:  hsl(258, 75%,  9%);    /* deepest */
+--background-primary:   hsl(258, 70%, 15%);
+--background-secondary: hsl(258, 65%, 19%);
+--background-textarea:  hsl(258, 55%, 24%);
+--border-color:         hsl(258, 50%, 30%);    /* lightest still-not-a-control */
 ```
 
-The surfaces look "almost grey" but with a perceivable hue cast — exactly how Discord's blue-grey or Slack's purple-grey work.
+These read as visibly violet, not grey. If your theme feels "too vivid" once you've applied it whole-app, dial individual surfaces down by 10-15 points of saturation — but err on the high side. The bug pattern of users reporting "still looks grey, push the saturation higher" took five revisions of Midnight Violet to nail.
 
-(See commit-history for the gallery themes after this advice landed — the Midnight Violet bug where the Friends row read as a stuck-on highlight was because the surfaces were too low-saturation to register as violet, so the highlight looked like an island.)
-
-### Brand / accent
-```css
---brand-primary
---brand-secondary
---brand-primary-light
---brand-primary-fill           /* text colour ON brand-primary backgrounds */
---text-on-brand-primary        /* same idea, used by status badges / primary buttons */
-```
-
-**Critical**: `--brand-primary-fill` and `--text-on-brand-primary` must be a contrast colour, not the same as `--brand-primary`. Otherwise:
+**Critical on brand contrast**: `--brand-primary-fill` and `--text-on-brand-primary` must be a contrast colour, not the same as `--brand-primary`. Otherwise:
 - The "Add Friend" tab renders as a solid square with invisible label text
 - Status badges (mention count, etc.) display the number in same-on-same
 - Primary buttons across the app turn into blank rectangles
 
-Use white for dark accents, near-black for light accents.
-
-### Text
-```css
---text-primary
---text-secondary
---text-tertiary
---text-primary-muted          /* alias used by sidebar items */
---text-link
-```
-
-### Border
-```css
---border-color
-```
+Use white (`#ffffff`) for dark accents, near-black for light accents.
 
 ## What cascades for free
 
@@ -140,9 +177,7 @@ If your theme has a strong personality you may also want:
 
 ```css
 :root {
-	/* Surfaces — full ladder at hue 258 (violet). Saturation 55-75% so
-	   the hue is visible at low lightness. Below ~40% sat the eye reads
-	   as neutral grey, not branded. */
+	/* Main content surfaces — full ladder at hue 258. */
 	--background-tertiary:           hsl(258, 75%,  9%);
 	--background-primary:            hsl(258, 70%, 15%);
 	--background-secondary:          hsl(258, 65%, 19%);
@@ -154,11 +189,26 @@ If your theme has a strong personality you may also want:
 	--background-header-primary-hover: hsl(258, 60%, 23%);
 	--background-header-secondary:   hsl(258, 70%, 15%);
 
-	/* Modifier overlays — same hue, low alpha, push saturation a bit
-	   so the tint registers when 35%-mixed by sidebar/list rules. */
-	--background-modifier-hover:    hsla(258, 50%, 70%, 0.08);
-	--background-modifier-selected: hsla(258, 60%, 70%, 0.16);
-	--background-modifier-accent:   hsla(258, 30%, 60%, 0.08);
+	/* Server sidebar, user panel, control buttons — own token families */
+	--guild-list-foreground:         hsl(258, 60%, 18%);
+	--panel-control-border:          hsla(258, 50%, 65%, 0.45);
+	--panel-control-divider:         hsla(258, 50%, 55%, 0.35);
+	--control-button-hover-bg:       hsl(258, 50%, 25%);
+	--control-button-active-bg:      hsl(258, 50%, 27%);
+
+	/* Borders */
+	--border-color:                  hsl(258, 50%, 30%);
+	--border-color-hover:            hsla(258, 50%, 50%, 0.3);
+
+	/* Inline code background */
+	--bg-code:                       hsla(258, 65%, 15%, 0.8);
+
+	/* Modifier overlays — brand-tinted, low alpha so they register over
+	   the already-saturated surfaces. */
+	--background-modifier-hover:    hsla(258, 70%, 75%, 0.12);
+	--background-modifier-selected: hsla(258, 80%, 75%, 0.25);
+	--background-modifier-accent:   hsla(258, 50%, 65%, 0.12);
+	--background-modifier-accent-focus: hsla(258, 50%, 65%, 0.22);
 
 	/* Brand — the actual saturated colour for primary buttons / accents. */
 	--brand-primary: #a98cf5;
@@ -167,19 +217,20 @@ If your theme has a strong personality you may also want:
 	--brand-primary-fill: #ffffff;            /* contrast colour ON brand bg */
 	--text-on-brand-primary: #ffffff;
 
-	/* Text */
+	/* Text — every shade re-anchored at hue 258 with low sat */
 	--text-primary: #e4e4f7;
-	--text-secondary: #b8b3d4;
-	--text-tertiary: #8b86a8;
-	--text-primary-muted: #b8b3d4;
+	--text-secondary: hsl(258, 25%, 80%);
+	--text-tertiary: hsl(258, 25%, 65%);
+	--text-tertiary-muted: hsl(258, 25%, 56%);
+	--text-tertiary-secondary: hsl(258, 25%, 52%);
+	--text-primary-muted: hsl(258, 25%, 78%);
+	--text-chat: hsl(258, 25%, 93%);
+	--text-chat-muted: hsl(258, 25%, 78%);
 	--text-link: #c0a8ff;
-
-	/* Border — same hue, lifted lightness. */
-	--border-color: hsl(258, 25%, 22%);
 }
 ```
 
-Anything less and you'll hit at least one of: invisible label text, mismatched hover hues, highlights that look stuck-on, or unreadable buttons.
+That's ~35 tokens. Anything less and one of these surfaces leaks through to default-grey: the right pane, the friends/channel title bar, the server sidebar bar, the user panel widgets, the volume/settings buttons, focus rings, inline code, or muted text.
 
 ## Pre-flight checklist before submitting
 
