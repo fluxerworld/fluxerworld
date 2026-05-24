@@ -239,10 +239,24 @@ $applyBtn.addEventListener('click', () => {
     alert('This theme has no server id yet; ping an admin.');
     return;
   }
-  // Hands off to the existing /theme/<id> route which loads
-  // ThemeAcceptModal in the app and applies on confirm. Works for
-  // logged-out users too — that route prompts login first.
-  window.location.href = `/theme/${activeTheme.theme_id}`;
+  // Try the desktop app first via the custom protocol the Electron
+  // build registers (fluxerworld://). If no handler is registered we
+  // fall back to the website's /theme/<id> route after a short
+  // timeout. Same pattern Discord/Slack use for "open in app".
+  const webUrl = `/theme/${activeTheme.theme_id}`;
+  const appUrl = `fluxerworld://theme/${activeTheme.theme_id}`;
+  let fellBack = false;
+  const fallback = setTimeout(() => {
+    if (fellBack || document.hidden) return;
+    fellBack = true;
+    window.location.href = webUrl;
+  }, 1200);
+  // If the protocol handler succeeds the browser tab will lose focus
+  // or be hidden — cancel the fallback in that case.
+  const cancel = () => { fellBack = true; clearTimeout(fallback); };
+  window.addEventListener('blur', cancel, {once: true});
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancel(); }, {once: true});
+  window.location.href = appUrl;
 });
 
 function renderCards(themes) {

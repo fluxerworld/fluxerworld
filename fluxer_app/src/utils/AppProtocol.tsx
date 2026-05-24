@@ -17,7 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export const APP_PROTOCOL = 'fluxer';
+// Must match the protocol the Electron desktop app registers via
+// app.setAsDefaultProtocolClient (fluxer-desktop/src/main.ts → PROTOCOL).
+// Was 'fluxer' from the upstream codebase — silently broke every
+// "Open in desktop" deep link on fluxer.world because nothing was
+// registered for fluxer:// here.
+export const APP_PROTOCOL = 'fluxerworld';
 export const APP_PROTOCOL_PREFIX = `${APP_PROTOCOL}://`;
 export function buildAppProtocolUrl(path: string): string {
 	const cleaned = path.replace(/^\/+/, '');
