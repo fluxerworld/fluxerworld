@@ -195,26 +195,64 @@ const $applyBtn = document.getElementById('apply-btn');
 let activeTheme = null;
 let injectedStyle = null;
 
+// Maps a theme's Fluxer variables onto the page's own variables so
+// the entire page recolours, not just the body. List the page-var ←
+// theme-var pairs explicitly so nothing is forgotten.
+const PREVIEW_VAR_MAP = [
+  ['--bg',             '--background-primary'],
+  ['--bg-card',        '--background-secondary'],
+  ['--bg-card-hover',  '--background-modifier-hover'],
+  ['--border',         '--border-color'],
+  ['--text',           '--text-primary'],
+  ['--text-muted',     '--text-secondary'],
+  ['--accent',         '--brand-primary'],
+  ['--accent-hover',   '--brand-primary-light'],
+];
+
+// Anything hardcoded in the page CSS (the translucent nav bg, the
+// page-header gradient, accent-subtle) needs an explicit override
+// once the theme bg/accent change, otherwise the dark constants
+// bleed through and the preview looks half-applied.
+let themedOverlay = null;
+
+function rgbaFromCssColor(value, alpha) {
+  const tmp = document.createElement('div');
+  tmp.style.color = value;
+  document.body.appendChild(tmp);
+  const rgb = getComputedStyle(tmp).color;
+  tmp.remove();
+  const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(rgb);
+  if (!m) return null;
+  return `rgba(${m[1]}, ${m[2]}, ${m[3]}, ${alpha})`;
+}
+
 function previewTheme(theme) {
   if (injectedStyle) injectedStyle.remove();
   injectedStyle = document.createElement('style');
   injectedStyle.textContent = theme.css;
   document.head.appendChild(injectedStyle);
 
-  // Map a few of the theme's vars onto the page's own variables so this
-  // page itself recolours immediately. Most users only care that the
-  // background and text shift — that sells the preview.
   const compute = getComputedStyle(document.documentElement);
-  const themeBg = compute.getPropertyValue('--background-primary').trim();
-  const themeText = compute.getPropertyValue('--text-primary').trim();
-  const themeAccent = compute.getPropertyValue('--brand-primary').trim();
-  const themeCard = compute.getPropertyValue('--background-secondary').trim();
-  const themeBorder = compute.getPropertyValue('--border-color').trim();
-  if (themeBg)    document.documentElement.style.setProperty('--bg', themeBg);
-  if (themeText)  document.documentElement.style.setProperty('--text', themeText);
-  if (themeAccent) document.documentElement.style.setProperty('--accent', themeAccent);
-  if (themeCard)  document.documentElement.style.setProperty('--bg-card', themeCard);
-  if (themeBorder) document.documentElement.style.setProperty('--border', themeBorder);
+  for (const [pageVar, themeVar] of PREVIEW_VAR_MAP) {
+    const value = compute.getPropertyValue(themeVar).trim();
+    if (value) document.documentElement.style.setProperty(pageVar, value);
+  }
+
+  // Patch the hardcoded translucent + gradient surfaces.
+  if (themedOverlay) themedOverlay.remove();
+  themedOverlay = document.createElement('style');
+  const bg = compute.getPropertyValue('--bg').trim() || compute.getPropertyValue('--background-primary').trim();
+  const accent = compute.getPropertyValue('--accent').trim() || compute.getPropertyValue('--brand-primary').trim();
+  const navBg = rgbaFromCssColor(bg, 0.85) ?? bg;
+  const accentTint = rgbaFromCssColor(accent, 0.12) ?? 'transparent';
+  const accentGlow = rgbaFromCssColor(accent, 0.08) ?? 'transparent';
+  themedOverlay.textContent = `
+    nav { background: ${navBg} !important; }
+    .page-header { background: radial-gradient(ellipse at 50% 0%, ${accentGlow} 0%, transparent 60%) !important; }
+    .tag { background: ${accentTint} !important; color: var(--accent) !important; }
+    .card.active { box-shadow: 0 0 0 2px ${accentTint} !important; }
+  `;
+  document.head.appendChild(themedOverlay);
 
   document.querySelectorAll('.card').forEach((c) => c.classList.toggle('active', c.dataset.slug === theme.slug));
   $previewName.textContent = theme.name;
@@ -225,9 +263,10 @@ function previewTheme(theme) {
 
 function clearPreview() {
   if (injectedStyle) { injectedStyle.remove(); injectedStyle = null; }
-  ['--bg','--text','--accent','--bg-card','--border'].forEach(v =>
-    document.documentElement.style.removeProperty(v)
-  );
+  if (themedOverlay) { themedOverlay.remove(); themedOverlay = null; }
+  for (const [pageVar] of PREVIEW_VAR_MAP) {
+    document.documentElement.style.removeProperty(pageVar);
+  }
   document.querySelectorAll('.card').forEach((c) => c.classList.remove('active'));
   $banner.classList.remove('shown');
   activeTheme = null;
