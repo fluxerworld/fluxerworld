@@ -67,3 +67,18 @@ export const ThemeGalleryListResponse = z.object({
 });
 
 export type ThemeGalleryListResponse = z.infer<typeof ThemeGalleryListResponse>;
+
+export const ThemeImageUploadRequest = z.object({
+	// base64-encoded image bytes, optionally prefixed by a data URL header
+	// (data:image/png;base64,...). 4 MB cap on the resulting decoded
+	// buffer is enforced server-side.
+	image: z.string().min(1),
+});
+
+export type ThemeImageUploadRequest = z.infer<typeof ThemeImageUploadRequest>;
+
+export const ThemeImageUploadResponse = z.object({
+	url: z.string().describe('Public URL of the hosted image — paste this into your CSS url(...).'),
+});
+
+export type ThemeImageUploadResponse = z.infer<typeof ThemeImageUploadResponse>;

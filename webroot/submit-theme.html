@@ -188,6 +188,13 @@
     </div>
 
     <div class="form-row">
+      <label>Background image <span class="label-hint">optional, JPG/PNG/WebP/GIF, max 4 MB</span></label>
+      <input type="file" id="image-upload" accept="image/jpeg,image/png,image/webp,image/gif" />
+      <p class="help">Upload an image and we'll host it on the Fluxer World CDN. The URL is copied to your clipboard so you can paste it into your CSS, e.g. <code>background-image: url('...');</code>. Hotlinking from external hosts works but the link can break — uploading here keeps your theme working long-term.</p>
+      <p class="help" id="image-result" style="display:none;"></p>
+    </div>
+
+    <div class="form-row">
       <label for="css">CSS <span class="label-hint">required</span></label>
       <textarea id="css" required rows="10" placeholder=":root {&#10;  --background-primary: #1a1424;&#10;  ...&#10;}"></textarea>
       <p class="help">A <code>:root { … }</code> block with CSS variable overrides. Use Export as CSS from inside the app to get yours.</p>
@@ -386,6 +393,72 @@ async function submitForm() {
 
 // Show login form vs theme form based on stored token, as soon as DOM is ready.
 refreshAuthBanner();
+
+async function uploadImage(file) {
+  if (!getStoredToken()) {
+    alert('Log in first using the form above.');
+    refreshAuthBanner();
+    return;
+  }
+  if (file.size > 4 * 1024 * 1024) {
+    alert('Image must be 4 MB or smaller.');
+    return;
+  }
+  const resultEl = document.getElementById('image-result');
+  resultEl.style.display = 'block';
+  resultEl.textContent = 'Uploading…';
+
+  // Read file → base64 (strip the data: prefix the server tolerates anyway).
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const r = String(reader.result || '');
+      resolve(r.includes(',') ? r.split(',', 2)[1] : r);
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+
+  try {
+    const res = await fetch('/api/v1/themes/gallery/upload-image', {
+      method: 'POST',
+      credentials: 'include',
+      headers: authHeaders(),
+      body: JSON.stringify({image: base64}),
+    });
+    if (res.status === 401) {
+      try { localStorage.removeItem('token'); localStorage.removeItem('userId'); } catch {}
+      refreshAuthBanner();
+      resultEl.textContent = 'Session expired. Log in again and re-upload.';
+      return;
+    }
+    if (res.status === 429) {
+      resultEl.textContent = 'Too many uploads — wait a few minutes.';
+      return;
+    }
+    if (!res.ok) {
+      const detail = await res.json().catch(() => ({}));
+      resultEl.textContent = `Upload failed (${res.status}): ${detail.message || ''}`;
+      return;
+    }
+    const data = await res.json();
+    const fullUrl = `${location.origin}${data.url}`;
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      resultEl.innerHTML = `Uploaded — URL <a href="${fullUrl}" target="_blank">${fullUrl}</a> copied to clipboard.`;
+    } catch {
+      resultEl.innerHTML = `Uploaded — URL: <a href="${fullUrl}" target="_blank">${fullUrl}</a> (clipboard blocked, copy manually)`;
+    }
+  } catch (err) {
+    resultEl.textContent = `Network error: ${err && err.message ? err.message : 'unknown'}`;
+  }
+}
+
+document.getElementById('image-upload').addEventListener('change', (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (file) uploadImage(file);
+  e.target.value = ''; // allow re-upload of same filename
+});
 
 async function copyJson() {
   const entry = buildEntry();

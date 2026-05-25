@@ -34,7 +34,7 @@ import {
 import {createMetadataHandler} from '@fluxer/media_proxy/src/controllers/MetadataController';
 import {createStaticProxyHandler} from '@fluxer/media_proxy/src/controllers/StaticProxyController';
 import {createStickerRouteHandler} from '@fluxer/media_proxy/src/controllers/StickerController';
-import {createThemeHandler} from '@fluxer/media_proxy/src/controllers/ThemeController';
+import {createThemeAssetHandler, createThemeHandler} from '@fluxer/media_proxy/src/controllers/ThemeController';
 import {createThumbnailHandler} from '@fluxer/media_proxy/src/controllers/ThumbnailController';
 import {CloudflareEdgeIPService} from '@fluxer/media_proxy/src/lib/CloudflareEdgeIPService';
 import {createCodecValidator} from '@fluxer/media_proxy/src/lib/CodecValidation';
@@ -295,6 +295,11 @@ export async function createMediaProxyApp(options: CreateMediaProxyAppOptions): 
 			bucketCdn: config.s3.bucketCdn,
 		});
 
+		const handleThemeAssetRequest = createThemeAssetHandler({
+			s3Utils,
+			bucketCdn: config.s3.bucketCdn,
+		});
+
 		if (!publicOnly) {
 			const InternalNetworkRequired = createInternalNetworkRequired(config.secretKey);
 
@@ -336,6 +341,7 @@ export async function createMediaProxyApp(options: CreateMediaProxyAppOptions): 
 		);
 		app.get('/attachments/:channel_id/:attachment_id/:filename', handleAttachmentsRoute);
 		app.get('/themes/:id.css', handleThemeRequest);
+		app.get('/themes/assets/:filename', handleThemeAssetRequest);
 
 		app.get('/external/*', async (ctx) => {
 			const fullPath = ctx.req.path;

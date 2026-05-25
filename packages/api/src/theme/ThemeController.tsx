@@ -31,6 +31,8 @@ import {
 	ThemeGalleryListResponse,
 	ThemeGallerySubmitRequest,
 	ThemeGallerySubmitResponse,
+	ThemeImageUploadRequest,
+	ThemeImageUploadResponse,
 } from '@fluxer/schema/src/domains/theme/ThemeSchemas';
 
 export function ThemeController(app: HonoApp) {
@@ -124,6 +126,75 @@ export function ThemeController(app: HonoApp) {
 			// previous moderation-queue shape; semantically the theme is
 			// already live by the time we return.
 			return ctx.json({id: themeId, status: 'pending' as const}, 201);
+		},
+	);
+
+	// Image upload for theme authors. Lets gallery contributors host
+	// background images / decorative assets on our CDN instead of
+	// hotlinking from random external hosts. Returns a public URL the
+	// author pastes into the CSS url(...) clause.
+	app.post(
+		'/themes/gallery/upload-image',
+		RateLimitMiddleware(RateLimitConfigs.THEME_IMAGE_UPLOAD),
+		LoginRequired,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'upload_gallery_theme_image',
+			summary: 'Upload an image for use in a gallery theme',
+			responseSchema: ThemeImageUploadResponse,
+			statusCode: 201,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['Themes'],
+			description: 'Upload an image (JPG/PNG/WebP, ≤4 MB) and get back a /media/themes/assets/... URL.',
+		}),
+		Validator('json', ThemeImageUploadRequest),
+		async (ctx) => {
+			const {image} = ctx.req.valid('json');
+
+			// Strip data-URL prefix if present so callers can submit either form.
+			const stripped = image.includes(',') ? image.split(',', 2)[1] : image;
+			let buf: Buffer;
+			try {
+				buf = Buffer.from(stripped, 'base64');
+			} catch {
+				return ctx.json({code: 'INVALID_IMAGE', message: 'Image is not valid base64.'}, 400);
+			}
+
+			const MAX_BYTES = 4 * 1024 * 1024;
+			if (buf.length === 0 || buf.length > MAX_BYTES) {
+				return ctx.json({code: 'INVALID_SIZE', message: 'Image must be 1 byte to 4 MB.'}, 400);
+			}
+
+			// Magic-byte sniff so we don't trust the caller's claimed
+			// mimetype. JPG / PNG / WebP / GIF only.
+			let ext: string;
+			if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) {
+				ext = 'jpg';
+			} else if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) {
+				ext = 'png';
+			} else if (
+				buf[0] === 0x52 && buf[1] === 0x49 && buf[2] === 0x46 && buf[3] === 0x46 &&
+				buf[8] === 0x57 && buf[9] === 0x45 && buf[10] === 0x42 && buf[11] === 0x50
+			) {
+				ext = 'webp';
+			} else if (buf[0] === 0x47 && buf[1] === 0x49 && buf[2] === 0x46 && buf[3] === 0x38) {
+				ext = 'gif';
+			} else {
+				return ctx.json({code: 'UNSUPPORTED_FORMAT', message: 'Only JPG, PNG, WebP, GIF are supported.'}, 400);
+			}
+
+			const hash = createHash('sha256').update(buf).digest('hex').slice(0, 24);
+			const filename = `${hash}.${ext}`;
+			const {writeFileSync, mkdirSync, existsSync} = await import('node:fs');
+			const ASSETS_DIR = '/usr/src/app/data/s3/fluxer/themes/assets';
+			mkdirSync(ASSETS_DIR, {recursive: true});
+			const onDiskPath = `${ASSETS_DIR}/${filename}`;
+			// Dedupe: skip the write if a file with this hash already exists.
+			if (!existsSync(onDiskPath)) {
+				writeFileSync(onDiskPath, buf);
+			}
+
+			return ctx.json({url: `/media/themes/assets/${filename}`}, 201);
 		},
 	);
 

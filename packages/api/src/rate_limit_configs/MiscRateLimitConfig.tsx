@@ -131,6 +131,11 @@ export const MiscRateLimitConfigs = {
 		config: {limit: 3, windowMs: ms('10 minutes')},
 	} as RouteRateLimitConfig,
 
+	THEME_IMAGE_UPLOAD: {
+		bucket: 'theme:image:upload',
+		config: {limit: 10, windowMs: ms('10 minutes')},
+	} as RouteRateLimitConfig,
+
 	SEARCH_MESSAGES: {
 		bucket: 'search:messages',
 		config: {limit: 20, windowMs: ms('10 seconds')},

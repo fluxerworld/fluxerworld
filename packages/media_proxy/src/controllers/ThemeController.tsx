@@ -24,6 +24,16 @@ import type {HonoEnv} from '@fluxer/media_proxy/src/types/HonoEnv';
 import type {Context} from 'hono';
 
 const THEME_ID_PATTERN = /^[a-f0-9]{16}$/;
+// Theme asset filenames are content-hashed (sha256 prefix) + extension.
+// Loose match so we accept up to 64 hex chars (full sha256) and the four
+// extensions the upload endpoint allows.
+const THEME_ASSET_PATTERN = /^[a-f0-9]{8,64}\.(jpg|png|webp|gif)$/i;
+const ASSET_CONTENT_TYPES: Record<string, string> = {
+	jpg: 'image/jpeg',
+	png: 'image/png',
+	webp: 'image/webp',
+	gif: 'image/gif',
+};
 
 interface ThemeControllerDeps {
 	s3Utils: S3Utils;
@@ -70,6 +80,42 @@ export function createThemeHandler(deps: ThemeControllerDeps) {
 		const {data, lastModified} = await s3Utils.readS3Object(bucketCdn, `themes/${themeId}.css`);
 
 		ctx.header('Content-Type', 'text/css; charset=utf-8');
+		ctx.header('Cache-Control', 'public, max-age=31536000, immutable');
+		ctx.header('Access-Control-Allow-Origin', '*');
+
+		if (lastModified) {
+			ctx.header('Last-Modified', new Date(lastModified).toUTCString());
+		}
+
+		if (data instanceof PassThrough) {
+			return ctx.body(toWebReadableStream(data));
+		} else {
+			ctx.header('Content-Length', data.length.toString());
+			return ctx.body(toBodyData(data));
+		}
+	};
+}
+
+// Theme assets — background images and any other binary that theme
+// authors upload via POST /api/v1/themes/gallery/upload-image. Stored
+// at s3://<bucketCdn>/themes/assets/<sha-prefix>.<ext>, served here
+// with the same immutable caching that theme CSS gets.
+export function createThemeAssetHandler(deps: ThemeControllerDeps) {
+	const {s3Utils, bucketCdn} = deps;
+
+	return async (ctx: Context<HonoEnv>): Promise<Response> => {
+		const filename = ctx.req.param('filename');
+
+		if (!filename || !THEME_ASSET_PATTERN.test(filename)) {
+			return ctx.text('Not found', {status: 404});
+		}
+
+		const ext = filename.split('.').pop()!.toLowerCase();
+		const contentType = ASSET_CONTENT_TYPES[ext] ?? 'application/octet-stream';
+
+		const {data, lastModified} = await s3Utils.readS3Object(bucketCdn, `themes/assets/${filename}`);
+
+		ctx.header('Content-Type', contentType);
 		ctx.header('Cache-Control', 'public, max-age=31536000, immutable');
 		ctx.header('Access-Control-Allow-Origin', '*');
 
