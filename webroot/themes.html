@@ -106,6 +106,30 @@
       color: var(--accent);
     }
 
+    .card-share {
+      align-self: flex-end;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .card-share:hover { color: var(--accent); border-color: var(--accent); }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 2rem; transform: translateX(-50%);
+      background: var(--bg-card); border: 1px solid var(--accent);
+      color: var(--text); padding: 0.7rem 1.2rem; border-radius: 8px;
+      font-size: 0.875rem; opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none; z-index: 200;
+    }
+    .toast.shown { opacity: 1; }
+
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
       gap: 0.4rem; padding: 0.55rem 1rem; border-radius: 8px;
@@ -173,12 +197,14 @@
       <div class="label">Previewing <strong id="preview-name"></strong> by <span id="preview-author"></span></div>
       <div class="actions">
         <button class="btn btn-secondary" onclick="clearPreview()">Reset</button>
+        <button class="btn btn-secondary" id="share-btn" title="Copy share link">Share</button>
         <button class="btn btn-primary" id="apply-btn">Apply to my account</button>
       </div>
     </div>
 
     <div id="grid" class="grid"></div>
   </div>
+  <div id="toast" class="toast"></div>
 </main>
 
 <footer>
@@ -191,6 +217,36 @@ const $banner = document.getElementById('preview-banner');
 const $previewName = document.getElementById('preview-name');
 const $previewAuthor = document.getElementById('preview-author');
 const $applyBtn = document.getElementById('apply-btn');
+const $shareBtn = document.getElementById('share-btn');
+const $toast = document.getElementById('toast');
+
+function showToast(msg) {
+  $toast.textContent = msg;
+  $toast.classList.add('shown');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => $toast.classList.remove('shown'), 2200);
+}
+
+async function shareTheme(theme) {
+  if (!theme || !theme.theme_id) {
+    showToast('No share link available for this theme.');
+    return;
+  }
+  const url = `${location.origin}/theme/${theme.theme_id}`;
+  // Native share sheet on mobile, clipboard everywhere else.
+  if (navigator.share) {
+    try {
+      await navigator.share({title: `${theme.name} — Fluxer theme`, text: theme.description || '', url});
+      return;
+    } catch (_) { /* user cancelled, fall through */ }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('Share link copied to clipboard');
+  } catch {
+    prompt('Copy this share link:', url);
+  }
+}
 
 let activeTheme = null;
 let injectedStyle = null;
@@ -272,6 +328,8 @@ function clearPreview() {
   activeTheme = null;
 }
 
+$shareBtn.addEventListener('click', () => shareTheme(activeTheme));
+
 $applyBtn.addEventListener('click', () => {
   if (!activeTheme) return;
   if (!activeTheme.theme_id) {
@@ -324,7 +382,17 @@ function renderCards(themes) {
       <div class="author">by ${theme.author || 'unknown'}</div>
       <div class="desc">${theme.description || ''}</div>
       ${tags ? `<div class="tags">${tags}</div>` : ''}
+      ${theme.theme_id ? '<button class="card-share" type="button" data-action="share">Copy link</button>' : ''}
     `;
+    // The share button is a child of the card; stop the click from
+    // bubbling so we don't accidentally trigger the preview.
+    const shareEl = card.querySelector('[data-action="share"]');
+    if (shareEl) {
+      shareEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        shareTheme(theme);
+      });
+    }
     $grid.appendChild(card);
   }
 }
