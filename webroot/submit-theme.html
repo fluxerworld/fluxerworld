@@ -131,6 +131,29 @@
     The easiest way to get the CSS: open Fluxer's settings → Appearance, customise your theme, click <strong>Export as CSS</strong>, then paste the contents below. Or use the <strong>Load current theme into editor</strong> button inside the CSS overrides box.
   </div>
 
+  <div id="auth-status" class="info-card" style="display:none; background: var(--accent-subtle); border-color: var(--accent);">
+    <strong id="auth-label"></strong>
+    <a href="#" id="auth-action" style="float:right; cursor:pointer;"></a>
+  </div>
+
+  <form id="login-form" class="form-card" onsubmit="event.preventDefault(); loginAndContinue();" style="display:none">
+    <h3 style="font-size: 1.1rem;">Log in to publish</h3>
+    <p class="help">You need a fluxer.world account to publish a theme. Log in here and your session sticks for next time.</p>
+    <div class="form-row">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" required autocomplete="email" />
+    </div>
+    <div class="form-row">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" required autocomplete="current-password" />
+    </div>
+    <div class="actions">
+      <button type="submit" class="btn btn-primary">Log in</button>
+    </div>
+    <p class="help" id="login-error" style="display:none; color: #f38ba8;"></p>
+    <p class="help">MFA accounts: log in via <a href="/app">fluxer.world/app</a>, then come back.</p>
+  </form>
+
   <form id="theme-form" class="form-card" onsubmit="event.preventDefault(); submitForm();">
     <div class="form-row">
       <label for="name">Theme name <span class="label-hint">required</span></label>
@@ -209,6 +232,95 @@ document.querySelectorAll('#theme-form input, #theme-form textarea').forEach((el
   el.addEventListener('input', refreshPreview);
 });
 
+// The web client at /app stores the auth token in localStorage['token']
+// on the fluxer.world origin. This static page is on the same origin
+// and can read the same key — no separate login needed for anyone
+// already signed into the app.
+function getStoredToken() {
+  try { return localStorage.getItem('token') || ''; } catch { return ''; }
+}
+function setStoredToken(token, userId) {
+  try {
+    localStorage.setItem('token', token);
+    if (userId) localStorage.setItem('userId', userId);
+  } catch {}
+}
+
+function authHeaders() {
+  const t = getStoredToken();
+  const headers = {'content-type': 'application/json'};
+  if (t) headers['Authorization'] = t;
+  return headers;
+}
+
+function refreshAuthBanner() {
+  const token = getStoredToken();
+  const statusEl = document.getElementById('auth-status');
+  const loginForm = document.getElementById('login-form');
+  const themeForm = document.getElementById('theme-form');
+  if (token) {
+    document.getElementById('auth-label').textContent = 'Signed in — ready to publish.';
+    const action = document.getElementById('auth-action');
+    action.textContent = 'Sign out';
+    action.onclick = (e) => {
+      e.preventDefault();
+      try { localStorage.removeItem('token'); localStorage.removeItem('userId'); } catch {}
+      refreshAuthBanner();
+    };
+    statusEl.style.display = 'block';
+    loginForm.style.display = 'none';
+    themeForm.style.display = '';
+  } else {
+    statusEl.style.display = 'none';
+    loginForm.style.display = '';
+    themeForm.style.display = 'none';
+  }
+}
+
+async function loginAndContinue() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+  if (!email || !password) return;
+
+  const btn = document.querySelector('#login-form button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Logging in…'; }
+
+  try {
+    const res = await fetch('/api/v1/auth/login', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({email, password}),
+    });
+    if (!res.ok) {
+      const detail = await res.json().catch(() => ({}));
+      errEl.textContent = detail.message || `Login failed (${res.status}).`;
+      errEl.style.display = 'block';
+      return;
+    }
+    const data = await res.json();
+    if (data && data.mfa) {
+      errEl.textContent = 'This account uses MFA. Log in via fluxer.world/app, then come back.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!data || !data.token) {
+      errEl.textContent = 'Login succeeded but the server returned no token. Try the app and come back.';
+      errEl.style.display = 'block';
+      return;
+    }
+    setStoredToken(data.token, data.user_id);
+    refreshAuthBanner();
+    document.getElementById('login-password').value = '';
+  } catch (err) {
+    errEl.textContent = `Network error: ${err && err.message ? err.message : 'unknown'}`;
+    errEl.style.display = 'block';
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Log in'; }
+  }
+}
+
 async function submitForm() {
   const entry = buildEntry();
   if (!entry.name || !entry.author || !entry.description || !entry.css) {
@@ -217,6 +329,11 @@ async function submitForm() {
   }
   if (!/--[a-zA-Z0-9_-]+\s*:\s*[^;]+;/.test(entry.css)) {
     alert('That CSS doesn\'t look like it contains any --variable: value; declarations. Double-check before sending.');
+    return;
+  }
+  if (!getStoredToken()) {
+    alert('Log in first using the form above.');
+    refreshAuthBanner();
     return;
   }
 
@@ -236,11 +353,14 @@ async function submitForm() {
     const res = await fetch('/api/v1/themes/gallery/submit', {
       method: 'POST',
       credentials: 'include',
-      headers: {'content-type': 'application/json'},
+      headers: authHeaders(),
       body: JSON.stringify(payload),
     });
     if (res.status === 401) {
-      alert('You need to be logged in to fluxer.world to submit a theme. Open the app, log in, then come back.');
+      // Token may have expired — clear and prompt re-login.
+      try { localStorage.removeItem('token'); localStorage.removeItem('userId'); } catch {}
+      refreshAuthBanner();
+      alert('Your session has expired. Log in again and resubmit.');
       return;
     }
     if (res.status === 429) {
@@ -260,9 +380,12 @@ async function submitForm() {
   } catch (err) {
     alert(`Submission failed — network error. ${err && err.message ? err.message : ''}`);
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Submit for review'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Publish theme'; }
   }
 }
+
+// Show login form vs theme form based on stored token, as soon as DOM is ready.
+refreshAuthBanner();
 
 async function copyJson() {
   const entry = buildEntry();
