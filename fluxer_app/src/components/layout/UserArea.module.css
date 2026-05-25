@@ -22,7 +22,14 @@
 	flex-direction: column;
 	gap: 0;
 	width: 100%;
-	background-color: var(--panel-control-bg);
+	/* Was var(--panel-control-bg). That token defaults to a color-mix of
+	   --background-secondary-alt with a hardcoded hue-220 near-black, so
+	   community themes that themed every --background-* surface but
+	   didn't set --panel-control-bg directly (almost all of them — it's
+	   a name specific to this fork) ended up with a cool-grey panel sat
+	   next to a fully-themed sidebar. Painting from --background-secondary
+	   makes the panel follow whatever the theme picked for the sidebar. */
+	background-color: var(--background-secondary);
 	position: relative;
 }
 
