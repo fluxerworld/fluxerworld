@@ -104,28 +104,57 @@ const ThemeButton = observer(
 );
 
 const THEME_COLOR_VARIABLES: ReadonlyArray<string> = [
+	// Surfaces — every --background-* token consumed by the app, in order
+	// of how deep they paint (tertiary deepest, header-primary-hover top).
+	// --background-secondary-lighter and --background-channel-header used
+	// to be missing here; that left the right pane and channel title bar
+	// untouchable from the picker.
 	'--background-primary',
 	'--background-secondary',
+	'--background-secondary-lighter',
 	'--background-secondary-alt',
 	'--background-tertiary',
+	'--background-channel-header',
 	'--background-textarea',
 	'--background-header-primary',
 	'--background-header-primary-hover',
 	'--background-header-secondary',
 	'--background-modifier-hover',
-	'--guild_list-foreground',
 	'--background-modifier-selected',
 	'--background-modifier-accent',
 	'--background-modifier-accent-focus',
+	// Server sidebar (typo fix: was '--guild_list-foreground' with an
+	// underscore — the actual CSS variable uses a hyphen, so the picker
+	// has been targeting a non-existent name).
+	'--guild-list-foreground',
+	// User panel — own family of tokens, not part of --background-*.
+	'--panel-control-bg',
+	'--panel-control-border',
+	'--panel-control-divider',
+	'--panel-control-highlight',
+	'--user-area-divider-color',
+	// Control buttons (volume / settings / mic rows) — own family.
+	'--control-button-normal-bg',
+	'--control-button-normal-text',
+	'--control-button-hover-bg',
+	'--control-button-hover-text',
+	'--control-button-active-bg',
+	'--control-button-active-text',
+	'--control-button-danger-text',
+	'--control-button-danger-hover-bg',
+	// Brand
 	'--brand-primary',
 	'--brand-secondary',
 	'--brand-primary-light',
 	'--brand-primary-fill',
+	// Status
 	'--status-online',
 	'--status-idle',
 	'--status-dnd',
 	'--status-offline',
 	'--status-danger',
+	'--status-warning',
+	// Text
 	'--text-primary',
 	'--text-secondary',
 	'--text-tertiary',
@@ -136,9 +165,17 @@ const THEME_COLOR_VARIABLES: ReadonlyArray<string> = [
 	'--text-on-brand-primary',
 	'--text-tertiary-muted',
 	'--text-tertiary-secondary',
+	'--text-warning',
+	'--text-code',
+	'--text-selection',
+	// Interactive (used by hover/active states of various icon buttons)
+	'--interactive-muted',
+	'--interactive-active',
+	// Borders
 	'--border-color',
 	'--border-color-hover',
 	'--border-color-focus',
+	// Accent slots (used by alert/admonition rendering)
 	'--accent-primary',
 	'--accent-success',
 	'--accent-warning',
@@ -150,10 +187,22 @@ const THEME_COLOR_VARIABLES: ReadonlyArray<string> = [
 	'--alert-important-color',
 	'--alert-warning-color',
 	'--alert-caution-color',
+	// Markup (mentions + jump-to-message pills)
 	'--markup-mention-text',
 	'--markup-mention-fill',
+	'--markup-mention-border',
 	'--markup-interactive-hover-text',
 	'--markup-interactive-hover-fill',
+	'--markup-everyone-text',
+	'--markup-everyone-fill',
+	'--markup-everyone-border',
+	'--markup-here-text',
+	'--markup-here-fill',
+	'--markup-here-border',
+	'--markup-jump-link-text',
+	'--markup-jump-link-fill',
+	'--markup-jump-link-hover-fill',
+	// Buttons
 	'--button-primary-fill',
 	'--button-primary-active-fill',
 	'--button-primary-text',
@@ -175,6 +224,8 @@ const THEME_COLOR_VARIABLES: ReadonlyArray<string> = [
 	'--button-outline-text',
 	'--button-outline-active-fill',
 	'--button-outline-active-border',
+	// --bg-* family (consumed by markdown rendering — code blocks,
+	// blockquotes, tables, inline code, hover/active surfaces).
 	'--bg-primary',
 	'--bg-secondary',
 	'--bg-tertiary',
@@ -186,6 +237,19 @@ const THEME_COLOR_VARIABLES: ReadonlyArray<string> = [
 	'--bg-table-header',
 	'--bg-table-row-odd',
 	'--bg-table-row-even',
+	// Scrollbar
+	'--scrollbar-thumb-bg',
+	'--scrollbar-thumb-bg-hover',
+	'--scrollbar-track-bg',
+	// Spoilers
+	'--spoiler-overlay-color',
+	'--spoiler-overlay-hover-color',
+	// Plutonium (premium UI surfaces)
+	'--plutonium',
+	'--plutonium-hover',
+	'--plutonium-text',
+	'--plutonium-icon',
+	'--invite-verified-icon-color',
 ];
 
 const THEME_FONT_VARIABLES: ReadonlyArray<string> = ['--font-sans', '--font-mono'];
