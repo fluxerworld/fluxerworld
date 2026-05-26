@@ -28,6 +28,8 @@ import {Validator} from '@fluxer/api/src/Validator';
 import {
 	ThemeCreateRequest,
 	ThemeCreateResponse,
+	ThemeGalleryEditRequest,
+	ThemeGalleryEditResponse,
 	ThemeGalleryListResponse,
 	ThemeGallerySubmitRequest,
 	ThemeGallerySubmitResponse,
@@ -236,6 +238,164 @@ export function ThemeController(app: HonoApp) {
 				.filter((t): t is Record<string, unknown> => t !== null && (t as {status?: string}).status === 'approved');
 
 			return ctx.json({themes});
+		},
+	);
+
+	// List the themes the current user has submitted. Used by the
+	// "My themes" panel on submit-theme.html so the submitter can
+	// edit / delete their entries.
+	app.get(
+		'/themes/gallery/mine',
+		LoginRequired,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'list_my_gallery_themes',
+			summary: "List the current user's gallery submissions",
+			responseSchema: ThemeGalleryListResponse,
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['Themes'],
+			description: 'Returns the themes submitted by the current user, including non-approved if any.',
+		}),
+		async (ctx) => {
+			const user = ctx.get('user');
+			const db = new DatabaseSync('/usr/src/app/data/fluxer.db');
+			let rows: Array<{value: string | Buffer | Uint8Array}> = [];
+			try {
+				rows = db
+					.prepare("SELECT value FROM kv_store WHERE table_name = 'gallery_themes' ORDER BY key DESC LIMIT 500")
+					.all() as Array<{value: string | Buffer | Uint8Array}>;
+			} finally {
+				db.close();
+			}
+
+			const userIdStr = user.id.toString();
+			const themes = rows
+				.map((r) => {
+					const text =
+						typeof r.value === 'string' ? r.value : Buffer.from(r.value as Uint8Array).toString('utf-8');
+					try {
+						return JSON.parse(text);
+					} catch {
+						return null;
+					}
+				})
+				.filter(
+					(t): t is Record<string, unknown> =>
+						t !== null && (t as {submitter_user_id?: string}).submitter_user_id === userIdStr,
+				);
+
+			return ctx.json({themes});
+		},
+	);
+
+	// Edit theme metadata (name / description / tags / preview swatches).
+	// CSS edits aren't supported here — the theme_id is content-hashed
+	// from the CSS body, so changing CSS = submit a new theme. The
+	// submitter can delete the old one if they don't want both around.
+	app.patch(
+		'/themes/gallery/:themeId',
+		RateLimitMiddleware(RateLimitConfigs.THEME_GALLERY_SUBMIT),
+		LoginRequired,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'edit_gallery_theme',
+			summary: 'Edit a gallery theme you submitted',
+			responseSchema: ThemeGalleryEditResponse,
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['Themes'],
+			description: 'Owner-only metadata edit. Use submit for CSS changes.',
+		}),
+		Validator('json', ThemeGalleryEditRequest),
+		async (ctx) => {
+			const themeId = ctx.req.param('themeId');
+			const user = ctx.get('user');
+			const body = ctx.req.valid('json');
+
+			const db = new DatabaseSync('/usr/src/app/data/fluxer.db');
+			try {
+				const row = db
+					.prepare("SELECT value FROM kv_store WHERE table_name='gallery_themes' AND key=?")
+					.get(themeId) as {value: string | Buffer | Uint8Array} | undefined;
+				if (!row) return ctx.json({code: 'NOT_FOUND', message: 'Theme not found.'}, 404);
+
+				const text =
+					typeof row.value === 'string' ? row.value : Buffer.from(row.value as Uint8Array).toString('utf-8');
+				const stored = JSON.parse(text);
+				if (stored.submitter_user_id !== user.id.toString()) {
+					return ctx.json({code: 'FORBIDDEN', message: 'Not your theme.'}, 403);
+				}
+
+				if (body.name !== undefined) stored.name = body.name;
+				if (body.description !== undefined) stored.description = body.description;
+				if (body.tags !== undefined) stored.tags = body.tags;
+				if (body.preview !== undefined) stored.preview = body.preview;
+				stored.slug =
+					(stored.name as string).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') ||
+					stored.theme_id;
+
+				db.prepare("UPDATE kv_store SET value=? WHERE table_name='gallery_themes' AND key=?").run(
+					JSON.stringify(stored),
+					themeId,
+				);
+			} finally {
+				db.close();
+			}
+
+			return ctx.json({id: themeId, status: 'updated' as const});
+		},
+	);
+
+	// Delete a theme you submitted. Removes the kv_store row + the CSS
+	// file in S3. Existing share links to /theme/<id> will 404 after
+	// deletion — that's the intended behaviour for "take it down."
+	app.delete(
+		'/themes/gallery/:themeId',
+		RateLimitMiddleware(RateLimitConfigs.THEME_GALLERY_SUBMIT),
+		LoginRequired,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'delete_gallery_theme',
+			summary: 'Delete a gallery theme you submitted',
+			statusCode: 204,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['Themes'],
+			description: 'Owner-only. Removes both the metadata row and the CSS file from S3.',
+		}),
+		async (ctx) => {
+			const themeId = ctx.req.param('themeId');
+			const user = ctx.get('user');
+
+			const db = new DatabaseSync('/usr/src/app/data/fluxer.db');
+			try {
+				const row = db
+					.prepare("SELECT value FROM kv_store WHERE table_name='gallery_themes' AND key=?")
+					.get(themeId) as {value: string | Buffer | Uint8Array} | undefined;
+				if (!row) return ctx.body(null, 204); // idempotent
+
+				const text =
+					typeof row.value === 'string' ? row.value : Buffer.from(row.value as Uint8Array).toString('utf-8');
+				const stored = JSON.parse(text);
+				if (stored.submitter_user_id !== user.id.toString()) {
+					return ctx.json({code: 'FORBIDDEN', message: 'Not your theme.'}, 403);
+				}
+
+				db.prepare("DELETE FROM kv_store WHERE table_name='gallery_themes' AND key=?").run(themeId);
+			} finally {
+				db.close();
+			}
+
+			// Remove the CSS file too. Asset images stay in S3 — multiple
+			// themes might share an upload, and we don't track refcounts.
+			try {
+				const {unlinkSync} = await import('node:fs');
+				unlinkSync(`/usr/src/app/data/s3/fluxer/themes/${themeId}.css`);
+			} catch {
+				// File missing is fine.
+			}
+
+			return ctx.body(null, 204);
 		},
 	);
 }

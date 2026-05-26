@@ -82,3 +82,19 @@ export const ThemeImageUploadResponse = z.object({
 });
 
 export type ThemeImageUploadResponse = z.infer<typeof ThemeImageUploadResponse>;
+
+export const ThemeGalleryEditRequest = z.object({
+	name: z.string().min(1).max(48).optional(),
+	description: z.string().min(1).max(280).optional(),
+	tags: z.array(z.string().max(24)).max(8).optional(),
+	preview: z.array(z.string().regex(/^#[0-9a-fA-F]{3,8}$/)).max(8).optional(),
+});
+
+export type ThemeGalleryEditRequest = z.infer<typeof ThemeGalleryEditRequest>;
+
+export const ThemeGalleryEditResponse = z.object({
+	id: z.string(),
+	status: z.literal('updated'),
+});
+
+export type ThemeGalleryEditResponse = z.infer<typeof ThemeGalleryEditResponse>;

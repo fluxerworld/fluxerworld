@@ -207,6 +207,12 @@
   </form>
 
   <div id="preview" class="preview" style="display:none"></div>
+
+  <section id="my-themes-section" class="form-card" style="display:none; margin-top: 2rem;">
+    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">My themes</h3>
+    <p class="help">Edit metadata or delete themes you've published. Changing the CSS = publish a new theme (the id is derived from the CSS body).</p>
+    <div id="my-themes-list" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;"></div>
+  </section>
 </div>
 
 <script>
@@ -265,6 +271,7 @@ function refreshAuthBanner() {
   const statusEl = document.getElementById('auth-status');
   const loginForm = document.getElementById('login-form');
   const themeForm = document.getElementById('theme-form');
+  const myThemesSection = document.getElementById('my-themes-section');
   if (token) {
     document.getElementById('auth-label').textContent = 'Signed in — ready to publish.';
     const action = document.getElementById('auth-action');
@@ -277,11 +284,115 @@ function refreshAuthBanner() {
     statusEl.style.display = 'block';
     loginForm.style.display = 'none';
     themeForm.style.display = '';
+    if (myThemesSection) myThemesSection.style.display = 'block';
+    loadMyThemes();
   } else {
     statusEl.style.display = 'none';
     loginForm.style.display = '';
     themeForm.style.display = 'none';
+    if (myThemesSection) myThemesSection.style.display = 'none';
   }
+}
+
+async function loadMyThemes() {
+  const list = document.getElementById('my-themes-list');
+  if (!list) return;
+  list.innerHTML = '<p class="help">Loading…</p>';
+  try {
+    const res = await fetch('/api/v1/themes/gallery/mine', {credentials: 'include', headers: authHeaders()});
+    if (!res.ok) {
+      list.innerHTML = `<p class="help">Couldn't load your themes (${res.status}).</p>`;
+      return;
+    }
+    const data = await res.json();
+    const themes = data.themes || [];
+    if (themes.length === 0) {
+      list.innerHTML = '<p class="help">You haven\'t published any themes yet.</p>';
+      return;
+    }
+    list.innerHTML = '';
+    for (const t of themes) {
+      const card = document.createElement('div');
+      card.style.cssText = 'padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; display: flex; gap: 0.75rem; align-items: center;';
+      const swatches = (t.preview || []).map(c => `<div style="width:14px;height:30px;background:${c};border-radius:3px;flex-shrink:0;"></div>`).join('');
+      card.innerHTML = `
+        <div style="display:flex;gap:3px;flex-shrink:0;">${swatches}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;">${escapeHtml(t.name)}</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">${escapeHtml(t.description || '')}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem;">id: <code>${t.theme_id}</code></div>
+        </div>
+        <button class="btn btn-secondary" data-edit="${t.theme_id}">Edit</button>
+        <button class="btn btn-secondary" data-delete="${t.theme_id}" style="color:#f38ba8;border-color:#f38ba8;">Delete</button>
+      `;
+      list.appendChild(card);
+    }
+    list.querySelectorAll('[data-edit]').forEach((b) => b.addEventListener('click', () => editTheme(b.getAttribute('data-edit'))));
+    list.querySelectorAll('[data-delete]').forEach((b) => b.addEventListener('click', () => deleteTheme(b.getAttribute('data-delete'))));
+  } catch (err) {
+    list.innerHTML = `<p class="help">Network error: ${err && err.message ? err.message : 'unknown'}</p>`;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function editTheme(themeId) {
+  // Get the current values out of the rendered list — quick & dirty,
+  // good enough for metadata edits.
+  const res = await fetch('/api/v1/themes/gallery/mine', {credentials: 'include', headers: authHeaders()});
+  const data = await res.json();
+  const t = (data.themes || []).find((x) => x.theme_id === themeId);
+  if (!t) { alert('Theme not found.'); return; }
+
+  const name = prompt('Name', t.name);
+  if (name === null) return;
+  const description = prompt('Description', t.description || '');
+  if (description === null) return;
+  const tagsStr = prompt('Tags (comma-separated)', (t.tags || []).join(', '));
+  if (tagsStr === null) return;
+  const tags = tagsStr.split(',').map((s) => s.trim()).filter(Boolean).slice(0, 8);
+
+  const r = await fetch(`/api/v1/themes/gallery/${encodeURIComponent(themeId)}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: authHeaders(),
+    body: JSON.stringify({name, description, tags}),
+  });
+  if (r.status === 401) {
+    try { localStorage.removeItem('token'); localStorage.removeItem('userId'); } catch {}
+    refreshAuthBanner();
+    alert('Session expired.');
+    return;
+  }
+  if (!r.ok) {
+    const detail = await r.text().catch(() => '');
+    alert(`Edit failed (${r.status}). ${detail.slice(0, 200)}`);
+    return;
+  }
+  loadMyThemes();
+}
+
+async function deleteTheme(themeId) {
+  if (!confirm('Delete this theme? Share links will stop working.')) return;
+  const r = await fetch(`/api/v1/themes/gallery/${encodeURIComponent(themeId)}`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: authHeaders(),
+  });
+  if (r.status === 401) {
+    try { localStorage.removeItem('token'); localStorage.removeItem('userId'); } catch {}
+    refreshAuthBanner();
+    alert('Session expired.');
+    return;
+  }
+  if (!r.ok && r.status !== 204) {
+    const detail = await r.text().catch(() => '');
+    alert(`Delete failed (${r.status}). ${detail.slice(0, 200)}`);
+    return;
+  }
+  loadMyThemes();
 }
 
 async function loginAndContinue() {
