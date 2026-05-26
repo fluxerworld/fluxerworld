@@ -68,7 +68,7 @@ export const UserProfileBadges: React.FC<UserProfileBadgesProps> = observer(
 					type: 'icon',
 					key: 'staff',
 					iconUrl: cdnUrl('badges/staff.svg'),
-					tooltip: t`Fluxer Staff`,
+					tooltip: t`Fluxerworld Staff`,
 					url: Routes.careers(),
 				});
 			}
@@ -78,7 +78,7 @@ export const UserProfileBadges: React.FC<UserProfileBadgesProps> = observer(
 					type: 'icon',
 					key: 'ctp',
 					iconUrl: cdnUrl('badges/ctp.svg'),
-					tooltip: t`Fluxer Community Team`,
+					tooltip: t`Fluxerworld Community Team`,
 					url: Routes.careers(),
 				});
 			}
@@ -88,7 +88,7 @@ export const UserProfileBadges: React.FC<UserProfileBadgesProps> = observer(
 					type: 'icon',
 					key: 'partner',
 					iconUrl: cdnUrl('badges/partner.svg'),
-					tooltip: t`Fluxer Partner`,
+					tooltip: t`Fluxerworld Partner`,
 					url: Routes.partners(),
 				});
 			}
@@ -98,26 +98,26 @@ export const UserProfileBadges: React.FC<UserProfileBadgesProps> = observer(
 					type: 'icon',
 					key: 'bug_hunter',
 					iconUrl: cdnUrl('badges/bug-hunter.svg'),
-					tooltip: t`Fluxer Bug Hunter`,
+					tooltip: t`Fluxerworld Bug Hunter`,
 					url: Routes.bugs(),
 				});
 			}
 
 			if (profile?.premiumType && profile.premiumType !== UserPremiumTypes.NONE) {
-				let tooltipText = t`Fluxer Plutonium`;
+				let tooltipText = t`Fluxerworld Plutonium`;
 				let badgeUrl = Routes.plutonium();
 
 				if (profile.premiumType === UserPremiumTypes.LIFETIME) {
 					if (profile.premiumSince) {
 						const premiumSinceFormatted = DateUtils.getFormattedShortDate(profile.premiumSince);
-						tooltipText = `Fluxer Visionary since ${premiumSinceFormatted}`;
+						tooltipText = `Fluxerworld Visionary since ${premiumSinceFormatted}`;
 					} else {
-						tooltipText = `Fluxer Visionary`;
+						tooltipText = `Fluxerworld Visionary`;
 					}
 					badgeUrl = Routes.helpArticle('visionary');
 				} else if (profile.premiumSince) {
 					const premiumSinceFormatted = DateUtils.getFormattedShortDate(profile.premiumSince);
-					tooltipText = `Fluxer Plutonium subscriber since ${premiumSinceFormatted}`;
+					tooltipText = `Fluxerworld Plutonium subscriber since ${premiumSinceFormatted}`;
 				}
 
 				result.push({
