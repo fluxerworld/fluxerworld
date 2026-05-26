@@ -27,3 +27,9 @@
 # Source JSON data (hand-edited)
 !bots.json
 !themes.json
+
+# Marketing pages (hand-edited; badge tooltips link here)
+!marketing/
+!marketing/bugs.html
+!marketing/careers.html
+!marketing/partners.html

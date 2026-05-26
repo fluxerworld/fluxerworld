@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug Hunters — Fluxerworld</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="description" content="The Fluxerworld Bug Hunter program — recognising the community members who help us find and fix issues.">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.1);
+      --radius: 12px;
+      --max-w: 640px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover { color: var(--text); }
+
+    main {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+    }
+
+    h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { font-size: 1rem; color: var(--text-muted); margin-bottom: 2.5rem; }
+
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 0; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 2rem 0 0.5rem; color: var(--text); }
+
+    p { margin-bottom: 1rem; color: var(--text); }
+    p.muted { color: var(--text-muted); }
+
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem 1.75rem;
+      margin-bottom: 1rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .card:hover { background: var(--bg-card-hover); border-color: #2e323c; }
+
+    .badge-row {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+      padding: 1.5rem; background: var(--accent-subtle);
+      border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .badge-icon {
+      width: 56px; height: 56px; flex-shrink: 0;
+      background: var(--bg-card); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .badge-icon svg { width: 32px; height: 32px; }
+
+    ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+    ul li { margin-bottom: 0.4rem; color: var(--text); }
+
+    .btn {
+      display: inline-block; padding: 0.55rem 1.25rem; font-size: 0.875rem;
+      font-weight: 600; border-radius: 8px; transition: background 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--bg-card-hover); color: var(--text); }
+
+    footer {
+      max-width: var(--max-w); margin: 4rem auto 2rem;
+      padding: 0 2rem; color: var(--text-muted);
+      font-size: 0.85rem; text-align: center;
+    }
+    footer a { color: var(--text-muted); text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxerworld</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <div class="badge-row">
+    <div class="badge-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="8" height="14" rx="4"/><path d="M19 7l-3 2"/><path d="M5 7l3 2"/><path d="M19 13h-3"/><path d="M5 13h3"/><path d="M19 19l-3-2"/><path d="M5 19l3-2"/><path d="M9 2l1 2"/><path d="M15 2l-1 2"/></svg>
+    </div>
+    <div>
+      <h2>Fluxerworld Bug Hunter</h2>
+      <p class="muted" style="margin: 0; font-size: 0.9rem;">A badge for community members who help us find and fix issues.</p>
+    </div>
+  </div>
+
+  <h1>Bug Hunters</h1>
+  <p class="subtitle">Fluxerworld is built by a tiny team — but we have a community that keeps us honest.</p>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">What it is</h3>
+    <p>The Bug Hunter badge recognises members who have reported real, reproducible bugs that helped us improve Fluxerworld. It shows up on your profile popout next to your name.</p>
+    <p>It's not staff. It's not a moderator role. It's just a thank-you that's visible to everyone who hovers your badges.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">How to earn it</h3>
+    <ul>
+      <li>Report a bug that we can reproduce and verify.</li>
+      <li>The more useful the report (screenshots, console output, steps to reproduce), the more likely it sticks.</li>
+      <li>We award badges manually — there's no points system or auto-grant.</li>
+    </ul>
+    <p>The fastest path is to drop into the support guild and ping a maintainer when you find something odd. If you can show it happens consistently, we'll usually fix it the same day.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">Where to report</h3>
+    <p>Pick whichever's easiest for you:</p>
+    <p style="margin-top: 1rem;">
+      <a href="https://fluxer.world/invite/li9k2vlg" class="btn btn-primary">Join the support guild</a>
+      &nbsp;
+      <a href="https://github.com/fluxerworld/fluxerworld/issues" class="btn btn-outline">Open a GitHub issue</a>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">A note on age</h3>
+    <p class="muted">Anyone can earn this badge — there is no age requirement. The badge is purely recognition. Staff and moderator roles do have age and responsibility requirements that the badge doesn't grant.</p>
+  </div>
+
+</main>
+
+<footer>
+  <p>Fluxerworld &mdash; A community instance built on the open-source <a href="https://fluxer.app">Fluxer</a> platform.</p>
+</footer>
+
+</body>
+</html>

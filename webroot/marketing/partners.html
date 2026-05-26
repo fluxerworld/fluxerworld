@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partners — Fluxerworld</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="description" content="The Fluxerworld Partner program — community-driven guilds we partner with.">
+  <style>
+    :root {
+      --bg: #0e0f11;
+      --bg-card: #16181c;
+      --bg-card-hover: #1c1f25;
+      --border: #23262e;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6d8cf5;
+      --accent-hover: #8ba3f8;
+      --accent-subtle: rgba(109, 140, 245, 0.1);
+      --radius: 12px;
+      --max-w: 640px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14, 15, 17, 0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-muted); font-size: 0.875rem; }
+    .nav-links a:hover { color: var(--text); }
+    main { max-width: var(--max-w); margin: 0 auto; padding: 7rem 2rem 4rem; }
+    h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { font-size: 1rem; color: var(--text-muted); margin-bottom: 2.5rem; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 0; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 2rem 0 0.5rem; color: var(--text); }
+    p { margin-bottom: 1rem; color: var(--text); }
+    p.muted { color: var(--text-muted); }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem 1.75rem; margin-bottom: 1rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .card:hover { background: var(--bg-card-hover); border-color: #2e323c; }
+    .badge-row {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+      padding: 1.5rem; background: var(--accent-subtle);
+      border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .badge-icon {
+      width: 56px; height: 56px; flex-shrink: 0;
+      background: var(--bg-card); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: var(--accent);
+    }
+    .badge-icon svg { width: 32px; height: 32px; }
+    ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+    ul li { margin-bottom: 0.4rem; color: var(--text); }
+    .btn {
+      display: inline-block; padding: 0.55rem 1.25rem; font-size: 0.875rem;
+      font-weight: 600; border-radius: 8px; transition: background 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--bg-card-hover); color: var(--text); }
+    footer {
+      max-width: var(--max-w); margin: 4rem auto 2rem;
+      padding: 0 2rem; color: var(--text-muted);
+      font-size: 0.85rem; text-align: center;
+    }
+    footer a { color: var(--text-muted); text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Fluxerworld</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <div class="badge-row">
+    <div class="badge-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="7" r="3"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+    </div>
+    <div>
+      <h2>Fluxerworld Partner</h2>
+      <p class="muted" style="margin: 0; font-size: 0.9rem;">Recognised community guilds that work alongside Fluxerworld.</p>
+    </div>
+  </div>
+
+  <h1>Partners</h1>
+  <p class="subtitle">A small set of community guilds we work closely with — for moderation collaboration, beta testing, or just because they've helped grow the platform.</p>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">What it means</h3>
+    <p>The Partner badge marks members who own or run a guild that's been recognised as a Fluxerworld Partner. It's a small thank-you to community leaders who put in real work building their corner of the platform.</p>
+    <p class="muted">It does <em>not</em> grant any platform privileges. Partners are still subject to the same rules and moderation as everyone else.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">How partnerships work</h3>
+    <ul>
+      <li>We don't have a formal application — partnerships are invitation-based.</li>
+      <li>Partner guilds are typically established communities with a clear theme and consistent moderation.</li>
+      <li>We may approach guild owners when their community has grown organically and aligns with the platform's spirit.</li>
+    </ul>
+    <p>If you're running a guild that's gaining traction and you'd like to chat about formalising a partnership, get in touch.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">Talk to us</h3>
+    <p>The fastest path is via the support guild — ping a maintainer in the partnerships channel.</p>
+    <p style="margin-top: 1rem;">
+      <a href="https://fluxer.world/invite/li9k2vlg" class="btn btn-primary">Join the support guild</a>
+      &nbsp;
+      <a href="/contact.html" class="btn btn-outline">Contact us</a>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <p>Fluxerworld &mdash; A community instance built on the open-source <a href="https://fluxer.app">Fluxer</a> platform.</p>
+</footer>
+
+</body>
+</html>
