@@ -214,6 +214,13 @@ export class AuthRegistrationService {
 			);
 		}
 
+		// Upper-bound sanity check: oldest verified person was 122. Anything
+		// older is a joke/typo (and downstream age math can overflow).
+		const birthYear = Number(data.date_of_birth.slice(0, 4));
+		if (!Number.isFinite(birthYear) || now.getFullYear() - birthYear > 120) {
+			throw InputValidationError.create('date_of_birth', 'Please enter a valid date of birth');
+		}
+
 		if (data.password && (await this.isPasswordPwned(data.password))) {
 			throw InputValidationError.create('password', 'Password is too common');
 		}
