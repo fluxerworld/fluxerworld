@@ -822,14 +822,14 @@ export async function tryDecryptForCurrentDevice(
 	messageId?: string,
 ): Promise<DecryptionResult | null> {
 	if (!encryptedPayload) return null;
-	if (!E2EEStore.isReady) return null;
-	const deviceId = E2EEStore.deviceId;
-	if (!deviceId) return null;
 
 	// Plaintext cache check — Olm and Megolm both consume per-message
 	// material on decrypt, so a refresh that re-fetches the same
 	// ciphertext can't re-decrypt. Read the post-first-decrypt plaintext
-	// from IDB if we have it.
+	// from IDB if we have it. This runs BEFORE the isReady gate because
+	// the cache is just an IDB read and doesn't need Olm; otherwise a
+	// PWA cold-start race ends up rendering "can't decrypt" for every
+	// message in history while Olm is still bootstrapping.
 	if (messageId) {
 		try {
 			const cached = await getMessagePlaintext(messageId);
@@ -844,6 +844,10 @@ export async function tryDecryptForCurrentDevice(
 			logger.warn('Plaintext cache read failed; falling through to decrypt', {messageId, err});
 		}
 	}
+
+	if (!E2EEStore.isReady) return null;
+	const deviceId = E2EEStore.deviceId;
+	if (!deviceId) return null;
 
 	// Megolm group DM message — single ciphertext, identified by session.
 	if (encryptedPayload.kind === 'megolm') {
