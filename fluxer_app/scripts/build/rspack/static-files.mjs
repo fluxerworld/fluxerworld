@@ -28,11 +28,11 @@ function generateManifest(staticCdnEndpointRaw) {
 	const staticCdnEndpoint = normalizeEndpoint(staticCdnEndpointRaw);
 
 	const manifest = {
-		name: 'Fluxer',
-		short_name: 'Fluxer',
+		name: 'Fluxerworld',
+		short_name: 'Fluxerworld',
 		description:
 			'Fluxer is a free and open source instant messaging and VoIP platform built for friends, groups, and communities.',
-		start_url: '/',
+		start_url: '/channels/@me',
 		display: 'standalone',
 		orientation: 'portrait-primary',
 		theme_color: '#4641D9',
