@@ -19,6 +19,7 @@
 
 import {createHash} from 'node:crypto';
 import {DatabaseSync} from 'node:sqlite';
+import {UserFlags} from '@fluxer/constants/src/UserConstants';
 import {DefaultUserOnly, LoginRequired} from '@fluxer/api/src/middleware/AuthMiddleware';
 import {RateLimitMiddleware} from '@fluxer/api/src/middleware/RateLimitMiddleware';
 import {OpenAPI} from '@fluxer/api/src/middleware/ResponseTypeMiddleware';
@@ -323,7 +324,8 @@ export function ThemeController(app: HonoApp) {
 				const text =
 					typeof row.value === 'string' ? row.value : Buffer.from(row.value as Uint8Array).toString('utf-8');
 				const stored = JSON.parse(text);
-				if (stored.submitter_user_id !== user.id.toString()) {
+				const isStaff = (user.flags & UserFlags.STAFF) !== 0n;
+				if (stored.submitter_user_id !== user.id.toString() && !isStaff) {
 					return ctx.json({code: 'FORBIDDEN', message: 'Not your theme.'}, 403);
 				}
 
@@ -361,7 +363,7 @@ export function ThemeController(app: HonoApp) {
 			statusCode: 204,
 			security: ['sessionToken', 'bearerToken'],
 			tags: ['Themes'],
-			description: 'Owner-only. Removes both the metadata row and the CSS file from S3.',
+			description: 'Owner or staff. Removes both the metadata row and the CSS file from S3.',
 		}),
 		async (ctx) => {
 			const themeId = ctx.req.param('themeId');
@@ -377,7 +379,8 @@ export function ThemeController(app: HonoApp) {
 				const text =
 					typeof row.value === 'string' ? row.value : Buffer.from(row.value as Uint8Array).toString('utf-8');
 				const stored = JSON.parse(text);
-				if (stored.submitter_user_id !== user.id.toString()) {
+				const isStaff = (user.flags & UserFlags.STAFF) !== 0n;
+				if (stored.submitter_user_id !== user.id.toString() && !isStaff) {
 					return ctx.json({code: 'FORBIDDEN', message: 'Not your theme.'}, 403);
 				}
 

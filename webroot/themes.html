@@ -220,6 +220,25 @@ const $applyBtn = document.getElementById('apply-btn');
 const $shareBtn = document.getElementById('share-btn');
 const $toast = document.getElementById('toast');
 
+// Auth state — populated on bootstrap if the user is logged in (shares
+// the same localStorage token as submit-theme.html and the SPA). Drives
+// which cards show the Edit button.
+let currentUserIsStaff = false;
+const ownedThemeIds = new Set();
+
+function getStoredToken() {
+  try { return localStorage.getItem('token') || ''; } catch { return ''; }
+}
+function authHeaders() {
+  const t = getStoredToken();
+  const headers = {'content-type': 'application/json'};
+  if (t) headers['Authorization'] = t;
+  return headers;
+}
+function canEditTheme(theme) {
+  return !!theme.theme_id && (currentUserIsStaff || ownedThemeIds.has(theme.theme_id));
+}
+
 function showToast(msg) {
   $toast.textContent = msg;
   $toast.classList.add('shown');
@@ -376,6 +395,8 @@ function renderCards(themes) {
       `<span class="tag">${t}</span>`
     ).join('');
 
+    const editable = canEditTheme(theme);
+
     card.innerHTML = `
       <div class="swatches">${swatches}</div>
       <h3>${theme.name}</h3>
@@ -383,9 +404,10 @@ function renderCards(themes) {
       <div class="desc">${theme.description || ''}</div>
       ${tags ? `<div class="tags">${tags}</div>` : ''}
       ${theme.theme_id ? '<button class="card-share" type="button" data-action="share">Copy link</button>' : ''}
+      ${editable ? '<button class="card-share" type="button" data-action="edit">Edit</button>' : ''}
     `;
-    // The share button is a child of the card; stop the click from
-    // bubbling so we don't accidentally trigger the preview.
+    // The share/edit buttons are children of the card; stop the click
+    // from bubbling so we don't accidentally trigger the preview.
     const shareEl = card.querySelector('[data-action="share"]');
     if (shareEl) {
       shareEl.addEventListener('click', (e) => {
@@ -393,19 +415,93 @@ function renderCards(themes) {
         shareTheme(theme);
       });
     }
+    const editEl = card.querySelector('[data-action="edit"]');
+    if (editEl) {
+      editEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        editTheme(theme);
+      });
+    }
     $grid.appendChild(card);
   }
 }
 
-(async () => {
+// Metadata-only edit. CSS body is immutable once published (theme_id =
+// sha256 of CSS) so name/description/tags are the editable surface here.
+// Shown to owners (via ownedThemeIds Set) and staff.
+async function editTheme(theme) {
+  if (!theme.theme_id) return;
+  const name = prompt('Theme name', theme.name);
+  if (name === null) return;
+  const description = prompt('Description', theme.description || '');
+  if (description === null) return;
+  const tagsStr = prompt('Tags (comma-separated, max 8)', (theme.tags || []).join(', '));
+  if (tagsStr === null) return;
+  const tags = tagsStr.split(',').map((s) => s.trim()).filter(Boolean).slice(0, 8);
+
   try {
-    // Curated themes live in /themes.json; community submissions come from
-    // the API. Merge both into one grid, dedupe by theme_id.
-    const [curatedRes, communityRes] = await Promise.allSettled([
+    const r = await fetch(`/api/v1/themes/gallery/${encodeURIComponent(theme.theme_id)}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: authHeaders(),
+      body: JSON.stringify({name, description, tags}),
+    });
+    if (r.status === 401) {
+      try { localStorage.removeItem('token'); localStorage.removeItem('userId'); } catch {}
+      showToast('Session expired — log in via fluxer.world/app and retry.');
+      return;
+    }
+    if (r.status === 403) {
+      showToast('Not authorized to edit this theme.');
+      return;
+    }
+    if (!r.ok) {
+      showToast(`Edit failed (${r.status})`);
+      return;
+    }
+    showToast('Theme updated');
+    // Refresh the grid so the new name/desc/tags appear.
+    bootstrap();
+  } catch (err) {
+    showToast('Edit failed — network error');
+    console.error(err);
+  }
+}
+
+async function bootstrap() {
+  try {
+    // If the user is logged in (token in localStorage, shared with the
+    // SPA + submit-theme.html), also fetch their staff flag + the list
+    // of themes they own. Either fetch is best-effort — failures just
+    // mean no Edit button shows, which is the safe default.
+    const token = getStoredToken();
+    currentUserIsStaff = false;
+    ownedThemeIds.clear();
+
+    const [curatedRes, communityRes, meRes, mineRes] = await Promise.allSettled([
       fetch('/themes.json', {cache: 'no-store'}),
       fetch('/api/v1/themes/gallery', {cache: 'no-store'}),
+      token ? fetch('/api/v1/users/@me', {credentials: 'include', headers: authHeaders(), cache: 'no-store'}) : Promise.resolve(null),
+      token ? fetch('/api/v1/themes/gallery/mine', {credentials: 'include', headers: authHeaders(), cache: 'no-store'}) : Promise.resolve(null),
     ]);
 
+    if (meRes.status === 'fulfilled' && meRes.value && meRes.value.ok) {
+      try {
+        const me = await meRes.value.json();
+        currentUserIsStaff = !!me.is_staff;
+      } catch {}
+    }
+    if (mineRes.status === 'fulfilled' && mineRes.value && mineRes.value.ok) {
+      try {
+        const mine = await mineRes.value.json();
+        for (const t of mine.themes || []) {
+          if (t.theme_id) ownedThemeIds.add(t.theme_id);
+        }
+      } catch {}
+    }
+
+    // Curated themes live in /themes.json; community submissions come from
+    // the API. Merge both into one grid, dedupe by theme_id.
     const curated = curatedRes.status === 'fulfilled' && curatedRes.value.ok
       ? ((await curatedRes.value.json()).themes || [])
       : [];
@@ -427,7 +523,9 @@ function renderCards(themes) {
     $grid.innerHTML = '<div class="empty">Failed to load themes. Try again later.</div>';
     console.error(err);
   }
-})();
+}
+
+bootstrap();
 </script>
 </body>
 </html>
