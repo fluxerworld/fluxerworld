@@ -466,6 +466,11 @@ async function submitForm() {
     preview: entry.preview || [],
     css: entry.css,
   };
+  // Edit mode: server uses fork_of to inherit the original owner's
+  // submitter_user_id (so staff-edits stay attributed to the author).
+  if (editingThemeId) {
+    payload.fork_of = editingThemeId;
+  }
 
   try {
     const res = await fetch('/api/v1/themes/gallery/submit', {
@@ -481,6 +486,10 @@ async function submitForm() {
       alert('Your session has expired. Log in again and resubmit.');
       return;
     }
+    if (res.status === 403) {
+      alert('Not authorized to edit this theme.');
+      return;
+    }
     if (res.status === 429) {
       alert('Too many submissions in a short window. Wait a few minutes and try again.');
       return;
@@ -491,14 +500,43 @@ async function submitForm() {
       return;
     }
     const data = await res.json().catch(() => ({}));
-    alert(`Theme published! Theme id: ${data.id || 'unknown'}.\n\nIt should show up in the gallery immediately. Hard-refresh fluxer.world/themes if you don't see it.`);
+    const newId = data.id || 'unknown';
+
+    // If this was an edit AND the new theme_id differs (CSS changed),
+    // offer to delete the original. Same-id case means the CSS was
+    // identical — only metadata changed, no orphan to clean up.
+    if (editingThemeId && newId !== editingThemeId && newId !== 'unknown') {
+      const ok = confirm(
+        `Theme republished as a new version (id: ${newId}).\n\n` +
+        `The original (id: ${editingThemeId}) still exists and its share link still works.\n\n` +
+        `Delete the original now? Choose Cancel to keep both versions.`
+      );
+      if (ok) {
+        try {
+          const delRes = await fetch(`/api/v1/themes/gallery/${encodeURIComponent(editingThemeId)}`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: authHeaders(),
+          });
+          if (!delRes.ok && delRes.status !== 204) {
+            alert(`Couldn't delete the original (${delRes.status}). It'll stay alongside the new version — delete from the My themes panel below if you want.`);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      window.location.href = '/themes.html';
+      return;
+    }
+
+    alert(`Theme published! Theme id: ${newId}.\n\nIt should show up in the gallery immediately. Hard-refresh fluxer.world/themes if you don't see it.`);
     const form = document.getElementById('theme-form');
     if (form) form.reset();
     refreshPreview();
   } catch (err) {
     alert(`Submission failed — network error. ${err && err.message ? err.message : ''}`);
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Publish theme'; }
+    if (btn) { btn.disabled = false; btn.textContent = editingThemeId ? 'Republish theme' : 'Publish theme'; }
   }
 }
 
@@ -584,6 +622,92 @@ async function copyJson() {
     alert('Copy failed — select the preview and copy manually.');
   }
 }
+
+// --- Edit mode (fork-and-replace) ---
+// Reached when themes.html sends the user here with ?edit=<theme_id>.
+// We prefill the form from the existing theme; on publish, the server
+// uses fork_of to inherit the original owner's submitter_user_id so
+// staff-edits stay attributed to the author. After publish we offer to
+// delete the original (it would otherwise sit alongside the new one).
+let editingThemeId = null;
+
+async function loadEditTheme(themeId) {
+  try {
+    const [metaRes, cssRes] = await Promise.all([
+      fetch('/api/v1/themes/gallery', {cache: 'no-store'}),
+      fetch(`/media/themes/${encodeURIComponent(themeId)}.css`, {cache: 'no-store'}),
+    ]);
+    if (!metaRes.ok || !cssRes.ok) {
+      alert("Couldn't load theme for editing. It may have been deleted.");
+      return;
+    }
+    const list = await metaRes.json();
+    const theme = (list.themes || []).find((t) => t.theme_id === themeId);
+    if (!theme) {
+      alert('Theme not found in the gallery list.');
+      return;
+    }
+    const css = await cssRes.text();
+
+    document.getElementById('name').value = theme.name || '';
+    document.getElementById('author').value = theme.author || '';
+    document.getElementById('description').value = theme.description || '';
+    document.getElementById('tags').value = (theme.tags || []).join(', ');
+    document.getElementById('css').value = css;
+    const preview = theme.preview || [];
+    for (let i = 0; i < 5; i++) {
+      const swatch = document.getElementById('s' + i);
+      if (swatch && preview[i]) swatch.value = preview[i];
+    }
+
+    editingThemeId = themeId;
+
+    const btn = document.querySelector('#theme-form button[type="submit"]');
+    if (btn) btn.textContent = 'Republish theme';
+
+    // Insert a banner explaining edit mode above the form.
+    const banner = document.createElement('div');
+    banner.id = 'edit-banner';
+    banner.style.cssText =
+      'background:rgba(166,140,245,0.15);border:1px solid rgba(166,140,245,0.5);' +
+      'padding:0.75rem 1rem;border-radius:6px;margin-bottom:1rem;line-height:1.45;';
+    banner.innerHTML =
+      `Editing existing theme <strong>${theme.name.replace(/[<>&"]/g, (c) => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]))}</strong> ` +
+      `(id <code>${themeId}</code>). Publishing creates a new version under a new id; ` +
+      `you'll be asked whether to delete the original.`;
+    const form = document.getElementById('theme-form');
+    if (form && form.parentNode && !document.getElementById('edit-banner')) {
+      form.parentNode.insertBefore(banner, form);
+    }
+
+    refreshPreview();
+  } catch (err) {
+    console.error(err);
+    alert(`Couldn't load theme for editing: ${err && err.message ? err.message : 'unknown'}`);
+  }
+}
+
+(() => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const edit = params.get('edit');
+    if (!edit || !/^[a-f0-9]{16}$/i.test(edit)) return;
+    // If logged in, load immediately. Otherwise wait until the auth
+    // banner accepts a login and the token shows up in localStorage.
+    if (getStoredToken()) {
+      loadEditTheme(edit);
+    } else {
+      const wait = setInterval(() => {
+        if (getStoredToken()) {
+          clearInterval(wait);
+          loadEditTheme(edit);
+        }
+      }, 500);
+      // Give up after 5 minutes so we don't leak the interval forever.
+      setTimeout(() => clearInterval(wait), 5 * 60 * 1000);
+    }
+  } catch {}
+})();
 </script>
 </body>
 </html>

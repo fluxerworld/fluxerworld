@@ -90,32 +90,62 @@ export function ThemeController(app: HonoApp) {
 			// same CSS submitted twice doesn't create two entries.
 			const themeId = createHash('sha256').update(body.css).digest('hex').slice(0, 16);
 
-			// Write the CSS file to the local S3 backend — same path the
-			// existing ThemeService uses. We do this directly here because the
-			// curated mint script also writes here; sharing the path keeps
-			// the gallery page free to fetch every theme from /media/themes/.
-			const {writeFileSync, mkdirSync} = await import('node:fs');
-			const S3_THEMES = '/usr/src/app/data/s3/fluxer/themes';
-			mkdirSync(S3_THEMES, {recursive: true});
-			writeFileSync(`${S3_THEMES}/${themeId}.css`, body.css, 'utf-8');
-
-			const slug = body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || themeId;
-
-			const row = {
-				theme_id: themeId,
-				slug,
-				name: body.name,
-				author: body.author,
-				description: body.description,
-				tags: body.tags ?? [],
-				preview: body.preview ?? [],
-				submitter_user_id: user.id.toString(),
-				added_at: new Date().toISOString().slice(0, 10),
-				status: 'approved' as const,
-			};
-
+			// Resolve effective ownership. Default: the submitting user.
+			// If body.fork_of points at an existing theme AND the submitter
+			// is the original owner or a STAFF user, the new theme inherits
+			// the original's submitter_user_id so staff-edits stay
+			// attributed to the original author and share-link replacement
+			// flows make sense semantically.
+			let effectiveSubmitterUserId = user.id.toString();
 			const db = new DatabaseSync('/usr/src/app/data/fluxer.db');
 			try {
+				if (body.fork_of) {
+					const originalRow = db
+						.prepare("SELECT value FROM kv_store WHERE table_name='gallery_themes' AND key=?")
+						.get(body.fork_of) as {value: string | Buffer | Uint8Array} | undefined;
+					if (!originalRow) {
+						return ctx.json({code: 'NOT_FOUND', message: 'Original theme not found.'}, 404);
+					}
+					const text =
+						typeof originalRow.value === 'string'
+							? originalRow.value
+							: Buffer.from(originalRow.value as Uint8Array).toString('utf-8');
+					const original = JSON.parse(text);
+					const isStaff = (user.flags & UserFlags.STAFF) !== 0n;
+					const isOwner = original.submitter_user_id === user.id.toString();
+					if (!isOwner && !isStaff) {
+						return ctx.json({code: 'FORBIDDEN', message: 'Not your theme.'}, 403);
+					}
+					effectiveSubmitterUserId = original.submitter_user_id;
+				}
+
+				// Write the CSS file to the local S3 backend — same path the
+				// existing ThemeService uses. We do this directly here because
+				// the curated mint script also writes here; sharing the path
+				// keeps the gallery page free to fetch every theme from
+				// /media/themes/. Deferred until after the fork_of permission
+				// check so a 403 doesn't leave orphan CSS on disk.
+				const {writeFileSync, mkdirSync} = await import('node:fs');
+				const S3_THEMES = '/usr/src/app/data/s3/fluxer/themes';
+				mkdirSync(S3_THEMES, {recursive: true});
+				writeFileSync(`${S3_THEMES}/${themeId}.css`, body.css, 'utf-8');
+
+				const slug =
+					body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || themeId;
+
+				const row = {
+					theme_id: themeId,
+					slug,
+					name: body.name,
+					author: body.author,
+					description: body.description,
+					tags: body.tags ?? [],
+					preview: body.preview ?? [],
+					submitter_user_id: effectiveSubmitterUserId,
+					added_at: new Date().toISOString().slice(0, 10),
+					status: 'approved' as const,
+				};
+
 				// INSERT OR REPLACE so a re-submission of the same CSS just
 				// refreshes the metadata rather than failing on PK conflict.
 				db.prepare(

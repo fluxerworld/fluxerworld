@@ -39,6 +39,13 @@ export const ThemeGallerySubmitRequest = z.object({
 	tags: z.array(z.string().max(24)).max(8).optional(),
 	preview: z.array(z.string().regex(/^#[0-9a-fA-F]{3,8}$/)).max(8).optional(),
 	css: z.string().min(1).max(64 * 1024),
+	// Optional: theme_id of a theme this submission is forking. When
+	// provided and the submitter is either the original owner or a
+	// staff user, the resulting theme inherits the original's
+	// submitter_user_id so staff-edits stay attributed to the owner.
+	// Out-of-band of this gate it's ignored and behaves like a normal
+	// new submission.
+	fork_of: z.string().optional(),
 });
 
 export type ThemeGallerySubmitRequest = z.infer<typeof ThemeGallerySubmitRequest>;
