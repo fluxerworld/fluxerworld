@@ -38,9 +38,16 @@ echo "Updating version.json..."
 SHA=$(git rev-parse --short HEAD)
 TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 # Desktop version controls the Electron native-update-hint fallback path
-# (UpdaterStore compareSemver). Bump DESKTOP_VERSION (or set the env var)
-# when cutting a new desktop release so Electron users see the prompt.
-DESKTOP_VERSION="${DESKTOP_VERSION:-1.0.76}"
+# (UpdaterStore compareSemver). Auto-derived from the desktop repo's
+# package.json if present; can be overridden via DESKTOP_VERSION env var.
+# Falls back to "0.0.0" if neither is available — guarantees the compare
+# can't accidentally false-positive an "update available" prompt for
+# Electron users from a stale hardcoded default.
+DESKTOP_PKG="${DESKTOP_PKG:-$HOME/fluxer-desktop/package.json}"
+if [ -z "${DESKTOP_VERSION:-}" ] && [ -f "$DESKTOP_PKG" ]; then
+  DESKTOP_VERSION=$(jq -r .version "$DESKTOP_PKG" 2>/dev/null)
+fi
+DESKTOP_VERSION="${DESKTOP_VERSION:-0.0.0}"
 echo "{\"sha\": \"${SHA}\", \"buildTimestamp\": \"${TIMESTAMP}\", \"version\": \"${DESKTOP_VERSION}\"}" > webroot/version.json
 
 echo "Restarting Caddy..."
