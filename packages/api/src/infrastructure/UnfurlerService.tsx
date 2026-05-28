@@ -20,6 +20,7 @@
 import type {IMediaService} from '@fluxer/api/src/infrastructure/IMediaService';
 import {IUnfurlerService} from '@fluxer/api/src/infrastructure/IUnfurlerService';
 import {Logger} from '@fluxer/api/src/Logger';
+import {isAdultDomain} from '@fluxer/api/src/unfurler/AdultDomains';
 import {AudioResolver} from '@fluxer/api/src/unfurler/resolvers/AudioResolver';
 import type {BaseResolver} from '@fluxer/api/src/unfurler/resolvers/BaseResolver';
 import {BlueskyResolver} from '@fluxer/api/src/unfurler/resolvers/BlueskyResolver';
@@ -67,6 +68,25 @@ export class UnfurlerService extends IUnfurlerService {
 	async unfurl(url: string, isNSFWAllowed: boolean = false): Promise<Array<MessageEmbedResponse>> {
 		try {
 			const originalUrl = new URL(url);
+
+			// Skip embed generation for known adult-content domains when
+			// the message context isn't NSFW-allowed. Returning early avoids
+			// the outbound fetch entirely (privacy + IP-reputation benefit
+			// — our server doesn't fingerprint as a visitor to adult sites)
+			// and yields no embed, so the URL posts as plain text rather
+			// than rendering a thumbnail to everyone in the channel.
+			//
+			// NSFW channels and age-restricted guilds set isNSFWAllowed=true
+			// upstream (see MessageContentService.isNSFWContentAllowed),
+			// so this check correctly leaves their embed behavior unchanged.
+			if (!isNSFWAllowed && isAdultDomain(originalUrl.hostname)) {
+				Logger.debug(
+					{url, hostname: originalUrl.hostname},
+					'Skipping unfurl: adult domain in non-NSFW context',
+				);
+				return [];
+			}
+
 			const {fetchUrl, matchingResolver} = this.getUrlToFetch(originalUrl);
 			const response = await FetchUtils.sendRequest({
 				url: fetchUrl.href,
