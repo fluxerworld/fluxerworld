@@ -107,6 +107,6 @@ Planned improvements include:
 
 # License
 
-Fluxer World runs on the open-source Fluxer platform.
+Fluxer World is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. See [LICENSE](LICENSE) for the full text.
 
-Please refer to the upstream Fluxer project for licensing details.
+Because Fluxer World is offered as a hosted service, the AGPL requires that its source be available to users — the full source is in this repository.
