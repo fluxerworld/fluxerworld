@@ -192,15 +192,23 @@ export function GuildDiscoveryController(app: HonoApp) {
 			// Notify admin channel about new discovery application
 			try {
 				const categoryLabel = DiscoveryCategoryLabels[data.category_type] ?? 'Unknown';
-				const webhookResp = await fetch('https://fluxer.world/api/webhooks/1490724053072553637/Ekn1DWNTbbMp54O9zbkvswmINkG81OHnAjITRXGfPW2tWUs2IpgrGtgciInNZyhb', {
+				let guildName = 'Unknown';
+				try {
+					const guild = await ctx.get('guildService').getGuild({userId: user.id, guildId});
+					guildName = guild.name || 'Unnamed';
+				} catch {}
+				const applicantTag =
+					user.globalName || `${user.username}#${user.discriminator.toString().padStart(4, '0')}`;
+				await fetch('https://fluxer.world/api/webhooks/1490724053072553637/Ekn1DWNTbbMp54O9zbkvswmINkG81OHnAjITRXGfPW2tWUs2IpgrGtgciInNZyhb', {
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
 						embeds: [{
 							title: 'New Discovery Application',
-							description: `Guild **${guildId}** has applied to be listed in discovery.`,
+							description: `**${guildName}** (ID: ${guildId}) has applied to be listed in discovery.`,
 							color: 0x6d8cf5,
 							fields: [
+								{name: 'Applied by', value: `${applicantTag} (ID: ${user.id})`, inline: false},
 								{name: 'Category', value: categoryLabel, inline: true},
 								{name: 'Description', value: data.description || 'No description', inline: false},
 							],
