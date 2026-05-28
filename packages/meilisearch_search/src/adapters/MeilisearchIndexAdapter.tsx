@@ -33,6 +33,12 @@ export interface MeilisearchIndexAdapterOptions<TFilters> {
 		timeoutMs: number;
 		intervalMs: number;
 	};
+	// Default 'last' (Meilisearch default) progressively drops query terms
+	// from the right to widen results. 'all' requires every query term to
+	// match — use for indexes where false-positive substring hits hurt more
+	// than missed matches (e.g. user search, where an IP-shaped query like
+	// "1.2.3.4" should NOT return users with "_1" in their username).
+	matchingStrategy?: 'last' | 'all' | 'frequency';
 }
 
 function normalizeSettingsValue(value: unknown): unknown {
@@ -72,6 +78,7 @@ export class MeilisearchIndexAdapter<TFilters, TResult extends {id: string}>
 	private readonly buildFilters: (filters: TFilters) => Array<MeilisearchFilter | undefined>;
 	private readonly buildSort: ((filters: TFilters) => Array<string> | undefined) | undefined;
 	private readonly waitForTasks: MeilisearchIndexAdapterOptions<TFilters>['waitForTasks'];
+	private readonly matchingStrategy: 'last' | 'all' | 'frequency' | undefined;
 
 	private index: Index<TResult> | null = null;
 	private initialized = false;
@@ -82,6 +89,7 @@ export class MeilisearchIndexAdapter<TFilters, TResult extends {id: string}>
 		this.buildFilters = options.buildFilters;
 		this.buildSort = options.buildSort;
 		this.waitForTasks = options.waitForTasks;
+		this.matchingStrategy = options.matchingStrategy;
 	}
 
 	async initialize(): Promise<void> {
@@ -225,6 +233,7 @@ export class MeilisearchIndexAdapter<TFilters, TResult extends {id: string}>
 			offset,
 			filter: filter.length > 0 ? filter : undefined,
 			sort: sort && sort.length > 0 ? sort : undefined,
+			matchingStrategy: this.matchingStrategy,
 		});
 
 		const total = result.estimatedTotalHits ?? result.hits.length;

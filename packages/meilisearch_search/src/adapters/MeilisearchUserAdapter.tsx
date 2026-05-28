@@ -92,6 +92,12 @@ export class MeilisearchUserAdapter extends MeilisearchIndexAdapter<UserSearchFi
 			buildFilters: buildUserFilters,
 			buildSort: buildUserSort,
 			waitForTasks: options.waitForTasks,
+			// IP-shaped queries ('1.2.3.4') tokenize to single digits and the
+			// default 'last' strategy drops terms until a match — returning
+			// users whose username happens to contain one of the digits.
+			// Require all terms to match: admins typing an IP / partial ID
+			// should get zero hits, not a misleading false positive.
+			matchingStrategy: 'all',
 		});
 	}
 }
