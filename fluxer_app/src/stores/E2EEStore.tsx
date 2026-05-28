@@ -330,15 +330,35 @@ class E2EEStore {
 	// repeatedly. The first call wins; concurrent callers wait on the
 	// resulting promise.
 	private bootstrapPromise: Promise<void> | null = null;
+	private lastBootstrapFailureAt = 0;
+	private readonly BOOTSTRAP_RETRY_MIN_MS = 30_000;
 	bootstrap(userId: string): Promise<void> {
 		if (this.bootstrapPromise && this.currentUserId === userId) {
 			return this.bootstrapPromise;
+		}
+		// Throttle retries after a recent failure so a flapping gateway
+		// connection doesn't hammer registerDevice. Resolves rather than
+		// rejects — the Ready.tsx fire-and-forget call site swallows
+		// rejections anyway, and resolving avoids unhandled-rejection
+		// noise in dev tools.
+		if (
+			this.currentUserId === userId &&
+			this.registrationStatus === 'error' &&
+			Date.now() - this.lastBootstrapFailureAt < this.BOOTSTRAP_RETRY_MIN_MS
+		) {
+			return Promise.resolve();
 		}
 		this.bootstrapPromise = this.doBootstrap(userId).catch((error) => {
 			runInAction(() => {
 				this.registrationStatus = 'error';
 				this.lastError = error instanceof Error ? error.message : String(error);
 			});
+			// Clear the cached promise so the next READY (gateway reconnect)
+			// builds a fresh attempt instead of returning the rejected one.
+			// Without this, a single network blip during the first bootstrap
+			// stuck the tab until manual reload.
+			this.lastBootstrapFailureAt = Date.now();
+			this.bootstrapPromise = null;
 			const message = error instanceof Error ? error.message : String(error);
 			const stack = error instanceof Error && error.stack ? error.stack : '(no stack)';
 			logger.error(`E2EE bootstrap failed: ${message} | stack: ${stack}`);
@@ -503,6 +523,7 @@ class E2EEStore {
 			this.lastError = null;
 			this.pendingBackup = null;
 			this.bootstrapPromise = null;
+			this.lastBootstrapFailureAt = 0;
 			this.verificationCache.clear();
 			this.verificationLoadPromises.clear();
 			this.peerDeviceCache.clear();
