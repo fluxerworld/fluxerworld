@@ -37,6 +37,11 @@ const FETCH_AUTH_SESSION_HASHES_BY_USER_ID_CQL = AuthSessionsByUserId.selectCql(
 	where: AuthSessionsByUserId.where.eq('user_id'),
 });
 
+// Used only by the admin IP-lookup tool — there's no secondary index on
+// client_ip so we full-scan in memory. Bounded by the limit; admins running
+// this on a deployment with millions of sessions will need a real index.
+const FETCH_ALL_AUTH_SESSIONS_CQL = AuthSessions.selectCql({limit: 50000});
+
 export class AuthSessionRepository {
 	async createAuthSession(sessionData: AuthSessionRow): Promise<AuthSession> {
 		const batch = new BatchBuilder();
@@ -65,6 +70,11 @@ export class AuthSessionRepository {
 		const sessions = await fetchMany<AuthSessionRow>(FETCH_AUTH_SESSIONS_CQL, {
 			session_id_hashes: sessionHashes.map((s) => s.session_id_hash),
 		});
+		return sessions.map((session) => new AuthSession(session));
+	}
+
+	async listAllSessionsForAdmin(): Promise<Array<AuthSession>> {
+		const sessions = await fetchMany<AuthSessionRow>(FETCH_ALL_AUTH_SESSIONS_CQL, {});
 		return sessions.map((session) => new AuthSession(session));
 	}
 

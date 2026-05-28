@@ -25,6 +25,7 @@ import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories
 import type {SnowflakeService} from '@fluxer/api/src/infrastructure/SnowflakeService';
 import {Logger} from '@fluxer/api/src/Logger';
 import {getGuildSearchService, getUserSearchService} from '@fluxer/api/src/SearchFactory';
+import {AuthSessionRepository} from '@fluxer/api/src/user/repositories/auth/AuthSessionRepository';
 import type {IUserRepository} from '@fluxer/api/src/user/IUserRepository';
 import type {ICacheService} from '@fluxer/cache/src/ICacheService';
 import type {IWorkerService} from '@fluxer/worker/src/contracts/IWorkerService';
@@ -116,6 +117,15 @@ export class AdminSearchService {
 
 		const query = data.query?.trim() || '';
 		const isIdQuery = /^\d+$/.test(query);
+		const isIpv4Query = /^(?:\d{1,3}\.){3}\d{1,3}$/.test(query);
+
+		// IP-shaped queries don't belong in the username/email full-text
+		// search — there's no user field that stores the login IP. Route
+		// to a dedicated session-table scan that returns users who have
+		// ever logged in from this IP.
+		if (isIpv4Query) {
+			return this.searchUsersByLoginIp(query, data.limit, data.offset);
+		}
 
 		if (!userSearchService) {
 			return this.searchUsersFallback(data, query, isIdQuery);
@@ -145,6 +155,36 @@ export class AdminSearchService {
 			users: response,
 			total: directUser && !hits.some((h) => h.id === query) ? total + 1 : total,
 		};
+	}
+
+	private async searchUsersByLoginIp(ip: string, limit: number, offset: number) {
+		const {userRepository, cacheService} = this.deps;
+		const sessionRepository = new AuthSessionRepository();
+
+		// Scan all active sessions; auth_sessions is bounded (low thousands
+		// on this instance) and there's no secondary index on client_ip.
+		// Admin tool, called rarely — full scan is acceptable here.
+		const allSessions = await sessionRepository.listAllSessionsForAdmin();
+		const matching = allSessions.filter((s) => s.clientIp === ip);
+
+		// Collapse to unique users, sort by most-recently-active session
+		// so the admin sees current/likely-real owners first.
+		const seen = new Map<string, Date>();
+		for (const s of matching) {
+			const existing = seen.get(s.userId.toString());
+			if (!existing || s.approximateLastUsedAt > existing) {
+				seen.set(s.userId.toString(), s.approximateLastUsedAt);
+			}
+		}
+		const userIds = Array.from(seen.entries())
+			.sort((a, b) => b[1].getTime() - a[1].getTime())
+			.map(([id]) => createUserID(BigInt(id)));
+
+		const total = userIds.length;
+		const sliced = userIds.slice(offset, offset + limit);
+		const users = await userRepository.listUsers(sliced);
+		const response = await Promise.all(users.map((u) => mapUserToAdminResponse(u, cacheService)));
+		return {users: response, total};
 	}
 
 	private async searchUsersFallback(
