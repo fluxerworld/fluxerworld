@@ -25,7 +25,7 @@ import type {PackService} from '@fluxer/api/src/pack/PackService';
 import type {IUserRepository} from '@fluxer/api/src/user/IUserRepository';
 import * as EmojiUtils from '@fluxer/api/src/utils/EmojiUtils';
 import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
-import {GuildExplicitContentFilterTypes} from '@fluxer/constants/src/GuildConstants';
+import {GuildExplicitContentFilterTypes, GuildNSFWLevel} from '@fluxer/constants/src/GuildConstants';
 import type {GuildMemberResponse} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 import type {GuildResponse} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 
@@ -71,6 +71,15 @@ export class MessageContentService {
 
 		if (!guild) {
 			return false;
+		}
+
+		// Whole-guild age-restricted opt-in (same flag BaseChannelAuthService
+		// uses for the channel access gate). Users entering this guild have
+		// already passed an age gate, so embed/content NSFW handling should
+		// treat them as having opted in regardless of per-channel NSFW flag
+		// or explicit content filter level.
+		if (guild.nsfw_level === GuildNSFWLevel.AGE_RESTRICTED) {
+			return true;
 		}
 
 		const explicitContentFilter = guild.explicit_content_filter;
