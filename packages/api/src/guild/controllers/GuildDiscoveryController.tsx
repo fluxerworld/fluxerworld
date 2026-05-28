@@ -189,33 +189,38 @@ export function GuildDiscoveryController(app: HonoApp) {
 				categoryId: data.category_type,
 			});
 
-			// Notify admin channel about new discovery application
-			try {
-				const categoryLabel = DiscoveryCategoryLabels[data.category_type] ?? 'Unknown';
-				let guildName = 'Unknown';
+			// Notify admin channel about new discovery application. URL lives
+			// in private config (not source) — the previous hardcoded URL was
+			// leaked via the public repo and used to spoof fake applications.
+			const webhookUrl = Config.discovery.applicationWebhookUrl;
+			if (webhookUrl) {
 				try {
-					const guild = await ctx.get('guildService').getGuild({userId: user.id, guildId});
-					guildName = guild.name || 'Unnamed';
+					const categoryLabel = DiscoveryCategoryLabels[data.category_type] ?? 'Unknown';
+					let guildName = 'Unknown';
+					try {
+						const guild = await ctx.get('guildService').getGuild({userId: user.id, guildId});
+						guildName = guild.name || 'Unnamed';
+					} catch {}
+					const applicantTag =
+						user.globalName || `${user.username}#${user.discriminator.toString().padStart(4, '0')}`;
+					await fetch(webhookUrl, {
+						method: 'POST',
+						headers: {'Content-Type': 'application/json'},
+						body: JSON.stringify({
+							embeds: [{
+								title: 'New Discovery Application',
+								description: `**${guildName}** (ID: ${guildId}) has applied to be listed in discovery.`,
+								color: 0x6d8cf5,
+								fields: [
+									{name: 'Applied by', value: `${applicantTag} (ID: ${user.id})`, inline: false},
+									{name: 'Category', value: categoryLabel, inline: true},
+									{name: 'Description', value: data.description || 'No description', inline: false},
+								],
+							}],
+						}),
+					});
 				} catch {}
-				const applicantTag =
-					user.globalName || `${user.username}#${user.discriminator.toString().padStart(4, '0')}`;
-				await fetch('https://fluxer.world/api/webhooks/1490724053072553637/Ekn1DWNTbbMp54O9zbkvswmINkG81OHnAjITRXGfPW2tWUs2IpgrGtgciInNZyhb', {
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'},
-					body: JSON.stringify({
-						embeds: [{
-							title: 'New Discovery Application',
-							description: `**${guildName}** (ID: ${guildId}) has applied to be listed in discovery.`,
-							color: 0x6d8cf5,
-							fields: [
-								{name: 'Applied by', value: `${applicantTag} (ID: ${user.id})`, inline: false},
-								{name: 'Category', value: categoryLabel, inline: true},
-								{name: 'Description', value: data.description || 'No description', inline: false},
-							],
-						}],
-					}),
-				});
-			} catch {}
+			}
 
 			return ctx.json(mapDiscoveryRowToResponse(row));
 		},

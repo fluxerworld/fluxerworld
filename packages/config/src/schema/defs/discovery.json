@@ -13,6 +13,10 @@
 				"type": "number",
 				"description": "Minimum number of members a guild needs before it can apply for discovery listing.",
 				"default": 1
+			},
+			"application_webhook_url": {
+				"type": "string",
+				"description": "Internal webhook URL the API posts to when a new discovery application is submitted. Leave unset to disable the notification."
 			}
 		}
 	}

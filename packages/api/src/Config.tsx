@@ -386,6 +386,7 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 		discovery: {
 			enabled: master.discovery.enabled,
 			minMemberCount: master.discovery.min_member_count,
+			applicationWebhookUrl: master.discovery.application_webhook_url ?? undefined,
 		},
 		dev: {
 			relaxRegistrationRateLimits: master.dev.relax_registration_rate_limits,

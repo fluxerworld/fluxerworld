@@ -266,6 +266,7 @@ export interface APIConfig {
 	discovery: {
 		enabled: boolean;
 		minMemberCount: number;
+		applicationWebhookUrl: string | undefined;
 	};
 
 	dev: {
