@@ -1,0 +1,283 @@
+{
+	# debug
+	# (optional) admin 0.0.0.0:2019
+}
+
+fluxer.world {
+
+	encode gzip zstd
+
+	log {
+		output stdout
+		format console
+	}
+
+	# If this header DOES NOT appear, you are not hitting this Caddyfile.
+	header {
+		X-Fluxer-Caddy "fluxer-docker-caddyfile-2026-03-03"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(self), microphone=(self), geolocation=()"
+	}
+
+	route {
+
+		# --- hard proof endpoint (served by Caddy itself) ---
+		handle /___whoami {
+			header Content-Type "text/plain"
+			respond "caddy=fluxer-docker\nuri={http.request.uri}\npath={http.request.uri.path}\n" 200
+		}
+
+		# --------------------------
+		# SEO / system files (marketing)
+		# --------------------------
+		handle /sitemap.xml {
+			reverse_proxy fluxer_marketing:8774 {
+				header_down X-Debug-Route "marketing-sitemap"
+				header_down X-Upstream "fluxer_marketing:8774"
+			}
+		}
+		handle /robots.txt {
+			reverse_proxy fluxer_marketing:8774 {
+				header_down X-Debug-Route "marketing-robots"
+				header_down X-Upstream "fluxer_marketing:8774"
+			}
+		}
+		handle /security.txt {
+			reverse_proxy fluxer_marketing:8774 {
+				header_down X-Debug-Route "marketing-security"
+				header_down X-Upstream "fluxer_marketing:8774"
+			}
+		}
+
+		# --------------------------
+		# Health
+		# --------------------------
+		@health_redirect path /health
+		redir @health_redirect /_health 308
+
+		handle /_health {
+			reverse_proxy fluxer_server:8080 {
+				header_down X-Debug-Route "health"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+
+		# --------------------------
+		# API HEALTH (MUST be before /api*)
+		# --------------------------
+		@api_health path /api/v1/health /api/v1/health/
+		handle @api_health {
+			rewrite * /_health
+			reverse_proxy fluxer_server:8080 {
+				header_up -Accept
+				header_up Accept "application/json"
+				header_down X-Debug-Route "api-health"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+			# Allow the off-site status page (Cloudflare Pages) to query
+			# /api/v1/health from the browser.
+			header Access-Control-Allow-Origin "https://status.fluxer.world"
+			header Access-Control-Allow-Methods "GET, OPTIONS"
+			header Vary "Origin"
+		}
+
+		# --------------------------
+		# Well-known runtime config
+		# --------------------------
+		handle /.well-known/fluxer {
+			reverse_proxy fluxer_server:8080 {
+				header_down X-Debug-Route "well-known"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+
+		# --------------------------
+		# API (fluxer_server)
+		# --------------------------
+		handle /api* {
+			reverse_proxy fluxer_server:8080 {
+				header_up -Accept
+				header_up Accept "application/json"
+				header_down X-Debug-Route "api"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+
+		# --------------------------
+		# AUTH  (/auth/* -> /api/auth/*)
+		# Use named matcher to avoid matching /authorize-ip and similar paths
+		# --------------------------
+		@auth_rewrite path /auth /auth/*
+		handle @auth_rewrite {
+			uri replace /auth /api/auth
+			reverse_proxy fluxer_server:8080 {
+				header_up -Accept
+				header_up Accept "application/json"
+				header_down X-Debug-Route "auth-rewrite"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+
+		# --------------------------
+		# Media (fluxer_server built-in media proxy)
+		# --------------------------
+		handle /media* {
+			reverse_proxy fluxer_server:8080 {
+				header_down X-Debug-Route "media"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+		handle /attachments* {
+			reverse_proxy fluxer_server:8080 {
+				header_down X-Debug-Route "media"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+		handle /uploads* {
+			reverse_proxy fluxer_server:8080 {
+				header_down X-Debug-Route "media"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+
+		# --------------------------
+		# Gateway (websocket) - direct to embedded Erlang gateway binary
+		# Bypasses GatewayProxy double-proxy; gateway listens on 0.0.0.0:8082
+		# --------------------------
+		handle_path /gateway* {
+			reverse_proxy fluxer_server:8082 {
+				flush_interval -1
+				header_down X-Debug-Route "gateway-direct"
+				header_down X-Upstream "fluxer_server:8082"
+			}
+		}
+
+		# --------------------------
+		# Admin app (fluxer_admin)
+		# --------------------------
+		handle_path /admin* {
+			reverse_proxy fluxer_admin:3001 {
+				header_down X-Debug-Route "admin"
+			}
+		}
+
+		# --------------------------
+		# LiveKit (voice/video WebSocket)
+		# --------------------------
+		handle_path /livekit* {
+			reverse_proxy livekit:7880 {
+				flush_interval -1
+				header_down X-Debug-Route "livekit"
+			}
+		}
+
+		# --------------------------
+		# Marketing site (plutonium page + assets)
+		# --------------------------
+		handle /plutonium* {
+			reverse_proxy fluxer_marketing:8774 {
+				header_down X-Debug-Route "marketing"
+				header_down X-Upstream "fluxer_marketing:8774"
+			}
+		}
+		handle /static* {
+			reverse_proxy fluxer_marketing:8774 {
+				header_down X-Debug-Route "marketing-static"
+				header_down X-Upstream "fluxer_marketing:8774"
+			}
+		}
+
+		# --------------------------
+		# Download redirects (fluxer_server API)
+		# --------------------------
+		handle /dl* {
+			reverse_proxy fluxer_server:8080 {
+				header_down X-Debug-Route "downloads"
+				header_down X-Upstream "fluxer_server:8080"
+			}
+		}
+
+		# --------------------------
+		# Marketing download page (disabled — using landing page downloads section)
+		# --------------------------
+		# --------------------------
+		# Fix legacy URL without slash before @me
+		# --------------------------
+		@channels_no_slash path /channels@me
+		redir @channels_no_slash /channels/@me 301
+
+		# --------------------------
+		# Short URLs for sharing
+		# --------------------------
+		@gh path /gh /gh/
+		redir @gh https://github.com/fluxerworld/fluxerworld 302
+
+		# --------------------------
+		# F-Droid repo
+		# --------------------------
+		handle_path /fdroid/* {
+			root * /usr/share/caddy/fdroid
+			file_server
+		}
+
+		# --------------------------
+		# Web client (SPA) - MUST BE LAST
+		# --------------------------
+
+		# Cache control: HTML never cached, hashed assets cached forever
+		@htmlFiles path *.html
+		header @htmlFiles Cache-Control "no-cache, no-store, must-revalidate"
+		@hashedAssets path /assets/*
+		header @hashedAssets Cache-Control "public, max-age=31536000, immutable"
+
+		# Desktop Electron app always gets the SPA
+		@electron header User-Agent *Electron*
+		handle @electron {
+			header X-Debug-Route "spa-electron"
+			root * /usr/share/caddy
+			try_files {path} /app.html
+			file_server
+		}
+
+		# Android app (WebView) always gets the SPA
+		@androidapp header X-Requested-With org.fluxer.world
+		handle @androidapp {
+			header X-Debug-Route "spa-android"
+			root * /usr/share/caddy
+			try_files {path} /app.html
+			file_server
+		}
+
+		# Browser visitors get landing page at root, SPA for app routes
+		handle {
+			header X-Debug-Route "spa"
+			root * /usr/share/caddy
+			try_files {path} {path}/index.html {path}.html /app.html
+			file_server
+		}
+	}
+}
+mail.fluxer.world {
+	reverse_proxy https://mailcowdockerized-nginx-mailcow-1:8843 {
+		transport http {
+			tls_insecure_skip_verify
+			tls_server_name mail.fluxer.world
+		}
+		header_up Host mail.fluxer.world
+		header_down X-Debug-Route "mailcow"
+	}
+}
+
+# E2EE branch dev bundle — proxies to the rspack dev server on the
+# host at localhost:49427 via the docker bridge gateway. Take this
+# block out (and the dev origins in packages/api/src/App.tsx) once
+# the e2ee branch is merged and you've validated the feature.
+dev.fluxer.world {
+	encode gzip zstd
+	reverse_proxy 172.18.0.1:49427 {
+		header_down X-Debug-Route "dev"
+		header_down X-Upstream "host:49427"
+	}
+}
