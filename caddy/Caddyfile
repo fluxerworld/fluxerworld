@@ -23,12 +23,6 @@ fluxer.world {
 
 	route {
 
-		# --- hard proof endpoint (served by Caddy itself) ---
-		handle /___whoami {
-			header Content-Type "text/plain"
-			respond "caddy=fluxer-docker\nuri={http.request.uri}\npath={http.request.uri.path}\n" 200
-		}
-
 		# --------------------------
 		# SEO / system files (marketing)
 		# --------------------------
@@ -267,17 +261,5 @@ mail.fluxer.world {
 		}
 		header_up Host mail.fluxer.world
 		header_down X-Debug-Route "mailcow"
-	}
-}
-
-# E2EE branch dev bundle — proxies to the rspack dev server on the
-# host at localhost:49427 via the docker bridge gateway. Take this
-# block out (and the dev origins in packages/api/src/App.tsx) once
-# the e2ee branch is merged and you've validated the feature.
-dev.fluxer.world {
-	encode gzip zstd
-	reverse_proxy 172.18.0.1:49427 {
-		header_down X-Debug-Route "dev"
-		header_down X-Upstream "host:49427"
 	}
 }
