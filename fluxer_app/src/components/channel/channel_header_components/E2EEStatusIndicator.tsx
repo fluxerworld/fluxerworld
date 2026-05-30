@@ -22,29 +22,30 @@ import {modal} from '@app/actions/ModalActionCreators';
 import {ChannelHeaderIcon} from '@app/components/channel/channel_header_components/ChannelHeaderIcon';
 import {E2EEFingerprintModal} from '@app/components/modals/E2EEFingerprintModal';
 import {E2EEGroupFingerprintModal} from '@app/components/modals/E2EEGroupFingerprintModal';
-import AuthenticationStore from '@app/stores/AuthenticationStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import E2EEStore from '@app/stores/E2EEStore';
 import UserStore from '@app/stores/UserStore';
 import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {useLingui} from '@lingui/react/macro';
-import {LockKeyIcon, LockKeyOpenIcon, ShieldCheckIcon, ShieldIcon, ShieldWarningIcon} from '@phosphor-icons/react';
+import {LockKeyIcon, ShieldCheckIcon, ShieldIcon, ShieldWarningIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useMemo} from 'react';
 
-interface E2EEToggleButtonProps {
+interface E2EEStatusIndicatorProps {
 	channelId: string;
 }
 
-export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({channelId}) => {
+// E2EE is always-on for DM + Group DM — there is no toggle. This renders a
+// permanent lock indicator plus a verification shield; clicking either opens
+// the fingerprint-comparison modal.
+export const E2EEStatusIndicator: React.FC<E2EEStatusIndicatorProps> = observer(({channelId}) => {
 	const {t} = useLingui();
-	const enabled = E2EEStore.isChannelEncrypted(channelId);
 	const ready = E2EEStore.isReady;
 
 	// All other recipients in the channel — for 1:1 this is one user, for
-	// a group DM it can be up to several. Toggle behavior is identical in
-	// both cases; the verification shield aggregates over the set.
+	// a group DM it can be up to several. The verification shield aggregates
+	// over the set.
 	const otherRecipientIds = useMemo(() => {
 		const channel = ChannelStore.getChannel(channelId);
 		if (!channel) return [] as ReadonlyArray<string>;
@@ -56,7 +57,7 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 	const primaryRecipientId = otherRecipientIds[0] ?? null;
 
 	useEffect(() => {
-		if (!enabled) return;
+		if (!ready) return;
 		for (const id of otherRecipientIds) {
 			void E2EEStore.ensureVerificationsForUser(id);
 			// Bound the refresh — the channel header re-mounts whenever the
@@ -64,7 +65,7 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 			// device-list endpoint each hop.
 			void E2EEStore.refreshPeerDevices(id, {minIntervalMs: 60_000});
 		}
-	}, [enabled, otherRecipientIds]);
+	}, [ready, otherRecipientIds]);
 
 	// Worst-case aggregate across all peers: any unverified pulls the
 	// whole thing down to grey; any partial pulls a verified group down
@@ -84,26 +85,6 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 		if (sawVerified) return 'verified';
 		return 'unverified';
 	}, [otherRecipientIds]);
-
-	const handleToggle = useCallback(async () => {
-		// Make sure this device has Olm keys before flipping into encrypted
-		// mode — otherwise peers would see the channel switch on but our
-		// outgoing messages would silently fall back to plaintext. Safe to
-		// call when already bootstrapped; bootstrap is idempotent.
-		if (!E2EEStore.isReady) {
-			const userId = AuthenticationStore.currentUserId;
-			if (userId) {
-				try {
-					await E2EEStore.bootstrap(userId);
-				} catch {
-					// Surface failures via the channel state regardless —
-					// the server-side flip and CHANNEL_UPDATE still need to
-					// happen so peers don't get stuck in a half-state.
-				}
-			}
-		}
-		void E2EEStore.setChannelEncrypted(channelId, !enabled);
-	}, [channelId, enabled]);
 
 	const handleVerify = useCallback(() => {
 		// For 1:1 the existing single-peer modal opens directly. For group
@@ -127,22 +108,16 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 	return (
 		<>
 			<ChannelHeaderIcon
-				icon={enabled ? LockKeyIcon : LockKeyOpenIcon}
-				isSelected={enabled}
+				icon={LockKeyIcon}
+				isSelected
 				label={
-					enabled
-						? isGroup
-							? t`End-to-end encryption is on (click to disable for this group DM)`
-							: t`End-to-end encryption is on (click to disable for this DM)`
-						: ready
-							? isGroup
-								? t`Enable end-to-end encryption for this group DM`
-								: t`Enable end-to-end encryption for this DM`
-							: t`Enable end-to-end encryption (sets up keys on first use)`
+					isGroup
+						? t`This group DM is end-to-end encrypted — click to verify members`
+						: t`This DM is end-to-end encrypted — click to verify`
 				}
-				onClick={handleToggle}
+				onClick={handleVerify}
 			/>
-			{enabled && ready && (
+			{ready && (
 				<ChannelHeaderIcon
 					icon={
 						verificationStatus === 'verified'

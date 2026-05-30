@@ -88,6 +88,12 @@ class E2EEStore {
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
 
+	// DEAD CODE as of the always-on E2EE migration (Phase B+C): isChannelEncrypted
+	// and setChannelEncrypted no longer have callers — encryption is gated on
+	// channel TYPE, not this flag, and the toggle UI is gone. Kept intact for one
+	// release cycle alongside the 204-noop PUT /channels/:id/e2ee endpoint.
+	// TODO (Phase D): delete both methods and drop the e2ee_enabled column.
+	//
 	// Encryption state lives on the DM channel record now (server-side
 	// shared flag). Reading from ChannelStore means CHANNEL_UPDATE events
 	// from the gateway flow into the UI for both participants without any

@@ -311,20 +311,21 @@ export function ChannelController(app: HonoApp) {
 		Validator('json', z.object({enabled: z.boolean()})),
 		OpenAPI({
 			operationId: 'set_channel_e2ee',
-			summary: 'Toggle shared end-to-end encryption for a 1:1 DM channel',
+			summary: 'Deprecated: set channel E2EE (no-op)',
 			description:
-				'Sets the shared e2ee_enabled flag on a 1:1 DM. Either participant can toggle. The change is broadcast to both clients via CHANNEL_UPDATE so the UI updates without refresh.',
+				'Deprecated no-op. E2EE is always-on for DM and group DM channels; this endpoint no longer changes any state and always returns 204. Retained for one release cycle for backward compatibility with out-of-tree clients.',
 			responseSchema: null,
 			statusCode: 204,
 			security: ['botToken', 'bearerToken', 'sessionToken'],
 			tags: 'Channels',
 		}),
 		async (ctx) => {
-			const userId = ctx.get('user').id;
-			const channelId = createChannelID(ctx.req.valid('param').channel_id);
-			const {enabled} = ctx.req.valid('json');
-			const requestCache = ctx.get('requestCache');
-			await ctx.get('channelService').setChannelE2EE({userId, channelId, enabled, requestCache});
+			// E2EE is always-on for DM + GROUP_DM as of the always-on migration
+			// (Phase B+C). Encryption is gated on channel type and the per-channel
+			// toggle UI is gone, so this no longer mutates state — it just 204s so
+			// out-of-tree clients still PUTting here don't error. The json/param
+			// validators above still run (malformed body -> 400 as before).
+			// TODO (Phase D): remove this route + setChannelE2EE through all layers.
 			return ctx.body(null, 204);
 		},
 	);

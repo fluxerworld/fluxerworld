@@ -62,7 +62,7 @@ import MessageStore from '@app/stores/MessageStore';
 import ReadStateStore from '@app/stores/ReadStateStore';
 import {getApiErrorCode} from '@app/utils/ApiErrorUtils';
 import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
-import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
+import {ChannelTypes, MessageFlags} from '@fluxer/constants/src/ChannelConstants';
 import type {JumpType} from '@fluxer/constants/src/JumpConstants';
 import {MAX_MESSAGES_PER_CHANNEL} from '@fluxer/constants/src/LimitConstants';
 import type {MessageId} from '@fluxer/schema/src/branded/WireIds';
@@ -438,7 +438,14 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 			let effectiveFlags = params.flags;
 			let envelopeEntries: Array<EnvelopeAttachmentEntry> | undefined;
 
-			if (E2EEStore.isChannelEncrypted(channelId) && !params.skipE2EE) {
+			// E2EE is always-on for DM + Group DM (no per-channel toggle). Gate
+			// the encrypt block on channel TYPE so guild-text sends never enter
+			// it — tryEncryptForChannel returns null for unsupported types, which
+			// would otherwise trip the "couldn't encrypt" fallback prompt.
+			const e2eeChannel = ChannelStore.getChannel(channelId);
+			const e2eeEligible =
+				e2eeChannel?.type === ChannelTypes.DM || e2eeChannel?.type === ChannelTypes.GROUP_DM;
+			if (e2eeEligible && !params.skipE2EE) {
 				if (params.stickers?.length) {
 					promptUnencryptedFallback(channelId, params, 'stickers');
 					resolve(null);
