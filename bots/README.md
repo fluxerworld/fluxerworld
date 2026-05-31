@@ -65,6 +65,5 @@ like upstream docs say.
 
 ## Gotchas
 
-See `~/.claude/projects/-home-claudeuser/memory/bot_directory_deployment.md`
-for the deeper notes (BuildKit `.gitignore` quirk, LiveKit glibc requirement,
-`docker restart` vs `rm+run` for picking up image changes, etc.).
+A few things to know: the BuildKit `.gitignore` quirk, the LiveKit glibc
+requirement, and `docker restart` vs `rm+run` for picking up image changes.

@@ -86,7 +86,6 @@ devenv.local.nix
 /packages/config/src/ConfigSchema.json
 /packages/config/src/MasterZodSchema.generated.tsx
 AGENTS.md
-CLAUDE.md
 fluxer.yaml
 GEMINI.md
 geoip_data
