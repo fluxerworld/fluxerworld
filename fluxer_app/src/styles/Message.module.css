@@ -1047,6 +1047,35 @@
 	line-height: var(--message-line-height);
 }
 
+.decryptRetryButton {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-top: 4px;
+	padding: 2px 6px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--text-link);
+}
+
+.decryptRetryButton:hover {
+	text-decoration: underline;
+}
+
+.decryptRetryButton:disabled {
+	opacity: 0.6;
+	cursor: default;
+	text-decoration: none;
+}
+
+.decryptRetryIcon {
+	width: 13px;
+	height: 13px;
+}
+
 .editedLabel {
 	user-select: none;
 	-webkit-user-select: none;

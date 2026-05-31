@@ -24,6 +24,7 @@ import {
 	getSentPlaintext,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
+	recordDecryptFailure,
 	recordMessageVerification,
 	recordSentPlaintext,
 	tryDecryptForCurrentDevice,
@@ -79,13 +80,14 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const currentUserId = AuthenticationStore.currentUserId;
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
-			const result = await tryDecryptForCurrentDevice(
+			const outcome = await tryDecryptForCurrentDevice(
 				currentUserId,
 				senderUserId,
 				data.encrypted_payload,
 				data.channel_id,
 				data.id,
 			);
+			const result = outcome.status === 'ok' ? outcome.result : null;
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
 			} else if (
@@ -115,17 +117,20 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			// (populated before the send) or by server id (populated after
 			// the HTTP response), depending on whether the gateway beat
 			// the response back to us.
-			let content = buildDecryptedContent(result);
+			let content = buildDecryptedContent(outcome);
+			let decryptFailed = outcome.status !== 'ok';
 			if (!result && senderUserId === currentUserId) {
 				const cached = getSentPlaintext(data.id) ?? (data.nonce ? getSentPlaintext(data.nonce) : null);
 				if (cached !== null) {
 					content = cached;
+					decryptFailed = false; // recovered our own plaintext from the send cache
 					// Re-persist under the canonical server id in case the
 					// HTTP response landed after the gateway echo and only
 					// the nonce-keyed entry was set.
 					recordSentPlaintext(data.id, cached, true);
 				}
 			}
+			recordDecryptFailure(data.id, decryptFailed ? outcome : null);
 			const decryptedMessage: Message = {
 				...data,
 				content,

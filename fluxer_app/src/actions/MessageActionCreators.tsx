@@ -48,6 +48,7 @@ import {
 	type EnvelopeAttachmentEntry,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
+	recordDecryptFailure,
 	recordMessageVerification,
 	recordSentEnvelopeEntries,
 	recordSentPlaintext,
@@ -234,6 +235,45 @@ const tryFetchMessagesCached = (
 // has already painted the page with placeholder (empty) content, so this
 // just patches the decrypted plaintext in via handleMessageUpdate as
 // each message resolves. Failures are surfaced with a placeholder string.
+async function decryptOneMessage(
+	msg: Message,
+	currentUserId: string,
+	consultFailureCache: boolean,
+): Promise<void> {
+	const senderId = msg.author?.id;
+	if (!senderId) return;
+	const outcome = await tryDecryptForCurrentDevice(
+		currentUserId,
+		senderId,
+		msg.encrypted_payload,
+		msg.channel_id,
+		msg.id,
+		consultFailureCache,
+	);
+	const result = outcome.status === 'ok' ? outcome.result : null;
+	if (result?.attachments.length && msg.attachments?.length) {
+		recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
+	}
+	if (result) {
+		recordMessageVerification(msg.id, result.verificationStatus);
+	}
+	recordDecryptFailure(msg.id, outcome);
+	const decryptedContent = buildDecryptedContent(outcome);
+	MessageStore.handleMessageUpdate({
+		message: {...msg, content: decryptedContent},
+	});
+	// Pull link-preview embeds for the decrypted body — same client-
+	// side unfurl path used by the MESSAGE_CREATE gateway handler.
+	if (decryptedContent) {
+		void unfurlEmbedsForContent(decryptedContent).then((embeds) => {
+			if (!embeds.length) return;
+			MessageStore.handleMessageUpdate({
+				message: {id: msg.id, channel_id: msg.channel_id, embeds} as unknown as typeof msg,
+			});
+		});
+	}
+}
+
 async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise<void> {
 	if (!E2EEStore.isReady) return;
 	const currentUserId = AuthenticationStore.currentUserId;
@@ -245,39 +285,47 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 	if (encrypted.length === 0) return;
 
 	for (const msg of encrypted) {
-		const senderId = msg.author?.id;
-		if (!senderId) continue;
 		try {
-			const result = await tryDecryptForCurrentDevice(
-				currentUserId,
-				senderId,
-				msg.encrypted_payload,
-				msg.channel_id,
-				msg.id,
-			);
-			if (result?.attachments.length && msg.attachments?.length) {
-				recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
-			}
-			if (result) {
-				recordMessageVerification(msg.id, result.verificationStatus);
-			}
-			const decryptedContent = buildDecryptedContent(result);
-			MessageStore.handleMessageUpdate({
-				message: {...msg, content: decryptedContent},
-			});
-			// Pull link-preview embeds for the decrypted body — same client-
-			// side unfurl path used by the MESSAGE_CREATE gateway handler.
-			if (decryptedContent) {
-				void unfurlEmbedsForContent(decryptedContent).then((embeds) => {
-					if (!embeds.length) return;
-					MessageStore.handleMessageUpdate({
-						message: {id: msg.id, channel_id: msg.channel_id, embeds} as unknown as typeof msg,
-					});
-				});
-			}
+			await decryptOneMessage(msg, currentUserId, true);
 		} catch (error) {
 			logger.warn('Decrypt history message failed', {messageId: msg.id, error});
 		}
+	}
+}
+
+// "Retry" affordance on the ⚠ technical-failure placeholder. encrypted_payload
+// isn't retained client-side after first decrypt, so re-fetch the single
+// message, then run the shared decrypt with consultFailureCache=false to force
+// a fresh attempt (network_error retries succeed once the network is back;
+// genuine corruption stays 'error').
+export async function redecryptMessage(channelId: string, messageId: string): Promise<void> {
+	if (!E2EEStore.isReady) return;
+	const currentUserId = AuthenticationStore.currentUserId;
+	if (!currentUserId) return;
+	let fetched: Message;
+	try {
+		const response = await http.get<Message>({url: Endpoints.CHANNEL_MESSAGE(channelId, messageId)});
+		fetched = response.body;
+	} catch (error) {
+		if (error instanceof HttpError) {
+			// Message deleted server-side between first decrypt and this retry —
+			// drop the stale failure marker so the ⚠ + Retry affordance disappears.
+			if (error.status === 404) {
+				recordDecryptFailure(messageId, null);
+				return;
+			}
+			// Auth failures must reach the existing auth/refresh handling.
+			if (error.status === 401) throw error;
+		}
+		// Network / 5xx / other transient — leave the 'error' marker so the
+		// button stays for another try.
+		logger.warn('Re-decrypt: failed to re-fetch message', {channelId, messageId, error});
+		return;
+	}
+	try {
+		await decryptOneMessage(fetched, currentUserId, false);
+	} catch (error) {
+		logger.warn('Re-decrypt failed', {channelId, messageId, error});
 	}
 }
 

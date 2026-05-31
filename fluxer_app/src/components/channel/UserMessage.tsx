@@ -41,6 +41,7 @@ import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 import UserSettingsStore from '@app/stores/UserSettingsStore';
 import UserStore from '@app/stores/UserStore';
 import markupStyles from '@app/styles/Markup.module.css';
+import {getDecryptFailure} from '@app/lib/e2ee/E2EEMessageIntegration';
 import styles from '@app/styles/Message.module.css';
 import {createSystemMessage} from '@app/utils/CommandUtils';
 import * as DateUtils from '@app/utils/DateUtils';
@@ -50,7 +51,7 @@ import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
 import {MessageEmbedTypes, MessageFlags, MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
 import {NodeType} from '@fluxer/markdown_parser/src/types/Enums';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {BellSlashIcon, EyeIcon, WarningCircleIcon} from '@phosphor-icons/react';
+import {ArrowsClockwiseIcon, BellSlashIcon, EyeIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
@@ -62,6 +63,39 @@ const MessageStateToClassName: Record<string, string> = {
 	[MessageStates.FAILED]: styles.messageFailed,
 };
 const CUSTOM_EMOJI_MARKDOWN_PATTERN = /<a?:[a-zA-Z0-9_+-]{2,}:([0-9]+)>/g;
+
+// Corrective affordance shown only on the ⚠ technical-failure placeholder
+// (getDecryptFailure === 'error'). Re-fetches + re-decrypts the single message.
+// Renders null for everything else, so normal messages are unaffected. Reacts
+// via the parent observer: on success the marker clears and the parent
+// re-render drops this button.
+const DecryptRetryButton = ({message}: {message: {id: string; channelId: string}}) => {
+	const {t} = useLingui();
+	const [retrying, setRetrying] = useState(false);
+	if (getDecryptFailure(message.id) !== 'error') return null;
+	const handleRetry = async () => {
+		if (retrying) return;
+		setRetrying(true);
+		try {
+			await MessageActionCreators.redecryptMessage(message.channelId, message.id);
+		} finally {
+			setRetrying(false);
+		}
+	};
+	return (
+		<button
+			type="button"
+			className={styles.decryptRetryButton}
+			onClick={handleRetry}
+			disabled={retrying}
+			aria-label={t`Retry decrypting message`}
+			aria-busy={retrying}
+		>
+			<ArrowsClockwiseIcon className={styles.decryptRetryIcon} weight="bold" />
+			{retrying ? t`Retrying…` : t`Retry`}
+		</button>
+	);
+};
 
 export const UserMessage = observer(() => {
 	const {t, i18n} = useLingui();
@@ -210,6 +244,7 @@ export const UserMessage = observer(() => {
 				    visually quieter. The verification still drives the
 				    header shield aggregate; nothing else relied on this
 				    inline indicator. */}
+				<DecryptRetryButton message={message} />
 			</div>
 		);
 	}, [
@@ -427,6 +462,7 @@ export const UserMessage = observer(() => {
 							)}
 						</span>
 					)}
+					<DecryptRetryButton message={message} />
 				</div>
 
 				<div className={styles.container}>

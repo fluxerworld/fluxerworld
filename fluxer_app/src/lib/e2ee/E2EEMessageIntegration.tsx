@@ -208,15 +208,66 @@ export function getMessageVerification(messageId: string): MessageVerificationSt
 	return messageVerificationCache.get(messageId) ?? null;
 }
 
+// Negative cache for permanently-undecryptable Megolm messages, keyed by
+// `${channelId}|${sessionId}|${recipientDeviceId}`. A session lands here
+// only when fetchAndImportGroupSessionFor returns 'no_blob' — no session-key
+// blob targets this device (joined-after-send, or session lost/rotated-past).
+// NOT populated for transient 'network_error's.
+//
+// In-memory only: a session restart clears it, giving a free retry — the
+// right cadence, since a 'no_blob' session only becomes decryptable via a
+// deliberate re-distribution (rare, covered by the explicit retry button).
+// Cleared on logout via clearAllMessageCaches. Unbounded for now (short
+// strings, bounded by distinct dead sessions seen this session); add an LRU
+// cap as a fast-follow only if a pathological case appears.
+const undecryptableSessions = new Set<string>();
+
+function undecryptableKey(channelId: string, sessionId: string, deviceId: string): string {
+	return `${channelId}|${sessionId}|${deviceId}`;
+}
+
+function markSessionUndecryptable(channelId: string, sessionId: string, deviceId: string): void {
+	undecryptableSessions.add(undecryptableKey(channelId, sessionId, deviceId));
+}
+
+function isSessionUndecryptable(channelId: string, sessionId: string, deviceId: string): boolean {
+	return undecryptableSessions.has(undecryptableKey(channelId, sessionId, deviceId));
+}
+
+// Clears a negative-cache entry so the next decrypt attempt retries the
+// fetch. Wired to the placeholder "retry" button (step 5). Returns true if
+// an entry was actually present, so the UI can show feedback only when it
+// did something.
+export function retryDecrypt(channelId: string, sessionId: string, deviceId: string): boolean {
+	return undecryptableSessions.delete(undecryptableKey(channelId, sessionId, deviceId));
+}
+
 // Wipe everything the module is holding in memory. Called on logout so
 // the next user signing in on the same install can't see (or be linked
 // to) the previous user's plaintexts, verification states, or
 // attachment keys.
+const decryptFailureById = new Map<string, 'permanent' | 'error'>();
+
+// Per-message decrypt-failure marker, read by the message bubble (step 5) to
+// pick the placeholder + show a retry affordance only for 'error'. Recorded
+// by the decrypt callers; cleared on success so a retry that succeeds drops
+// the marker. Cleared on logout via clearAllMessageCaches.
+export function recordDecryptFailure(messageId: string, outcome: DecryptionOutcome | null): void {
+	if (outcome && outcome.status === 'failed') decryptFailureById.set(messageId, outcome.reason);
+	else decryptFailureById.delete(messageId);
+}
+
+export function getDecryptFailure(messageId: string): 'permanent' | 'error' | null {
+	return decryptFailureById.get(messageId) ?? null;
+}
+
 export function clearAllMessageCaches(): void {
 	attachmentKeyCache.clear();
 	sentPlaintextCache.clear();
 	sentEnvelopeEntriesByNonce.clear();
 	messageVerificationCache.clear();
+	undecryptableSessions.clear();
+	decryptFailureById.clear();
 }
 
 export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<CachedAttachmentEntry>): void {
@@ -797,8 +848,22 @@ export interface DecryptionResult {
 	verificationStatus: 'verified' | 'changed' | 'unverified';
 }
 
-export const ENCRYPTED_FAILURE_PLACEHOLDER =
-	'\u26a0\ufe0f Encrypted message could not be decrypted on this device.';
+// Discriminated result of a decrypt attempt. 'permanent' → message can't be
+// read on this device (no blob: pre-join/lost session, or any 1:1 failure) —
+// no retry affordance. 'error' → a retryable technical failure in the group
+// path (network error listing blobs, or decrypt threw after a successful
+// session import).
+export type DecryptionOutcome =
+	| {status: 'ok'; result: DecryptionResult}
+	| {status: 'failed'; reason: 'permanent' | 'error'};
+
+const PERMANENT_FAILURE: DecryptionOutcome = {status: 'failed', reason: 'permanent'};
+const ERROR_FAILURE: DecryptionOutcome = {status: 'failed', reason: 'error'};
+
+export const ENCRYPTED_FAILURE_PERMANENT_PLACEHOLDER =
+	'\ud83d\udd12 This message cannot be read on this device.';
+export const ENCRYPTED_FAILURE_ERROR_PLACEHOLDER =
+	'\u26a0\ufe0f This message could not be decrypted (technical error).';
 export const ENCRYPTED_KEY_CHANGED_PREFIX =
 	'\u26a0\ufe0f Identity key changed since you last verified — re-verify before trusting this message.';
 
@@ -806,12 +871,16 @@ export const ENCRYPTED_KEY_CHANGED_PREFIX =
 // encrypted message: plaintext on success, a failure placeholder on
 // decrypt failure, and a re-verify warning prepended when the sender's
 // identity key has rotated since the last verification.
-export function buildDecryptedContent(result: DecryptionResult | null): string {
-	if (!result) return ENCRYPTED_FAILURE_PLACEHOLDER;
-	if (result.verificationStatus === 'changed') {
-		return `${ENCRYPTED_KEY_CHANGED_PREFIX}\n\n${result.plaintext}`;
+export function buildDecryptedContent(outcome: DecryptionOutcome): string {
+	if (outcome.status === 'ok') {
+		const r = outcome.result;
+		return r.verificationStatus === 'changed'
+			? `${ENCRYPTED_KEY_CHANGED_PREFIX}\n\n${r.plaintext}`
+			: r.plaintext;
 	}
-	return result.plaintext;
+	return outcome.reason === 'error'
+		? ENCRYPTED_FAILURE_ERROR_PLACEHOLDER
+		: ENCRYPTED_FAILURE_PERMANENT_PLACEHOLDER;
 }
 
 export async function tryDecryptForCurrentDevice(
@@ -820,8 +889,9 @@ export async function tryDecryptForCurrentDevice(
 	encryptedPayload: EncryptedPayload | null | undefined,
 	channelId?: string,
 	messageId?: string,
-): Promise<DecryptionResult | null> {
-	if (!encryptedPayload) return null;
+	consultFailureCache = false,
+): Promise<DecryptionOutcome> {
+	if (!encryptedPayload) return PERMANENT_FAILURE;
 
 	// Plaintext cache check — Olm and Megolm both consume per-message
 	// material on decrypt, so a refresh that re-fetches the same
@@ -834,44 +904,48 @@ export async function tryDecryptForCurrentDevice(
 		try {
 			const cached = await getMessagePlaintext(messageId);
 			if (cached) {
-				return {
+				return {status: 'ok', result: {
 					plaintext: cached.plaintext,
 					attachments: cached.attachments ? [...cached.attachments] : [],
 					verificationStatus: cached.verification_status ?? 'unverified',
-				};
+				}};
 			}
 		} catch (err) {
 			logger.warn('Plaintext cache read failed; falling through to decrypt', {messageId, err});
 		}
 	}
 
-	if (!E2EEStore.isReady) return null;
+	// Transient edge on the live path only — the history path guards isReady
+	// before calling, and this self-heals when the channel is reopened and
+	// re-decrypted. The deferred ⏳ transient state will refine this.
+	if (!E2EEStore.isReady) return PERMANENT_FAILURE;
 	const deviceId = E2EEStore.deviceId;
-	if (!deviceId) return null;
+	if (!deviceId) return PERMANENT_FAILURE;
 
 	// Megolm group DM message — single ciphertext, identified by session.
 	if (encryptedPayload.kind === 'megolm') {
 		if (!channelId) {
 			logger.warn('Megolm message received without channel context, cannot decrypt');
-			return null;
+			return PERMANENT_FAILURE;
 		}
-		const result = await tryDecryptGroupMessage({
+		const outcome = await tryDecryptGroupMessage({
 			channelId,
 			currentUserId,
 			currentDeviceId: deviceId,
 			senderUserId,
 			payload: encryptedPayload,
+			consultFailureCache,
 		});
-		if (result && messageId) {
-			void cacheDecryptedPlaintext(messageId, result);
+		if (outcome.status === 'ok' && messageId) {
+			void cacheDecryptedPlaintext(messageId, outcome.result);
 		}
-		return result;
+		return outcome;
 	}
 
 	// 1:1 Olm fan-out — find this device's ciphertext slot.
 	const slot = `${currentUserId}:${deviceId}`;
 	const ciphertext = encryptedPayload.ciphertexts[slot];
-	if (!ciphertext) return null;
+	if (!ciphertext) return PERMANENT_FAILURE;
 
 	try {
 		const decrypted = await e2eeManager.decrypt(
@@ -898,10 +972,10 @@ export async function tryDecryptForCurrentDevice(
 		if (messageId) {
 			void cacheDecryptedPlaintext(messageId, result);
 		}
-		return result;
+		return {status: 'ok', result};
 	} catch (error) {
 		logger.warn('Failed to decrypt incoming message', {error});
-		return null;
+		return PERMANENT_FAILURE; // 1:1 has no fetch-retry mechanism
 	}
 }
 
@@ -929,8 +1003,19 @@ async function tryDecryptGroupMessage(params: {
 	currentDeviceId: string;
 	senderUserId: string;
 	payload: EncryptedPayloadMegolm;
-}): Promise<DecryptionResult | null> {
-	const {channelId, currentUserId, currentDeviceId, senderUserId, payload} = params;
+	consultFailureCache?: boolean;
+}): Promise<DecryptionOutcome> {
+	const {channelId, currentUserId, currentDeviceId, senderUserId, payload, consultFailureCache = false} = params;
+
+	// Short-circuit messages already known permanently undecryptable on this
+	// device (no blob targets us). Gated on consultFailureCache so only the
+	// history-fetch path skips; the live MESSAGE_CREATE path always attempts,
+	// avoiding a join-race where a blob lands moments after a live message.
+	// consultFailureCache is threaded from callers in step 3 — until then
+	// this is inert (default false), so step 2 changes no behavior.
+	if (consultFailureCache && isSessionUndecryptable(channelId, payload.session_id, currentDeviceId)) {
+		return PERMANENT_FAILURE;
+	}
 
 	const tryDecrypt = async () => {
 		const result = await e2eeManager.decryptGroupMessage({
@@ -950,7 +1035,7 @@ async function tryDecryptGroupMessage(params: {
 	};
 
 	try {
-		return await tryDecrypt();
+		return {status: 'ok', result: await tryDecrypt()};
 	} catch (err) {
 		logger.debug('Group session not yet imported, fetching from server', {
 			channelId,
@@ -960,43 +1045,62 @@ async function tryDecryptGroupMessage(params: {
 	}
 
 	// Try to fetch + import the matching session blob.
-	const imported = await fetchAndImportGroupSessionFor({
+	const importResult = await fetchAndImportGroupSessionFor({
 		channelId,
 		currentUserId,
 		currentDeviceId,
 		sessionId: payload.session_id,
 		senderDeviceId: payload.sender_device_id,
 	});
-	if (!imported) {
-		logger.warn('No group session blob available for message', {channelId, sessionId: payload.session_id});
-		return null;
+	if (importResult !== 'imported') {
+		// Genuine "no blob for this device" is permanent (forward secrecy /
+		// pre-join), so cache it — re-renders/scrolls/jumps stop re-fetching.
+		// Never cache 'network_error' (transient — retry on next fetch).
+		if (importResult === 'no_blob') {
+			markSessionUndecryptable(channelId, payload.session_id, currentDeviceId);
+		}
+		logger.warn('No group session blob available for message', {
+			channelId,
+			sessionId: payload.session_id,
+			reason: importResult,
+		});
+		// no_blob → permanent (🔒); network_error → retryable error (⚠ + retry).
+		return importResult === 'no_blob' ? PERMANENT_FAILURE : ERROR_FAILURE;
 	}
 
 	try {
-		return await tryDecrypt();
+		return {status: 'ok', result: await tryDecrypt()};
 	} catch (err) {
 		logger.warn('Group decrypt failed even after import', {channelId, sessionId: payload.session_id, err});
-		return null;
+		return ERROR_FAILURE; // imported but still failed = technical error
 	}
 }
 
+// Result of attempting to fetch + import a group session blob:
+//   'imported'      — the target session_key was imported; decrypt can retry
+//   'no_blob'       — no blob targets this device (permanent: pre-join or
+//                     lost session) — safe to negatively cache
+//   'network_error' — listing the blobs failed (transient) — do NOT cache
+type GroupSessionImportResult = 'imported' | 'no_blob' | 'network_error';
+
 // Fetches all pending group-session blobs for this channel + this user,
 // decrypts each via Olm, imports the resulting Megolm session_key, and
-// acks the blob server-side. Returns true if we successfully imported
-// at least the target session.
+// acks the blob server-side. Returns 'imported' only if the target session
+// was imported; 'no_blob' if no matching blob exists for this device;
+// 'network_error' if the blob listing failed.
 async function fetchAndImportGroupSessionFor(params: {
 	channelId: string;
 	currentUserId: string;
 	currentDeviceId: string;
 	sessionId: string;
 	senderDeviceId: string;
-}): Promise<boolean> {
+}): Promise<GroupSessionImportResult> {
 	let blobs;
 	try {
 		blobs = await E2EEActionCreators.listInboundGroupSessions(params.channelId);
 	} catch (err) {
 		logger.warn('Failed to list inbound group sessions', {err});
-		return false;
+		return 'network_error';
 	}
 
 	let importedTarget = false;
@@ -1049,7 +1153,7 @@ async function fetchAndImportGroupSessionFor(params: {
 		}
 	}
 
-	return importedTarget;
+	return importedTarget ? 'imported' : 'no_blob';
 }
 
 // ── Membership-change rotation hooks ────────────────────────────────────
