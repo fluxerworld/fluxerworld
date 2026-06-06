@@ -37,7 +37,7 @@
 	min-width: 0;
 	position: relative;
 	overflow: hidden;
-	contain: strict;
+	contain: layout style;
 }
 
 .typingArea {
