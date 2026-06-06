@@ -326,16 +326,10 @@ sudo apt install caddy</code></pre>
         <td style="padding: 0.6rem 1rem;">Public — serves all external traffic</td>
       </tr>
       <tr style="border-bottom: 1px solid var(--border);">
-        <td style="padding: 0.6rem 1rem;"><code>3000</code></td>
+        <td style="padding: 0.6rem 1rem;"><code>8080</code></td>
         <td style="padding: 0.6rem 1rem;">TCP</td>
         <td style="padding: 0.6rem 1rem;">Fluxer API server</td>
         <td style="padding: 0.6rem 1rem;">Localhost only (127.0.0.1)</td>
-      </tr>
-      <tr style="border-bottom: 1px solid var(--border);">
-        <td style="padding: 0.6rem 1rem;"><code>5432</code></td>
-        <td style="padding: 0.6rem 1rem;">TCP</td>
-        <td style="padding: 0.6rem 1rem;">PostgreSQL (optional)</td>
-        <td style="padding: 0.6rem 1rem;">Internal Docker network only</td>
       </tr>
     </tbody>
   </table>
@@ -352,13 +346,13 @@ Caddy (reverse proxy)
   │
   │  ── HTTP redirect (:80 → :443)
   │
-  │  HTTP (:3000, localhost only)
+  │  HTTP (:8080, localhost only)
   ▼
 Fluxer Server (Docker)
   │
   │  Internal Docker network
   ▼
-PostgreSQL / SQLite</code></pre>
+Valkey · NATS · SQLite</code></pre>
 
   <h3>Redirects</h3>
 
@@ -395,11 +389,7 @@ sudo ufw enable
 sudo ufw status</code></pre>
 
   <div class="callout callout-warn">
-    <p><strong>Do not</strong> open port 3000 in your firewall. The Fluxer server binds to <code>127.0.0.1:3000</code> and should only be accessible through the Caddy reverse proxy. Exposing it directly bypasses TLS and security headers.</p>
-  </div>
-
-  <div class="callout callout-info">
-    <p><strong>Port 5432</strong> (PostgreSQL) does not need a firewall rule. It runs inside the Docker network and is not exposed to the host at all.</p>
+    <p><strong>Do not</strong> open port 8080 in your firewall. The Fluxer server binds to <code>127.0.0.1:8080</code> and should only be accessible through the Caddy reverse proxy. Exposing it directly bypasses TLS and security headers.</p>
   </div>
 
   <!-- 3. DIRECTORY STRUCTURE -->
@@ -416,10 +406,7 @@ cd /opt/fluxer</code></pre>
 ├── docker-compose.yml
 ├── config/
 │   └── config.json
-└── data/
-    ├── db/            <span class="sh-comment"># Database files</span>
-    ├── uploads/       <span class="sh-comment"># User uploads</span>
-    └── logs/          <span class="sh-comment"># Server logs</span></code></pre>
+└── data/            <span class="sh-comment"># created/managed by the container (sqlite db, s3, queue)</span></code></pre>
 
   <!-- 3. CONFIGURATION -->
   <h2 id="configuration">4. Configuration (config.json)</h2>
@@ -432,95 +419,81 @@ cd /opt/fluxer</code></pre>
 
   <div class="code-label">config/config.json</div>
 <pre><code>{
-  <span class="json-key">"server"</span>: {
-    <span class="json-key">"name"</span>: <span class="json-str">"My Fluxer Server"</span>,
-    <span class="json-key">"host"</span>: <span class="json-str">"0.0.0.0"</span>,
-    <span class="json-key">"port"</span>: <span class="json-num">3000</span>,
-    <span class="json-key">"publicUrl"</span>: <span class="json-str">"https://fluxer.example.com"</span>
-  },
-  <span class="json-key">"database"</span>: {
-    <span class="json-key">"type"</span>: <span class="json-str">"sqlite"</span>,
-    <span class="json-key">"path"</span>: <span class="json-str">"/data/db/fluxer.db"</span>
-  },
-  <span class="json-key">"storage"</span>: {
-    <span class="json-key">"uploadsPath"</span>: <span class="json-str">"/data/uploads"</span>,
-    <span class="json-key">"maxFileSize"</span>: <span class="json-str">"50MB"</span>
+  <span class="json-key">"env"</span>: <span class="json-str">"production"</span>,
+  <span class="json-key">"domain"</span>: { <span class="json-key">"base_domain"</span>: <span class="json-str">"fluxer.example.com"</span>, <span class="json-key">"public_scheme"</span>: <span class="json-str">"https"</span>, <span class="json-key">"public_port"</span>: <span class="json-num">443</span> },
+  <span class="json-key">"database"</span>: { <span class="json-key">"backend"</span>: <span class="json-str">"sqlite"</span>, <span class="json-key">"sqlite_path"</span>: <span class="json-str">"/usr/src/app/data/fluxer.db"</span> },
+  <span class="json-key">"internal"</span>: { <span class="json-key">"kv"</span>: <span class="json-str">"redis://valkey:6379/0"</span>, <span class="json-key">"kv_mode"</span>: <span class="json-str">"standalone"</span> },
+  <span class="json-key">"s3"</span>: { <span class="json-key">"access_key_id"</span>: <span class="json-str">"fluxer"</span>, <span class="json-key">"secret_access_key"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"endpoint"</span>: <span class="json-str">"http://127.0.0.1:8080/s3"</span> },
+  <span class="json-key">"services"</span>: {
+    <span class="json-key">"server"</span>: { <span class="json-key">"host"</span>: <span class="json-str">"0.0.0.0"</span>, <span class="json-key">"port"</span>: <span class="json-num">8080</span> },
+    <span class="json-key">"s3"</span>: { <span class="json-key">"data_dir"</span>: <span class="json-str">"/usr/src/app/data/s3"</span> },
+    <span class="json-key">"queue"</span>: { <span class="json-key">"data_dir"</span>: <span class="json-str">"/usr/src/app/data/queue"</span> },
+    <span class="json-key">"media_proxy"</span>: { <span class="json-key">"secret_key"</span>: <span class="json-str">"CHANGE_ME"</span> },
+    <span class="json-key">"admin"</span>: { <span class="json-key">"secret_key_base"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"oauth_client_secret"</span>: <span class="json-str">"CHANGE_ME"</span> },
+    <span class="json-key">"gateway"</span>: { <span class="json-key">"port"</span>: <span class="json-num">8082</span>, <span class="json-key">"admin_reload_secret"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"media_proxy_endpoint"</span>: <span class="json-str">"http://127.0.0.1:8080/media"</span> },
+    <span class="json-key">"nats"</span>: { <span class="json-key">"core_url"</span>: <span class="json-str">"nats://nats:4222"</span>, <span class="json-key">"jetstream_url"</span>: <span class="json-str">"nats://nats:4222"</span> }
   },
   <span class="json-key">"auth"</span>: {
-    <span class="json-key">"registrationEnabled"</span>: <span class="json-bool">true</span>,
-    <span class="json-key">"requireEmailVerification"</span>: <span class="json-bool">false</span>
-  }
+    <span class="json-key">"sudo_mode_secret"</span>: <span class="json-str">"CHANGE_ME"</span>,
+    <span class="json-key">"connection_initiation_secret"</span>: <span class="json-str">"CHANGE_ME"</span>,
+    <span class="json-key">"vapid"</span>: { <span class="json-key">"public_key"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"private_key"</span>: <span class="json-str">"CHANGE_ME"</span> }
+  },
+  <span class="json-key">"instance"</span>: { <span class="json-key">"self_hosted"</span>: <span class="json-bool">true</span> }
 }</code></pre>
+
+  <div class="callout callout-warn">
+    <p><strong>Secrets:</strong> Generate every <code>CHANGE_ME</code> value with <code>openssl rand -hex 32</code>. The <code>auth.vapid</code> pair must come from a web-push keypair generator (it is a public/private keypair, not a random string). The <code>services.admin</code> secrets are required even if you never open the admin panel — the server will refuse to start without them.</p>
+  </div>
 
   <h3>Full Configuration Reference</h3>
 
-  <p>A more complete configuration with all common options:</p>
+  <p>The same base configuration with an optional <code>integrations.email</code> block added for transactional email (verification, password resets). Leave <code>enabled</code> set to <span class="json-bool">false</span> if you don't have an SMTP server:</p>
 
   <div class="code-label">config/config.json</div>
 <pre><code>{
-  <span class="json-key">"server"</span>: {
-    <span class="json-key">"name"</span>: <span class="json-str">"My Fluxer Server"</span>,
-    <span class="json-key">"host"</span>: <span class="json-str">"0.0.0.0"</span>,
-    <span class="json-key">"port"</span>: <span class="json-num">3000</span>,
-    <span class="json-key">"publicUrl"</span>: <span class="json-str">"https://fluxer.example.com"</span>,
-    <span class="json-key">"trustedProxies"</span>: [<span class="json-str">"127.0.0.1"</span>, <span class="json-str">"172.16.0.0/12"</span>]
+  <span class="json-key">"env"</span>: <span class="json-str">"production"</span>,
+  <span class="json-key">"domain"</span>: { <span class="json-key">"base_domain"</span>: <span class="json-str">"fluxer.example.com"</span>, <span class="json-key">"public_scheme"</span>: <span class="json-str">"https"</span>, <span class="json-key">"public_port"</span>: <span class="json-num">443</span> },
+  <span class="json-key">"database"</span>: { <span class="json-key">"backend"</span>: <span class="json-str">"sqlite"</span>, <span class="json-key">"sqlite_path"</span>: <span class="json-str">"/usr/src/app/data/fluxer.db"</span> },
+  <span class="json-key">"internal"</span>: { <span class="json-key">"kv"</span>: <span class="json-str">"redis://valkey:6379/0"</span>, <span class="json-key">"kv_mode"</span>: <span class="json-str">"standalone"</span> },
+  <span class="json-key">"s3"</span>: { <span class="json-key">"access_key_id"</span>: <span class="json-str">"fluxer"</span>, <span class="json-key">"secret_access_key"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"endpoint"</span>: <span class="json-str">"http://127.0.0.1:8080/s3"</span> },
+  <span class="json-key">"services"</span>: {
+    <span class="json-key">"server"</span>: { <span class="json-key">"host"</span>: <span class="json-str">"0.0.0.0"</span>, <span class="json-key">"port"</span>: <span class="json-num">8080</span> },
+    <span class="json-key">"s3"</span>: { <span class="json-key">"data_dir"</span>: <span class="json-str">"/usr/src/app/data/s3"</span> },
+    <span class="json-key">"queue"</span>: { <span class="json-key">"data_dir"</span>: <span class="json-str">"/usr/src/app/data/queue"</span> },
+    <span class="json-key">"media_proxy"</span>: { <span class="json-key">"secret_key"</span>: <span class="json-str">"CHANGE_ME"</span> },
+    <span class="json-key">"admin"</span>: { <span class="json-key">"secret_key_base"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"oauth_client_secret"</span>: <span class="json-str">"CHANGE_ME"</span> },
+    <span class="json-key">"gateway"</span>: { <span class="json-key">"port"</span>: <span class="json-num">8082</span>, <span class="json-key">"admin_reload_secret"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"media_proxy_endpoint"</span>: <span class="json-str">"http://127.0.0.1:8080/media"</span> },
+    <span class="json-key">"nats"</span>: { <span class="json-key">"core_url"</span>: <span class="json-str">"nats://nats:4222"</span>, <span class="json-key">"jetstream_url"</span>: <span class="json-str">"nats://nats:4222"</span> }
   },
-
-  <span class="json-key">"database"</span>: {
-    <span class="json-key">"type"</span>: <span class="json-str">"sqlite"</span>,
-    <span class="json-key">"path"</span>: <span class="json-str">"/data/db/fluxer.db"</span>
-  },
-
-  <span class="json-key">"storage"</span>: {
-    <span class="json-key">"uploadsPath"</span>: <span class="json-str">"/data/uploads"</span>,
-    <span class="json-key">"maxFileSize"</span>: <span class="json-str">"50MB"</span>,
-    <span class="json-key">"allowedFileTypes"</span>: [<span class="json-str">"image/*"</span>, <span class="json-str">"video/*"</span>, <span class="json-str">"audio/*"</span>, <span class="json-str">"application/pdf"</span>]
-  },
-
   <span class="json-key">"auth"</span>: {
-    <span class="json-key">"registrationEnabled"</span>: <span class="json-bool">true</span>,
-    <span class="json-key">"requireEmailVerification"</span>: <span class="json-bool">false</span>,
-    <span class="json-key">"sessionTimeout"</span>: <span class="json-str">"30d"</span>,
-    <span class="json-key">"maxSessionsPerUser"</span>: <span class="json-num">10</span>
+    <span class="json-key">"sudo_mode_secret"</span>: <span class="json-str">"CHANGE_ME"</span>,
+    <span class="json-key">"connection_initiation_secret"</span>: <span class="json-str">"CHANGE_ME"</span>,
+    <span class="json-key">"vapid"</span>: { <span class="json-key">"public_key"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"private_key"</span>: <span class="json-str">"CHANGE_ME"</span> }
   },
-
-  <span class="json-key">"email"</span>: {
-    <span class="json-key">"enabled"</span>: <span class="json-bool">false</span>,
-    <span class="json-key">"smtp"</span>: {
-      <span class="json-key">"host"</span>: <span class="json-str">"smtp.example.com"</span>,
-      <span class="json-key">"port"</span>: <span class="json-num">587</span>,
-      <span class="json-key">"secure"</span>: <span class="json-bool">true</span>,
-      <span class="json-key">"user"</span>: <span class="json-str">"noreply@example.com"</span>,
-      <span class="json-key">"password"</span>: <span class="json-str">"your-smtp-password"</span>
-    },
-    <span class="json-key">"from"</span>: <span class="json-str">"Fluxer &lt;noreply@example.com&gt;"</span>
+  <span class="json-key">"integrations"</span>: {
+    <span class="json-key">"email"</span>: {
+      <span class="json-key">"enabled"</span>: <span class="json-bool">false</span>,
+      <span class="json-key">"provider"</span>: <span class="json-str">"smtp"</span>,
+      <span class="json-key">"from_email"</span>: <span class="json-str">"noreply@example.com"</span>,
+      <span class="json-key">"from_name"</span>: <span class="json-str">"Fluxer"</span>,
+      <span class="json-key">"smtp"</span>: { <span class="json-key">"host"</span>: <span class="json-str">"smtp.example.com"</span>, <span class="json-key">"port"</span>: <span class="json-num">587</span>, <span class="json-key">"username"</span>: <span class="json-str">"noreply@example.com"</span>, <span class="json-key">"password"</span>: <span class="json-str">"CHANGE_ME"</span>, <span class="json-key">"secure"</span>: <span class="json-bool">false</span> }
+    }
   },
-
-  <span class="json-key">"rateLimit"</span>: {
-    <span class="json-key">"enabled"</span>: <span class="json-bool">true</span>,
-    <span class="json-key">"windowMs"</span>: <span class="json-num">60000</span>,
-    <span class="json-key">"maxRequests"</span>: <span class="json-num">100</span>
-  },
-
-  <span class="json-key">"voice"</span>: {
-    <span class="json-key">"enabled"</span>: <span class="json-bool">true</span>,
-    <span class="json-key">"maxParticipants"</span>: <span class="json-num">25</span>
-  },
-
-  <span class="json-key">"logging"</span>: {
-    <span class="json-key">"level"</span>: <span class="json-str">"info"</span>,
-    <span class="json-key">"path"</span>: <span class="json-str">"/data/logs"</span>
-  }
+  <span class="json-key">"instance"</span>: { <span class="json-key">"self_hosted"</span>: <span class="json-bool">true</span> }
 }</code></pre>
 
   <h3>Configuration Options</h3>
 
   <div class="callout callout-info">
-    <p><strong>server.publicUrl</strong> — Must match the domain you configure in Caddy. This is used for generating invite links, email links, and API responses.</p>
+    <p><strong>Public URL</strong> — The server derives its public URL from the <code>domain</code> block: <code>domain.base_domain</code>, <code>domain.public_scheme</code>, and <code>domain.public_port</code>. These must match the domain you configure in Caddy, and are used for generating invite links, email links, and API responses.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <p><strong>All other options</strong> — search, voice, captcha, payments and every remaining key are documented in the schema. See <code>packages/config/src/ConfigSchema.json</code> in the <a href="https://github.com/fluxerworld/fluxerworld">repository</a> for the full, authoritative list of fields and their defaults.</p>
   </div>
 
   <div class="callout callout-warn">
-    <p><strong>Security:</strong> If you enable email verification, make sure to configure the <code>email.smtp</code> section with valid SMTP credentials. Without it, users won't be able to verify their accounts.</p>
+    <p><strong>Security:</strong> If you enable email, set <code>integrations.email.enabled</code> to <span class="json-bool">true</span> and fill in the <code>integrations.email.smtp</code> section with valid SMTP credentials. Without it, users won't be able to verify their accounts or reset passwords.</p>
   </div>
 
   <!-- 4. DOCKER COMPOSE -->
@@ -529,84 +502,56 @@ cd /opt/fluxer</code></pre>
   <p>Create a <code>docker-compose.yml</code> in <code>/opt/fluxer/</code>:</p>
 
   <div class="code-label">docker-compose.yml</div>
-<pre><code><span class="json-key">version</span>: <span class="json-str">"3.8"</span>
-
-<span class="json-key">services</span>:
-  <span class="json-key">fluxer</span>:
+<pre><code><span class="json-key">services</span>:
+  <span class="json-key">fluxer_server</span>:
     <span class="json-key">image</span>: ghcr.io/fluxerworld/fluxer-server:stable
     <span class="json-key">container_name</span>: fluxer_server
     <span class="json-key">restart</span>: unless-stopped
     <span class="json-key">ports</span>:
-      - <span class="json-str">"127.0.0.1:3000:3000"</span>
+      - <span class="json-str">"127.0.0.1:8080:8080"</span>
+    <span class="json-key">environment</span>:
+      - FLUXER_CONFIG=/usr/src/app/config/config.json
+      - NODE_ENV=production
     <span class="json-key">volumes</span>:
       - ./config:/usr/src/app/config:ro
-      - ./data:/data
-    <span class="json-key">environment</span>:
-      - NODE_ENV=production
-    <span class="json-key">healthcheck</span>:
-      <span class="json-key">test</span>: [<span class="json-str">"CMD"</span>, <span class="json-str">"curl"</span>, <span class="json-str">"-f"</span>, <span class="json-str">"http://localhost:3000/api/health"</span>]
-      <span class="json-key">interval</span>: 30s
-      <span class="json-key">timeout</span>: 10s
-      <span class="json-key">retries</span>: 3</code></pre>
-
-  <div class="callout callout-info">
-    <p><strong>Why 127.0.0.1:3000?</strong> — Binding to <code>127.0.0.1</code> ensures the port is only accessible locally. Caddy will handle all external traffic and TLS termination.</p>
-  </div>
-
-  <h3>Using PostgreSQL instead of SQLite</h3>
-
-  <p>For larger deployments, you may want to use PostgreSQL. Add a database service to your compose file:</p>
-
-  <div class="code-label">docker-compose.yml (with PostgreSQL)</div>
-<pre><code><span class="json-key">version</span>: <span class="json-str">"3.8"</span>
-
-<span class="json-key">services</span>:
-  <span class="json-key">fluxer</span>:
-    <span class="json-key">image</span>: ghcr.io/fluxerworld/fluxer-server:stable
-    <span class="json-key">container_name</span>: fluxer_server
-    <span class="json-key">restart</span>: unless-stopped
-    <span class="json-key">ports</span>:
-      - <span class="json-str">"127.0.0.1:3000:3000"</span>
-    <span class="json-key">volumes</span>:
-      - ./config:/usr/src/app/config:ro
-      - ./data:/data
-    <span class="json-key">environment</span>:
-      - NODE_ENV=production
+      - ./data:/usr/src/app/data
     <span class="json-key">depends_on</span>:
-      <span class="json-key">postgres</span>:
+      <span class="json-key">valkey</span>:
+        <span class="json-key">condition</span>: service_healthy
+      <span class="json-key">nats</span>:
         <span class="json-key">condition</span>: service_healthy
 
-  <span class="json-key">postgres</span>:
-    <span class="json-key">image</span>: postgres:16-alpine
-    <span class="json-key">container_name</span>: fluxer_db
+  <span class="json-key">valkey</span>:
+    <span class="json-key">image</span>: valkey/valkey:8-alpine
+    <span class="json-key">container_name</span>: valkey
     <span class="json-key">restart</span>: unless-stopped
     <span class="json-key">volumes</span>:
-      - ./data/postgres:/var/lib/postgresql/data
-    <span class="json-key">environment</span>:
-      <span class="json-key">POSTGRES_DB</span>: fluxer
-      <span class="json-key">POSTGRES_USER</span>: fluxer
-      <span class="json-key">POSTGRES_PASSWORD</span>: <span class="json-str">change-this-password</span>
+      - valkey_data:/data
     <span class="json-key">healthcheck</span>:
-      <span class="json-key">test</span>: [<span class="json-str">"CMD-SHELL"</span>, <span class="json-str">"pg_isready -U fluxer"</span>]
+      <span class="json-key">test</span>: [<span class="json-str">"CMD"</span>, <span class="json-str">"valkey-cli"</span>, <span class="json-str">"ping"</span>]
       <span class="json-key">interval</span>: 10s
       <span class="json-key">timeout</span>: 5s
-      <span class="json-key">retries</span>: 5</code></pre>
+      <span class="json-key">retries</span>: 5
 
-  <p>Update your <code>config.json</code> database section to match:</p>
+  <span class="json-key">nats</span>:
+    <span class="json-key">image</span>: nats:2-alpine
+    <span class="json-key">container_name</span>: nats
+    <span class="json-key">restart</span>: unless-stopped
+    <span class="json-key">command</span>: [<span class="json-str">"--jetstream"</span>, <span class="json-str">"--store_dir"</span>, <span class="json-str">"/data"</span>, <span class="json-str">"-m"</span>, <span class="json-str">"8222"</span>]
+    <span class="json-key">volumes</span>:
+      - nats_data:/data
+    <span class="json-key">healthcheck</span>:
+      <span class="json-key">test</span>: [<span class="json-str">"CMD-SHELL"</span>, <span class="json-str">"wget -q -O- http://127.0.0.1:8222/healthz || exit 1"</span>]
+      <span class="json-key">interval</span>: 10s
+      <span class="json-key">timeout</span>: 5s
+      <span class="json-key">retries</span>: 5
 
-<pre><code>{
-  <span class="json-key">"database"</span>: {
-    <span class="json-key">"type"</span>: <span class="json-str">"postgres"</span>,
-    <span class="json-key">"host"</span>: <span class="json-str">"postgres"</span>,
-    <span class="json-key">"port"</span>: <span class="json-num">5432</span>,
-    <span class="json-key">"name"</span>: <span class="json-str">"fluxer"</span>,
-    <span class="json-key">"user"</span>: <span class="json-str">"fluxer"</span>,
-    <span class="json-key">"password"</span>: <span class="json-str">"change-this-password"</span>
-  }
-}</code></pre>
+<span class="json-key">volumes</span>:
+  <span class="json-key">valkey_data</span>:
+  <span class="json-key">nats_data</span>:</code></pre>
 
-  <div class="callout callout-danger">
-    <p><strong>Important:</strong> Change the default database password before deploying. Use a strong, randomly generated password.</p>
+  <div class="callout callout-info">
+    <p><strong>Why 127.0.0.1:8080?</strong> — Binding to <code>127.0.0.1</code> ensures the API port is only accessible locally. Caddy will handle all external traffic and TLS termination. The <code>valkey</code> and <code>nats</code> services are not published to the host at all — they're reached over the internal Docker network.</p>
   </div>
 
   <!-- 5. CADDY -->
@@ -618,7 +563,7 @@ cd /opt/fluxer</code></pre>
 
   <div class="code-label">/etc/caddy/Caddyfile</div>
 <pre><code><span class="caddy-domain">fluxer.example.com</span> {
-    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:3000</span>
+    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:8080</span>
 
     <span class="caddy-directive">encode</span> gzip zstd
 
@@ -641,7 +586,7 @@ cd /opt/fluxer</code></pre>
 
   <div class="code-label">/etc/caddy/Caddyfile</div>
 <pre><code><span class="caddy-domain">fluxer.example.com</span> {
-    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:3000</span> {
+    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:8080</span> {
         <span class="caddy-directive">header_up</span> X-Real-IP <span class="caddy-value">{remote_host}</span>
         <span class="caddy-directive">header_up</span> X-Forwarded-For <span class="caddy-value">{remote_host}</span>
         <span class="caddy-directive">header_up</span> X-Forwarded-Proto <span class="caddy-value">{scheme}</span>
@@ -679,7 +624,7 @@ cd /opt/fluxer</code></pre>
   <div class="code-label">/etc/caddy/Caddyfile</div>
 <pre><code><span class="sh-comment"># API / Server</span>
 <span class="caddy-domain">fluxer.example.com</span> {
-    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:3000</span>
+    <span class="caddy-directive">reverse_proxy</span> <span class="caddy-value">127.0.0.1:8080</span>
     <span class="caddy-directive">encode</span> gzip zstd
 }
 
@@ -712,7 +657,7 @@ docker compose up -d</code></pre>
   </div>
 
 <pre><code><span class="sh-comment"># Follow logs in real time</span>
-docker compose logs -f fluxer
+docker compose logs -f fluxer_server
 
 <span class="sh-comment"># Check container status</span>
 docker compose ps</code></pre>
@@ -726,7 +671,7 @@ docker compose ps</code></pre>
 sudo systemctl status caddy
 
 <span class="sh-comment"># Test the endpoint</span>
-curl -I https://fluxer.example.com/api/health</code></pre>
+curl -I https://fluxer.example.com/_health</code></pre>
 
   <div class="callout callout-success">
     <p><strong>Done!</strong> Your Fluxer server should now be accessible at <code>https://fluxer.example.com</code>. Caddy handles TLS certificates automatically.</p>
@@ -754,7 +699,7 @@ docker compose logs --tail=80 fluxer_server</code></pre>
   </div>
 
   <div class="callout callout-warn">
-    <p><strong>Backups:</strong> Always back up your <code>data/</code> directory before updating, especially the database. For SQLite: <code>cp data/db/fluxer.db data/db/fluxer.db.bak</code>. For PostgreSQL: <code>docker exec fluxer_db pg_dump -U fluxer fluxer > backup.sql</code></p>
+    <p><strong>Backups:</strong> Always back up your <code>data/</code> directory before updating, especially the database. For SQLite: <code>cp data/fluxer.db data/fluxer.db.bak</code></p>
   </div>
 
   <!-- 8. TROUBLESHOOTING -->
@@ -762,7 +707,7 @@ docker compose logs --tail=80 fluxer_server</code></pre>
 
   <h3>Container won't start</h3>
 <pre><code><span class="sh-comment"># Check logs for errors</span>
-docker compose logs fluxer
+docker compose logs fluxer_server
 
 <span class="sh-comment"># Verify config is valid JSON</span>
 python3 -m json.tool config/config.json
@@ -773,8 +718,8 @@ ls -la config/ data/</code></pre>
   <h3>502 Bad Gateway from Caddy</h3>
   <ul>
     <li>Ensure the Fluxer container is running: <code>docker compose ps</code></li>
-    <li>Verify the port binding matches the Caddyfile: <code>docker compose port fluxer 3000</code></li>
-    <li>Check if the health endpoint responds locally: <code>curl http://127.0.0.1:3000/api/health</code></li>
+    <li>Verify the port binding matches the Caddyfile: <code>docker compose port fluxer_server 8080</code></li>
+    <li>Check if the health endpoint responds locally: <code>curl http://127.0.0.1:8080/_health</code></li>
   </ul>
 
   <h3>TLS certificate issues</h3>
@@ -785,11 +730,8 @@ ls -la config/ data/</code></pre>
   </ul>
 
   <h3>Database permission errors</h3>
-<pre><code><span class="sh-comment"># Fix ownership for SQLite</span>
-sudo chown -R 1000:1000 /opt/fluxer/data/db
-
-<span class="sh-comment"># Fix ownership for uploads</span>
-sudo chown -R 1000:1000 /opt/fluxer/data/uploads</code></pre>
+<pre><code><span class="sh-comment"># Fix ownership of the data directory</span>
+sudo chown -R 1000:1000 /opt/fluxer/data</code></pre>
 
   <h3>Check resource usage</h3>
 <pre><code>docker stats fluxer_server</code></pre>
