@@ -116,7 +116,7 @@ function serializeDMChannel(channel: Channel): ChannelResponse {
 	return {
 		...serializeBaseChannelFields(channel),
 		...serializeMessageableFields(channel),
-		e2ee_enabled: channel.e2eeEnabled,
+		e2ee_enabled: true, // E2EE is always-on for DM/GROUP_DM; serialize true regardless of the stored flag (handles null/stale rows + new DMs)
 	};
 }
 
@@ -137,7 +137,7 @@ function serializeGroupDMChannel(channel: Channel): ChannelResponse {
 		icon: channel.iconHash ?? null,
 		owner_id: channel.ownerId ? channel.ownerId.toString() : null,
 		nicks: nicknameMap.size > 0 ? nicks : undefined,
-		e2ee_enabled: channel.e2eeEnabled,
+		e2ee_enabled: true, // E2EE is always-on for DM/GROUP_DM; serialize true regardless of the stored flag (handles null/stale rows + new DMs)
 	};
 }
 
