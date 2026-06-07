@@ -565,6 +565,10 @@
 					"type": "number",
 					"description": "Minimum number of members a guild needs before it can apply for discovery listing.",
 					"default": 1
+				},
+				"application_webhook_url": {
+					"type": "string",
+					"description": "Internal webhook URL the API posts to when a new discovery application is submitted. Leave unset to disable the notification."
 				}
 			}
 		},
@@ -1316,6 +1320,78 @@
 				}
 			}
 		},
+		"polar_products": {
+			"type": "object",
+			"description": "Polar product IDs keyed by tier.",
+			"properties": {
+				"monthlySubscription": {
+					"type": "string",
+					"description": "Polar product id for monthly subscription.",
+					"default": ""
+				},
+				"yearlySubscription": {
+					"type": "string",
+					"description": "Polar product id for yearly subscription.",
+					"default": ""
+				},
+				"gift1Month": {
+					"type": "string",
+					"description": "Polar product id for 1-month gift (one-time).",
+					"default": ""
+				},
+				"gift1Year": {
+					"type": "string",
+					"description": "Polar product id for 1-year gift (one-time).",
+					"default": ""
+				}
+			}
+		},
+		"polar_integration": {
+			"type": "object",
+			"description": "Polar.sh Merchant-of-Record payments integration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Enable Polar payments. Can coexist with Stripe during migration.",
+					"default": false
+				},
+				"sandbox": {
+					"type": "boolean",
+					"description": "Use sandbox-api.polar.sh instead of production.",
+					"default": true
+				},
+				"apiKey": {
+					"type": "string",
+					"description": "Polar Organization Access Token (polar_oat_...).",
+					"default": ""
+				},
+				"webhookSecret": {
+					"type": "string",
+					"description": "Polar webhook signing secret (polar_whs_... or whsec_...).",
+					"default": ""
+				},
+				"products": {
+					"description": "Product IDs for subscription + gift tiers.",
+					"$ref": "#/$defs/polar_products"
+				}
+			},
+			"if": {
+				"required": [
+					"enabled"
+				],
+				"properties": {
+					"enabled": {
+						"const": true
+					}
+				}
+			},
+			"then": {
+				"required": [
+					"apiKey",
+					"webhookSecret"
+				]
+			}
+		},
 		"search_integration": {
 			"type": "object",
 			"description": "Search engine integration. Supports Meilisearch and Elasticsearch backends.",
@@ -1498,34 +1574,6 @@
 					"secret_key",
 					"webhook_secret"
 				]
-			}
-		},
-		"polar_products": {
-			"type": "object",
-			"description": "Polar product IDs keyed by tier.",
-			"properties": {
-				"monthlySubscription": {"type": "string", "default": ""},
-				"yearlySubscription":  {"type": "string", "default": ""},
-				"gift1Month":          {"type": "string", "default": ""},
-				"gift1Year":           {"type": "string", "default": ""}
-			}
-		},
-		"polar_integration": {
-			"type": "object",
-			"description": "Polar.sh Merchant-of-Record payments integration.",
-			"properties": {
-				"enabled": {"type": "boolean", "default": false},
-				"sandbox": {"type": "boolean", "default": true},
-				"apiKey": {"type": "string", "default": ""},
-				"webhookSecret": {"type": "string", "default": ""},
-				"products": {"$ref": "#/$defs/polar_products", "default": {}}
-			},
-			"if": {
-				"required": ["enabled"],
-				"properties": {"enabled": {"const": true}}
-			},
-			"then": {
-				"required": ["apiKey", "webhookSecret"]
 			}
 		},
 		"tenor": {

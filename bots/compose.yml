@@ -87,3 +87,12 @@ services:
     container_name: remix-bot
     restart: unless-stopped
     networks: [bot-net]
+
+  groovy-bot:
+    build:
+      context: /opt/fluxer/groovy
+      dockerfile: /opt/fluxer/bots/groovy/Dockerfile
+    container_name: groovy-bot
+    restart: unless-stopped
+    networks: [bot-net]
+    env_file: /opt/fluxer/groovy/.env
