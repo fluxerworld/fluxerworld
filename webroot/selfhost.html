@@ -279,6 +279,49 @@
     <p><strong>Note:</strong> Caddy automatically provisions and renews TLS certificates via Let's Encrypt. No manual certificate setup is needed.</p>
   </div>
 
+  <h3>System Requirements</h3>
+
+  <p>Fluxerworld runs as one app container plus two small dependencies (Valkey + NATS). It is <strong>RAM-bound</strong> &mdash; the app process is the floor. Approximate sizing for a single-instance, SQLite-backed deployment:</p>
+
+  <table style="width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.9rem;">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border); text-align: left;">
+        <th style="padding: 0.6rem 1rem; color: var(--text);">Tier</th>
+        <th style="padding: 0.6rem 1rem; color: var(--text);">RAM</th>
+        <th style="padding: 0.6rem 1rem; color: var(--text);">CPU</th>
+        <th style="padding: 0.6rem 1rem; color: var(--text);">Disk</th>
+        <th style="padding: 0.6rem 1rem; color: var(--text);">Good for</th>
+      </tr>
+    </thead>
+    <tbody style="color: var(--text-muted);">
+      <tr style="border-bottom: 1px solid var(--border);">
+        <td style="padding: 0.6rem 1rem;"><strong>Minimum</strong></td>
+        <td style="padding: 0.6rem 1rem;">2 GB</td>
+        <td style="padding: 0.6rem 1rem;">1 vCPU</td>
+        <td style="padding: 0.6rem 1rem;">~10 GB</td>
+        <td style="padding: 0.6rem 1rem;">A small community (SQLite, optional search)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid var(--border);">
+        <td style="padding: 0.6rem 1rem;"><strong>Comfortable</strong></td>
+        <td style="padding: 0.6rem 1rem;">4 GB</td>
+        <td style="padding: 0.6rem 1rem;">2 vCPU</td>
+        <td style="padding: 0.6rem 1rem;">20 GB+</td>
+        <td style="padding: 0.6rem 1rem;">Headroom for search, voice, and growth</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-warn">
+    <p><strong>1 GB will not work.</strong> The application process alone uses ~1 GB of RAM, so a 1 GB server runs out of memory on startup. 2 GB is a hard floor.</p>
+  </div>
+
+  <ul>
+    <li><strong>CPU</strong> is light &mdash; the stack is near-idle at rest, so 1 vCPU handles a small instance fine.</li>
+    <li><strong>Disk</strong> is dominated by uploads (the built-in object store), not the database. Start around ~10 GB and scale with how much media your users share.</li>
+    <li><strong>Search</strong> (optional): the Meilisearch profile adds ~250 MB. Avoid the Elasticsearch profile on small servers &mdash; its JVM alone wants ~1 GB.</li>
+    <li><strong>Voice</strong> (optional): the LiveKit profile is light (~55 MB) but needs its own UDP port range opened.</li>
+  </ul>
+
   <h3>Install Docker</h3>
 <pre><code><span class="sh-comment"># Install Docker (Ubuntu/Debian)</span>
 curl -fsSL https://get.docker.com | sh
