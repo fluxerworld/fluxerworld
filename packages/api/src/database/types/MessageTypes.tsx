@@ -167,12 +167,22 @@ export interface MessageRow {
 
 // Stored verbatim — the server never reads inside this. The shape is
 // agreed on between sender and recipient clients via the wire schema.
-export interface MessageEncryptedPayload {
-	v: number;
-	sender_device_id: string;
-	sender_identity_key: string;
-	ciphertexts: Record<string, {type: number; body: string}>;
-}
+export type MessageEncryptedPayload =
+	| {
+			v: number;
+			kind?: 'olm';
+			sender_device_id: string;
+			sender_identity_key: string;
+			ciphertexts: Record<string, {type: number; body: string}>;
+	  }
+	| {
+			v: number;
+			kind: 'megolm';
+			sender_device_id: string;
+			sender_identity_key: string;
+			session_id: string;
+			ciphertext: string;
+	  };
 
 export const MESSAGE_COLUMNS = [
 	'channel_id',
