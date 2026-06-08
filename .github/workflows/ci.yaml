@@ -4,9 +4,13 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   typecheck:
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout code
@@ -32,7 +36,7 @@ jobs:
           TURBO_TEAM: team_fluxer
 
   test:
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout code
@@ -59,7 +63,7 @@ jobs:
           TURBO_TEAM: team_fluxer
 
   gateway:
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout code
@@ -93,7 +97,7 @@ jobs:
           FLUXER_CONFIG: ../config/config.test.json
 
   knip:
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout code
@@ -119,7 +123,7 @@ jobs:
           TURBO_TEAM: team_fluxer
 
   ci-scripts:
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout code
