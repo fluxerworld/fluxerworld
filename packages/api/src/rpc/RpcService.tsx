@@ -330,6 +330,7 @@ export class RpcService {
 			nicks: null,
 			soft_deleted: false,
 			indexed_at: null,
+			e2ee_enabled: false,
 			version: 1,
 		});
 	}
