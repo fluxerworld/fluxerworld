@@ -31,7 +31,7 @@ allowBuilds:
   ssh2: true
   sqlite3: true
   uiohook-napi: true
-  wasm-pack: true
+  wasm-pack: false
 blockExoticSubdeps: true
 minimumReleaseAge: 1440
 strictDepBuilds: true
