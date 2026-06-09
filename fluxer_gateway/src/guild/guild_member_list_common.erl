@@ -285,7 +285,7 @@ partition_members_by_online(Members, State) ->
     lists:partition(
         fun(Member) ->
             UserId = get_member_user_id(Member),
-            Status = case presence_cache:get(UserId) of
+            Status = case (catch presence_cache:get(UserId)) of
                 {ok, Payload} ->
                     maps:get(<<"status">>, Payload, <<"offline">>);
                 _ ->
@@ -1091,11 +1091,11 @@ partition_members_empty_list_test() ->
 
 connected_session_user_ids_ignores_invalid_test() ->
     State = #{sessions => #{
-        <<"s1">> => #{user_id => 10},
-        <<"s2">> => #{user_id => 0},
-        <<"s3">> => #{user_id => -1},
-        <<"s4">> => #{},
-        <<"s5">> => #{user_id => undefined}
+        <<"s1">> => #{user_id => 10, pid => self()},
+        <<"s2">> => #{user_id => 0, pid => self()},
+        <<"s3">> => #{user_id => -1, pid => self()},
+        <<"s4">> => #{pid => self()},
+        <<"s5">> => #{user_id => undefined, pid => self()}
     }},
     Ids = connected_session_user_ids(State),
     ?assertEqual(true, sets:is_element(10, Ids)),
