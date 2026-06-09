@@ -108,6 +108,7 @@ export async function createTestAccount(
 		globalName?: string;
 		dateOfBirth?: string;
 		skipSessionStart?: boolean;
+		skipEmailVerification?: boolean;
 	},
 ): Promise<TestAccount> {
 	const email = params?.email ?? createUniqueEmail('account');
@@ -128,6 +129,21 @@ export async function createTestAccount(
 			.patch(`/test/users/${reg.user_id}/flags`)
 			.body({
 				flags: HAS_SESSION_STARTED.toString(),
+			})
+			.execute();
+	}
+
+	// Test accounts register with an unverified email (matching production),
+	// but the anti-spam gate now blocks unverified users from DMing,
+	// friending, and messaging -- which most tests need as setup, not as the
+	// thing under test. Verify the email by default; the few tests that
+	// exercise the unverified/unclaimed gate opt out with
+	// skipEmailVerification (or unclaim the account explicitly).
+	if (!params?.skipEmailVerification) {
+		await createBuilder<unknown>(harness, '')
+			.post(`/test/users/${reg.user_id}/security-flags`)
+			.body({
+				email_verified: true,
 			})
 			.execute();
 	}
