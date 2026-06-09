@@ -86,7 +86,7 @@ export async function transformPublic(body: GitHubWebhook): Promise<RichEmbedReq
 }
 
 export async function transformRelease(body: GitHubWebhook): Promise<RichEmbedRequest | null> {
-	if (!((body.action === 'published' || body.action === 'created') && body.release && body.repository)) {
+	if (!(body.action === 'published' && body.release && body.repository)) {
 		return null;
 	}
 

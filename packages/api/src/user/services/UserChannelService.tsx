@@ -512,7 +512,7 @@ export class UserChannelService {
 			throw new UnclaimedAccountCannotSendDirectMessagesError();
 		}
 
-		if (senderUser && !senderUser.emailVerified) {
+		if (senderUser && !senderUser.isBot && !senderUser.emailVerified) {
 			const senderFriendship = await this.userRelationshipRepository.getRelationship(
 				userId,
 				recipientId,
