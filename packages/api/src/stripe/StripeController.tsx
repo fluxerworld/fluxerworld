@@ -232,7 +232,13 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			const url = await ctx.get('stripeService').createCustomerPortalSession(userId);
+			// Polar is the active subscription provider when enabled (production);
+			// fall back to Stripe when it is not configured (e.g. the test env,
+			// where polarSubscriptionService is never constructed).
+			const polar = ctx.get('polarSubscriptionService');
+			const url = polar
+				? await polar.getCustomerPortalUrlForUser(userId)
+				: await ctx.get('stripeService').createCustomerPortalSession(userId);
 			if (!url) {
 				throw new HTTPException(404, {message: 'No purchase history available.'});
 			}
@@ -256,7 +262,12 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			await ctx.get('stripeService').cancelSubscriptionAtPeriodEnd(userId);
+			const polar = ctx.get('polarSubscriptionService');
+			if (polar) {
+				await polar.cancelForUser(userId);
+			} else {
+				await ctx.get('stripeService').cancelSubscriptionAtPeriodEnd(userId);
+			}
 			return ctx.body(null, 204);
 		},
 	);
@@ -277,7 +288,12 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			await ctx.get('stripeService').reactivateSubscription(userId);
+			const polar = ctx.get('polarSubscriptionService');
+			if (polar) {
+				await polar.reactivateForUser(userId);
+			} else {
+				await ctx.get('stripeService').reactivateSubscription(userId);
+			}
 			return ctx.body(null, 204);
 		},
 	);
