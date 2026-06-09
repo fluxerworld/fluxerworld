@@ -27,7 +27,7 @@ import {DownloadIcon} from '@fluxer/marketing/src/components/icons/DownloadIcon'
 import {LinuxIcon} from '@fluxer/marketing/src/components/icons/LinuxIcon';
 import {WindowsIcon} from '@fluxer/marketing/src/components/icons/WindowsIcon';
 import type {MarketingContext, MarketingPlatform} from '@fluxer/marketing/src/MarketingContext';
-import {apiUrl, href, isCanary} from '@fluxer/marketing/src/UrlUtils';
+import {href} from '@fluxer/marketing/src/UrlUtils';
 
 export type ButtonStyle = 'light' | 'dark';
 
@@ -380,7 +380,4 @@ function githubReleaseUrl(filename: string): string {
 	return `${GITHUB_RELEASE_BASE}/${filename}`;
 }
 
-function channelSegment(ctx: MarketingContext): string {
-	return isCanary(ctx) ? 'canary' : 'stable';
-}
 
