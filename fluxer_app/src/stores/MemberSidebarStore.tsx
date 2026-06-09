@@ -230,7 +230,15 @@ class MemberSidebarStore {
 		// positions.
 		const previousListState = this.lists[guildId]?.[listId];
 		const previousGroups = previousListState?.groups ?? [];
+		// A SYNC op is an authoritative repopulation of its range: the
+		// server emits its items positioned against the groups array sent
+		// in the SAME payload, so it is internally consistent and safe to
+		// apply even when the group counts shifted. Only the UPDATE-only
+		// drift case (no SYNC) leaves stale rows pointing at the old
+		// layout, which is what the resync guard below exists to repair.
+		const hasSyncOp = ops.some((op) => op.op === 'SYNC');
 		const groupsShifted =
+			!hasSyncOp &&
 			previousGroups.length > 0 &&
 			(previousGroups.length !== groups.length ||
 				previousGroups.some(

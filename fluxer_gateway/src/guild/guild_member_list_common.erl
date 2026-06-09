@@ -1057,7 +1057,12 @@ presence_status_changed_user_added_test() ->
     NewState = #{member_presence => #{1 => #{<<"status">> => <<"online">>}}},
     ?assertEqual(true, presence_status_changed(1, OldState, NewState)).
 
-partition_members_no_sessions_test() ->
+partition_members_presence_drives_online_not_sessions_test() ->
+    %% Online-ness comes from global presence (presence_cache, falling back
+    %% to member_presence here since the cache is empty in eunit), NOT from
+    %% the guild's sessions map (commit 39800a7b). Both members report
+    %% online via member_presence, so both land in the online bucket even
+    %% with an empty sessions map.
     Members = [
         #{<<"user">> => #{<<"id">> => <<"1">>}},
         #{<<"user">> => #{<<"id">> => <<"2">>}}
@@ -1070,8 +1075,8 @@ partition_members_no_sessions_test() ->
         }
     },
     {Online, Offline} = partition_members_by_online(Members, State),
-    ?assertEqual(0, length(Online)),
-    ?assertEqual(2, length(Offline)).
+    ?assertEqual(2, length(Online)),
+    ?assertEqual(0, length(Offline)).
 
 partition_members_invisible_is_offline_test() ->
     Members = [#{<<"user">> => #{<<"id">> => <<"1">>}}],

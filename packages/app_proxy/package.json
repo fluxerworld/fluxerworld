@@ -10,9 +10,7 @@
 		"@fluxer/constants": "workspace:*",
 		"@fluxer/hono": "workspace:*",
 		"@fluxer/hono_types": "workspace:*",
-		"@fluxer/ip_utils": "workspace:*",
 		"@fluxer/logger": "workspace:*",
-		"@fluxer/rate_limit": "workspace:*",
 		"@fluxer/sentry": "workspace:*",
 		"hono": "catalog:"
 	},

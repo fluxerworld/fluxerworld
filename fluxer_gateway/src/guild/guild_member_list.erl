@@ -512,7 +512,12 @@ get_members_cursor_returns_atom_keys_test() ->
     ?assertNot(maps:is_key(<<"members">>, Reply)),
     ?assertNot(maps:is_key(<<"total">>, Reply)).
 
-get_online_count_ignores_members_without_connected_session_test() ->
+get_online_count_counts_members_by_presence_not_session_test() ->
+    %% Online-ness is driven by global presence (presence_cache, falling
+    %% back to member_presence), NOT by whether the user holds a session in
+    %% this guild's State (commit 39800a7b). Both members report online in
+    %% member_presence, so both count as online even though only one has a
+    %% session entry here.
     Members = [
         #{<<"user">> => #{<<"id">> => <<"1">>}},
         #{<<"user">> => #{<<"id">> => <<"2">>}}
@@ -525,7 +530,7 @@ get_online_count_ignores_members_without_connected_session_test() ->
             2 => #{<<"status">> => <<"online">>}
         }
     },
-    ?assertEqual(1, get_online_count(State)).
+    ?assertEqual(2, get_online_count(State)).
 
 filter_members_for_list_keeps_members_without_connected_session_test() ->
     Members = [
@@ -539,7 +544,11 @@ filter_members_for_list_keeps_members_without_connected_session_test() ->
     FilteredMembers = guild_member_list_common:filter_members_for_list(<<"0">>, Members, State),
     ?assertEqual([1, 2], [guild_member_list_common:get_member_user_id(Member) || Member <- FilteredMembers]).
 
-get_member_groups_counts_members_without_connected_session_as_offline_test() ->
+get_member_groups_counts_members_by_presence_not_session_test() ->
+    %% Both members report online in member_presence, so both are bucketed
+    %% online regardless of which one holds a session here (commit
+    %% 39800a7b). The offline group is then count 0 and is dropped from the
+    %% groups list entirely (zero-count groups removed, commit 8f81d7b4).
     Members = [
         #{<<"user">> => #{<<"id">> => <<"1">>}},
         #{<<"user">> => #{<<"id">> => <<"2">>}}
@@ -557,10 +566,9 @@ get_member_groups_counts_members_without_connected_session_as_offline_test() ->
         }
     },
     Groups = get_member_groups(<<"0">>, State),
-    OnlineGroup = lists:nth(1, Groups),
-    OfflineGroup = lists:nth(2, Groups),
-    ?assertEqual(1, maps:get(<<"count">>, OnlineGroup)),
-    ?assertEqual(1, maps:get(<<"count">>, OfflineGroup)).
+    OnlineGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]),
+    ?assertEqual(2, maps:get(<<"count">>, OnlineGroup)),
+    ?assertEqual([], [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"offline">>]).
 
 validate_range_zero_length_valid_test() ->
     ?assertEqual({0, 0}, validate_range({0, 0})).
@@ -702,13 +710,15 @@ get_member_groups_empty_guild_test() ->
         sessions => #{},
         member_presence => #{}
     },
+    %% Zero-count groups are dropped (commit 8f81d7b4): an empty guild has
+    %% no online and no offline members, so neither the online nor the
+    %% offline group header is emitted, leaving the groups list empty.
     Groups = get_member_groups(<<"0">>, State),
     OnlineGroups = [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>],
     OfflineGroups = [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"offline">>],
-    ?assertEqual(1, length(OnlineGroups)),
-    ?assertEqual(1, length(OfflineGroups)),
-    ?assertEqual(0, maps:get(<<"count">>, hd(OnlineGroups))),
-    ?assertEqual(0, maps:get(<<"count">>, hd(OfflineGroups))).
+    ?assertEqual([], OnlineGroups),
+    ?assertEqual([], OfflineGroups),
+    ?assertEqual([], Groups).
 
 get_member_groups_only_offline_members_test() ->
     Members = [
@@ -724,10 +734,11 @@ get_member_groups_only_offline_members_test() ->
         sessions => #{},
         member_presence => #{}
     },
+    %% No online members, so the zero-count online group is dropped (commit
+    %% 8f81d7b4); only the offline group (count 2) remains.
     Groups = get_member_groups(<<"0">>, State),
-    OnlineGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]),
     OfflineGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"offline">>]),
-    ?assertEqual(0, maps:get(<<"count">>, OnlineGroup)),
+    ?assertEqual([], [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]),
     ?assertEqual(2, maps:get(<<"count">>, OfflineGroup)).
 
 get_member_groups_zero_online_members_test() ->
@@ -747,9 +758,10 @@ get_member_groups_zero_online_members_test() ->
             1 => #{<<"status">> => <<"offline">>}
         }
     },
+    %% Nobody is online, so the zero-count online group is dropped (commit
+    %% 8f81d7b4) rather than emitted with count 0.
     Groups = get_member_groups(<<"0">>, State),
-    OnlineGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]),
-    ?assertEqual(0, maps:get(<<"count">>, OnlineGroup)).
+    ?assertEqual([], [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]).
 
 subscribe_ranges_filters_invalid_test() ->
     State = #{member_list_subscriptions => #{}},
@@ -871,11 +883,14 @@ member_list_snapshot_empty_test() ->
         sessions => #{},
         member_presence => #{}
     },
+    %% Empty guild: both online and offline groups are zero-count and
+    %% therefore dropped (commit 8f81d7b4), so no group headers and no item
+    %% rows are produced.
     {MemberCount, OnlineCount, Groups, Items} = member_list_snapshot(<<"0">>, State),
     ?assertEqual(0, MemberCount),
     ?assertEqual(0, OnlineCount),
-    ?assertEqual(2, length(Groups)),
-    ?assertEqual(2, length(Items)).
+    ?assertEqual([], Groups),
+    ?assertEqual([], Items).
 
 get_items_in_range_empty_guild_test() ->
     State = #{
@@ -884,8 +899,10 @@ get_items_in_range_empty_guild_test() ->
         sessions => #{},
         member_presence => #{}
     },
+    %% Empty guild yields no group headers (zero-count groups dropped,
+    %% commit 8f81d7b4) and no member rows, so the item range is empty.
     Items = get_items_in_range(<<"0">>, {0, 99}, State),
-    ?assertEqual(2, length(Items)).
+    ?assertEqual([], Items).
 
 get_items_in_range_with_members_test() ->
     Members = [
@@ -975,11 +992,13 @@ empty_guild_with_only_everyone_role_test() ->
         sessions => #{},
         member_presence => #{}
     },
+    %% Only the (non-hoisted) @everyone role and no members: no role group,
+    %% and both online and offline groups are zero-count and dropped (commit
+    %% 8f81d7b4), so the groups list is empty.
     Groups = get_member_groups(<<"0">>, State),
-    OnlineGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]),
-    OfflineGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"offline">>]),
-    ?assertEqual(0, maps:get(<<"count">>, OnlineGroup)),
-    ?assertEqual(0, maps:get(<<"count">>, OfflineGroup)).
+    ?assertEqual([], [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]),
+    ?assertEqual([], [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"offline">>]),
+    ?assertEqual([], Groups).
 
 presence_update_for_member_not_in_list_test() ->
     Members = [#{<<"user">> => #{<<"id">> => <<"1">>}, <<"roles">> => []}],
@@ -1035,11 +1054,13 @@ member_losing_hoisted_role_returns_to_online_test() ->
         sessions => #{<<"s1">> => #{user_id => 1}},
         member_presence => #{1 => #{<<"status">> => <<"online">>}}
     },
+    %% The member moves out of the hoisted VIP role and back into the plain
+    %% online group. The now-empty VIP role group is zero-count and dropped
+    %% (commit 8f81d7b4) rather than reported with count 0.
     {_, _, Groups, _Ops, Changed} = member_list_delta(<<"0">>, OldState, NewState, 1),
     ?assertEqual(true, Changed),
     OnlineGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"online">>]),
     ?assertEqual(1, maps:get(<<"count">>, OnlineGroup)),
-    VIPGroup = hd([G || G <- Groups, maps:get(<<"id">>, G) =:= <<"200">>]),
-    ?assertEqual(0, maps:get(<<"count">>, VIPGroup)).
+    ?assertEqual([], [G || G <- Groups, maps:get(<<"id">>, G) =:= <<"200">>]).
 
 -endif.

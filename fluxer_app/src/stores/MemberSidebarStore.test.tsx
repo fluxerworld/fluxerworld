@@ -168,8 +168,17 @@ describe('MemberSidebarStore', () => {
 				{id: 'offline', count: 2},
 			],
 			ops: [
-				{op: 'DELETE', index: 2},
-				{op: 'INSERT', index: 4, item: {member: {user: {id: 'u-1'}}}},
+				{
+					op: 'SYNC',
+					range: [0, 4],
+					items: [
+						{group: {id: 'online', count: 1}},
+						{member: {user: {id: 'u-2'}}},
+						{group: {id: 'offline', count: 2}},
+						{member: {user: {id: 'u-3'}}},
+						{member: {user: {id: 'u-1'}}},
+					],
+				},
 			],
 		});
 
@@ -227,8 +236,17 @@ describe('MemberSidebarStore', () => {
 				{id: 'offline', count: 2},
 			],
 			ops: [
-				{op: 'DELETE', index: 1},
-				{op: 'INSERT', index: 4, item: {member: {user: {id: 'u-1'}}}},
+				{
+					op: 'SYNC',
+					range: [0, 4],
+					items: [
+						{group: {id: 'online', count: 1}},
+						{member: {user: {id: 'u-2'}}},
+						{group: {id: 'offline', count: 2}},
+						{member: {user: {id: 'u-3'}}},
+						{member: {user: {id: 'u-1'}}},
+					],
+				},
 			],
 		});
 
