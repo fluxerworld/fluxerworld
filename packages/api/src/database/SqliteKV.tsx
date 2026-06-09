@@ -339,10 +339,6 @@ class SqliteKvStore {
 		this.purgeExpiredStmt.run(now);
 	}
 
-	private runInTransaction<T>(fn: () => T): T {
-		return executeSqliteTransaction(this.db, fn);
-	}
-
 	put(table: string, key: string, value: unknown, ttlSeconds?: number): void {
 		let expiresAt: number | null = null;
 

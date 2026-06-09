@@ -26,7 +26,6 @@ import {
 	CONNECTION_INITIATION_TOKEN_EXPIRY_MS,
 	type ConnectionType,
 	ConnectionTypes,
-	SOCIAL_CONNECTION_TYPES,
 } from '@fluxer/constants/src/ConnectionConstants';
 import type {
 	ConnectionResponse,

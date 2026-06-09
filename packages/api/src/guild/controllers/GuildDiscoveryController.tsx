@@ -195,7 +195,7 @@ export function GuildDiscoveryController(app: HonoApp) {
 			const webhookUrl = Config.discovery.applicationWebhookUrl;
 			if (webhookUrl) {
 				try {
-					const categoryLabel = DiscoveryCategoryLabels[data.category_type] ?? 'Unknown';
+					const categoryLabel = DiscoveryCategoryLabels[data.category_type as keyof typeof DiscoveryCategoryLabels] ?? 'Unknown';
 					let guildName = 'Unknown';
 					try {
 						const guild = await ctx.get('guildService').getGuild({userId: user.id, guildId});

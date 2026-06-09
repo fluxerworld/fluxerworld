@@ -261,7 +261,7 @@ export class GatewayService {
 			this.circuitBreakerOpenUntilMs = 0;
 			return false;
 		}
-		this.rejectAllPendingRequests(new ServiceUnavailableError('Gateway circuit breaker open'));
+		this.rejectAllPendingRequests(new ServiceUnavailableError({message: 'Gateway circuit breaker open'}));
 		return true;
 	}
 

@@ -82,7 +82,7 @@ export class MessageProcessingService {
 						channelId: channel.id.toString(),
 						authorId: user.id.toString(),
 						authorUsername: user.username,
-						authorAvatar: user.avatar ?? undefined,
+						authorAvatar: user.avatarHash ?? undefined,
 						channelName: channel.name ?? undefined,
 						guildName: guild?.name ?? undefined,
 						guildId: guild?.id ?? undefined,

@@ -74,7 +74,7 @@ export class KlipyService implements IKlipyService {
 
 	private createURL({endpoint, params}: {endpoint: string; params: Record<string, string | number | undefined>}): URL {
 		const url = new URL(`${KLIPY_BASE_URL}/${endpoint}`);
-		const defaultParams = {
+		const defaultParams: Record<string, string | number | undefined> = {
 			client_key: CLIENT_KEY,
 			contentfilter: DEFAULT_CONTENT_FILTER,
 			media_filter: DEFAULT_MEDIA_FILTER,

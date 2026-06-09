@@ -91,6 +91,7 @@ import type {
 	SearchReportsRequest,
 	SystemDmJobResponse,
 } from '@fluxer/schema/src/domains/admin/AdminSchemas';
+import {GrantUserPremiumRequest} from '@fluxer/schema/src/domains/admin/AdminUserSchemas';
 import type {
 	BulkScheduleUserDeletionRequest,
 	BulkUpdateUserFlagsRequest,
@@ -365,6 +366,10 @@ export class AdminService {
 
 	async clearUserFields(data: ClearUserFieldsRequest, adminUserId: UserID, auditLogReason: string | null) {
 		return this.userService.clearUserFields(data, adminUserId, auditLogReason);
+	}
+
+	async grantUserPremium(data: GrantUserPremiumRequest, adminUserId: UserID, auditLogReason: string | null) {
+		return this.userService.grantUserPremium(data, adminUserId, auditLogReason);
 	}
 
 	async setUserBotStatus(data: SetUserBotStatusRequest, adminUserId: UserID, auditLogReason: string | null) {

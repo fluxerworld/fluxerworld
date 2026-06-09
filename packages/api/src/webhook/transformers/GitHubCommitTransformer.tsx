@@ -153,11 +153,11 @@ export async function transformPush(body: GitHubWebhook): Promise<RichEmbedReque
 	}
 
 	const commitDescriptions = body.commits
-		.map((commit) => {
+		.map((commit: {id: string; message: string; url: string; author: {name: string}}) => {
 			const shortCommitId = commit.id.substring(0, 7);
 			const commitMessage = commit.message.replace(
 				/This reverts commit (\w{40})\./g,
-				(_, hash) => `This reverts commit [\`${hash.substring(0, 7)}\`](${body.repository?.html_url}/commit/${hash}).`,
+				(_: string, hash: string) => `This reverts commit [\`${hash.substring(0, 7)}\`](${body.repository?.html_url}/commit/${hash}).`,
 			);
 			return `[\`${shortCommitId}\`](${commit.url}) ${commitMessage} - ${commit.author.name}`;
 		})

@@ -390,6 +390,7 @@ export function ThemeController(app: HonoApp) {
 		OpenAPI({
 			operationId: 'delete_gallery_theme',
 			summary: 'Delete a gallery theme you submitted',
+				responseSchema: null,
 			statusCode: 204,
 			security: ['sessionToken', 'bearerToken'],
 			tags: ['Themes'],
