@@ -38,6 +38,14 @@ export default defineConfig({
 		testTimeout: 40000,
 		hookTimeout: 20000,
 
+		// The search integration tests share a single meilisearch testcontainer
+		// across 6 files running concurrently (fileParallelism + maxConcurrency 4),
+		// which intermittently drops a keep-alive socket mid-request ("write EPIPE")
+		// on ~1 random search test per run. Retry transient failures a couple times
+		// so container flakiness doesn't redden an otherwise-deterministic suite; a
+		// genuinely failing test still fails all attempts.
+		retry: 2,
+
 		reporters: ['default', 'json'],
 		outputFile: './test-results.json',
 
