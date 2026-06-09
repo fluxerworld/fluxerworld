@@ -215,7 +215,14 @@ export async function getChannelMessage(
 }
 
 export async function grantStaffAccess(harness: ApiTestHarness, userId: string): Promise<void> {
-	await createBuilderWithoutAuth(harness).patch(`/test/users/${userId}/flags`).body({flags: 1}).execute();
+	// Use the additive security-flags endpoint (set_flags OR-merges) instead of the
+	// PATCH /flags endpoint, which overwrites the entire flags bitfield to STAFF and
+	// would clobber HAS_SESSION_STARTED (bit 39) that createTestAccount sets -- leaving
+	// the user unable to send messages (MUST_START_SESSION_BEFORE_SENDING).
+	await createBuilderWithoutAuth(harness)
+		.post(`/test/users/${userId}/security-flags`)
+		.body({set_flags: ['STAFF']})
+		.execute();
 }
 
 const CREATE_EXPRESSIONS = 0x08000000n;

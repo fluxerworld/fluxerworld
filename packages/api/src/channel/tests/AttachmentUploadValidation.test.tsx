@@ -47,7 +47,7 @@ describe('Attachment Upload Validation', () => {
 
 				const channelId = guild.system_channel_id ?? channel.id;
 
-				const largeFileData = Buffer.alloc(26 * 1024 * 1024);
+				const largeFileData = Buffer.alloc(51 * 1024 * 1024);
 
 				const payload = {
 					content: 'Large file test',

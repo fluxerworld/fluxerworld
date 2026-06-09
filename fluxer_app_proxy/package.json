@@ -9,13 +9,10 @@
 	},
 	"dependencies": {
 		"@fluxer/app_proxy": "workspace:*",
-		"@fluxer/cache": "workspace:*",
 		"@fluxer/config": "workspace:*",
 		"@fluxer/hono": "workspace:*",
 		"@fluxer/initialization": "workspace:*",
-		"@fluxer/kv_client": "workspace:*",
 		"@fluxer/logger": "workspace:*",
-		"@fluxer/rate_limit": "workspace:*",
 		"tsx": "catalog:"
 	},
 	"devDependencies": {

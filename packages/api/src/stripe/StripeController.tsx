@@ -232,7 +232,7 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			const url = await ctx.get('polarSubscriptionService').getCustomerPortalUrlForUser(userId);
+			const url = await ctx.get('stripeService').createCustomerPortalSession(userId);
 			if (!url) {
 				throw new HTTPException(404, {message: 'No purchase history available.'});
 			}
@@ -256,7 +256,7 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			await ctx.get('polarSubscriptionService').cancelForUser(userId);
+			await ctx.get('stripeService').cancelSubscriptionAtPeriodEnd(userId);
 			return ctx.body(null, 204);
 		},
 	);
@@ -277,7 +277,7 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			await ctx.get('polarSubscriptionService').reactivateForUser(userId);
+			await ctx.get('stripeService').reactivateSubscription(userId);
 			return ctx.body(null, 204);
 		},
 	);

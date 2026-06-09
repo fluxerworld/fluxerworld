@@ -21,6 +21,7 @@
 		"@fluxer/config": "workspace:*",
 		"@fluxer/constants": "workspace:*",
 		"@fluxer/date_utils": "workspace:*",
+		"@fluxer/elasticsearch_search": "workspace:*",
 		"@fluxer/email": "workspace:*",
 		"@fluxer/errors": "workspace:*",
 		"@fluxer/geoip": "workspace:*",

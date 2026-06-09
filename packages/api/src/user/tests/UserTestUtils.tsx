@@ -349,10 +349,17 @@ export async function verifyUserBannerInS3(harness: ApiTestHarness, userId: stri
 }
 
 export async function grantPremium(harness: ApiTestHarness, userId: string, premiumType: number): Promise<void> {
-	await createBuilderWithoutAuth(harness)
-		.post(`/test/users/${userId}/premium`)
-		.body({premium_type: premiumType})
-		.execute();
+	// checkIsPremium() treats a positive (non-lifetime) premium_type with a
+	// null premium_until as broken data and reports the account as
+	// not-premium. The test harness must therefore set a future premium_until
+	// for any active grant, otherwise the premium gates reject the account
+	// (CHANGING_DISCRIMINATOR_REQUIRES_PREMIUM, PREMIUM_REQUIRED_FOR_CUSTOM_EMOJI,
+	// CUSTOM_STICKERS_IN_DMS_REQUIRE_PREMIUM, etc.). Mirrors PackTestUtils.
+	const body: {premium_type: number; premium_until?: string} = {premium_type: premiumType};
+	if (premiumType > 0) {
+		body.premium_until = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+	}
+	await createBuilderWithoutAuth(harness).post(`/test/users/${userId}/premium`).body(body).execute();
 }
 
 export async function subscribePush(

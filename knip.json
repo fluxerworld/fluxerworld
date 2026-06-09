@@ -7,6 +7,7 @@
 		"unlisted": "warn"
 	},
 	"ignore": [
+		"scripts/mint-gallery-themes.cjs",
 		"packages/cassandra/src/**",
 		"packages/virus_scan/src/**",
 		"packages/cache/src/providers/**",

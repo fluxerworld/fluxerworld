@@ -31,6 +31,7 @@ import {
 import {type ApiTestHarness, createApiTestHarness} from '@fluxer/api/src/test/ApiTestHarness';
 import {HTTP_STATUS} from '@fluxer/api/src/test/TestConstants';
 import {createBuilder} from '@fluxer/api/src/test/TestRequestBuilder';
+import type {PackDashboardResponse} from '@fluxer/schema/src/domains/pack/PackSchemas';
 import {afterEach, beforeEach, describe, expect, test} from 'vitest';
 
 describe('Pack Premium Requirements', () => {
@@ -44,10 +45,20 @@ describe('Pack Premium Requirements', () => {
 		await harness?.shutdown();
 	});
 
-	test('user without staff flag cannot list packs', async () => {
+	test('user without staff flag gets an empty pack dashboard', async () => {
 		const account = await createTestAccount(harness);
 
-		await createBuilder(harness, account.token).get('/packs').expect(HTTP_STATUS.FORBIDDEN).execute();
+		const dashboard = await createBuilder<PackDashboardResponse>(harness, account.token)
+			.get('/packs')
+			.expect(HTTP_STATUS.OK)
+			.execute();
+
+		expect(dashboard.emoji.created).toEqual([]);
+		expect(dashboard.emoji.installed).toEqual([]);
+		expect(dashboard.emoji.created_limit).toBe(0);
+		expect(dashboard.emoji.installed_limit).toBe(0);
+		expect(dashboard.sticker.created).toEqual([]);
+		expect(dashboard.sticker.installed).toEqual([]);
 	});
 
 	test('user with staff flag but no premium cannot create pack', async () => {
@@ -119,10 +130,12 @@ describe('Pack Premium Requirements', () => {
 		expect(installed).toBeTruthy();
 	});
 
-	test('user without staff flag cannot access pack endpoints', async () => {
+	test('user without staff flag cannot create packs', async () => {
 		const account = await createTestAccount(harness);
 
-		await createBuilder(harness, account.token).get('/packs').expect(HTTP_STATUS.FORBIDDEN).execute();
+		// Listing is open to everyone (returns an empty dashboard for
+		// non-staff), but the create/install mutation endpoints stay staff-gated.
+		await createBuilder(harness, account.token).get('/packs').expect(HTTP_STATUS.OK).execute();
 
 		await createBuilder(harness, account.token)
 			.post('/packs/emoji')
