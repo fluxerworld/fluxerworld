@@ -96,7 +96,7 @@ describe('deriveDomain', () => {
 	});
 
 	test('uses base domain for static CDN when custom domain not specified', () => {
-		expect(deriveDomain('static_cdn', baseConfig)).toBe('fluxerstatic.com');
+		expect(deriveDomain('static_cdn', baseConfig)).toBe('fluxer.world');
 	});
 
 	test('uses custom invite domain when specified', () => {
@@ -151,7 +151,7 @@ describe('deriveEndpointsFromDomain', () => {
 		});
 
 		test('derives static CDN endpoint via CDN host', () => {
-			expect(endpoints.static_cdn).toBe('https://fluxerstatic.com');
+			expect(endpoints.static_cdn).toBe('https://fluxer.world');
 		});
 
 		test('derives admin endpoint with port', () => {
@@ -203,7 +203,7 @@ describe('deriveEndpointsFromDomain', () => {
 		});
 
 		test('derives static CDN endpoint without port', () => {
-			expect(endpoints.static_cdn).toBe('https://fluxerstatic.com');
+			expect(endpoints.static_cdn).toBe('https://fluxer.world');
 		});
 
 		test('derives admin endpoint without port', () => {
