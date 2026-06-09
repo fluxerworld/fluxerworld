@@ -101,3 +101,40 @@ next-env.d.ts
 /ratot/
 /vinto/
 /remix/
+# more bot source clones found 2026-06-09 (own git repos, contain bot tokens):
+/groovy/
+/scarcebot/
+/fluxer-rolebot/
+/bots/groovy/
+
+# === Fluxerworld: secrets hardening (broadened from upstream's /dev-only layout) ===
+# Live + production + backup config holding real secrets. The live files stay on
+# disk where the server reads them — these rules just make them un-stageable so a
+# stray `git add -A` can't publish them to the public repo.
+/config/*.json
+/config/*.yaml
+/config/*.yml
+/config/*.pem
+# Data/runtime subdirs under config/ (GeoIP DB ~130MB; generated self-host config):
+/config/geoip/
+/config/runtime/
+# ...but keep the tracked, non-secret templates / schema / test config stageable:
+!/config/config.dev.template.json
+!/config/config.production.template.json
+!/config/config.schema.json
+!/config/config.test.json
+!/config/livekit.example.yaml
+# Any backup variant anywhere (config.json.bak.prerotation, .bak-flip-*, etc.):
+*.bak*
+# Signing keystores / keypairs anywhere (Android keystore.p12, *.jks, etc.):
+*.p12
+*.jks
+*.keystore
+# Runtime data dir — sqlite DB, MySQL TLS keys, S3/queue stores (NEVER commit):
+/data/
+# F-Droid repo dir — config.yml holds keystore passwords; repo/ holds signed APKs:
+/fdroid/
+# Claude Code local tooling state (not for the public repo):
+/.claude/
+# Ad-hoc secret-flipping scripts with inline tokens:
+/scripts/flip-*.sh
