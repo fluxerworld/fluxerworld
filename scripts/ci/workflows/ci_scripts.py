@@ -18,7 +18,8 @@ uv sync --dev
     "test": """
 set -euo pipefail
 cd scripts/ci
-uv run pytest
+# pytest exits 5 when no tests are collected; treat that as success (no CI-script tests yet)
+uv run pytest || [ "$?" -eq 5 ]
 """,
 }
 

@@ -384,6 +384,3 @@ function channelSegment(ctx: MarketingContext): string {
 	return isCanary(ctx) ? 'canary' : 'stable';
 }
 
-function desktopRedirectUrl(ctx: MarketingContext, platform: string, arch: string, format: string): string {
-	return apiUrl(ctx, `/dl/desktop/${channelSegment(ctx)}/${platform}/${arch}/latest/${format}`);
-}
