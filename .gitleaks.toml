@@ -1,0 +1,20 @@
+title = "Fluxerworld gitleaks config"
+
+# Start from gitleaks' built-in ruleset, then suppress known-noise paths.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Suppress false positives in test fixtures, examples, and dev/integration configs"
+paths = [
+  '''(^|/)tests?/''',
+  '''(^|/)__tests__/''',
+  '''\.test\.[jt]sx?$''',
+  '''\.spec\.[jt]sx?$''',
+  '''_test\.go$''',
+  '''(^|/)dev/''',
+  '''(^|/)fluxer_integration/''',
+  '''\.example(\.|$)''',
+  '''(^|/)config/.*\.template\.json$''',
+  '''(^|/)models/PushSubscription\.(ts|tsx)$''',
+]
