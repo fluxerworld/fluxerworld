@@ -996,6 +996,7 @@ export function TestHarnessController(app: HonoApp) {
 				nicks: null,
 				soft_deleted: false,
 				indexed_at: null,
+				e2ee_enabled: true,
 				version: 1,
 			};
 
@@ -1037,6 +1038,7 @@ export function TestHarnessController(app: HonoApp) {
 					nicks: null,
 					soft_deleted: false,
 					indexed_at: null,
+					e2ee_enabled: true,
 					version: 1,
 				};
 
