@@ -18,9 +18,19 @@
  */
 
 import {ipBanCache} from '@fluxer/api/src/middleware/IpBanMiddleware';
-import {beforeEach, describe, expect, it} from 'vitest';
+import {afterAll, beforeEach, describe, expect, it} from 'vitest';
 
 beforeEach(() => {
+	ipBanCache.resetCaches();
+});
+
+// With vitest `isolate: false`, the module-level `ipBanCache` singleton is shared
+// across every test file that runs in the same worker thread. If this file leaves a
+// ban in the cache (the last test bans the ::ffff:0:0/96 range, which matches the
+// 127.0.0.1 X-Forwarded-For every other test harness request uses), IpBanMiddleware
+// rejects those later requests with a 403 IpBannedError. Clear the cache after this
+// file so the leaked bans cannot poison other suites.
+afterAll(() => {
 	ipBanCache.resetCaches();
 });
 
