@@ -224,9 +224,11 @@ export async function createMediaProxyApp(options: CreateMediaProxyAppOptions): 
 		const nsfwDetectionService = new NSFWDetectionService({
 			modelPath: config.nsfwModelPath,
 			nodeEnv: config.nodeEnv,
+			logger,
 		});
+		// initialize() degrades gracefully (logs + disables) if the model is
+		// absent, rather than throwing — a missing model must not crash startup.
 		await nsfwDetectionService.initialize();
-		logger.info('Initialized NSFW detection service');
 
 		const metadataService = createMetadataService({
 			coalescer,

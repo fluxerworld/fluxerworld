@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {LoggerInterface} from '@fluxer/logger/src/LoggerInterface';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import * as ort from 'onnxruntime-node';
@@ -40,17 +41,37 @@ export class NSFWDetectionService {
 	private session: ort.InferenceSession | null = null;
 	private readonly NSFW_THRESHOLD = 0.85;
 	private modelPath: string;
+	private readonly logger?: LoggerInterface | undefined;
 
-	constructor(options?: {modelPath?: string | undefined; nodeEnv?: string | undefined}) {
+	constructor(options?: {
+		modelPath?: string | undefined;
+		nodeEnv?: string | undefined;
+		logger?: LoggerInterface | undefined;
+	}) {
 		const nodeEnv = options?.nodeEnv ?? 'production';
+		this.logger = options?.logger;
 		this.modelPath =
 			options?.modelPath ??
 			(nodeEnv === 'production' ? '/opt/data/model.onnx' : path.join(process.cwd(), 'data', 'model.onnx'));
 	}
 
 	async initialize(): Promise<void> {
-		const modelBuffer = await fs.readFile(this.modelPath);
-		this.session = await ort.InferenceSession.create(modelBuffer);
+		try {
+			const modelBuffer = await fs.readFile(this.modelPath);
+			this.session = await ort.InferenceSession.create(modelBuffer);
+			this.logger?.info(`NSFW detection model loaded from ${this.modelPath}`);
+		} catch (error) {
+			// The NSFW model is optional. If it's missing or fails to load, run with
+			// detection disabled instead of crashing the whole server — uploads simply
+			// won't be auto-flagged until a model is provided at modelPath. (Self-hosters
+			// can mount one there; see the self-host guide / GitHub issue #18.)
+			this.session = null;
+			this.logger?.warn(
+				`NSFW detection model could not be loaded from ${this.modelPath} — NSFW detection is DISABLED. ` +
+					'Uploads will not be automatically flagged. Provide a model at this path to enable it. ' +
+					`(${error instanceof Error ? error.message : String(error)})`,
+			);
+		}
 	}
 
 	async checkNSFW(filePath: string): Promise<NSFWCheckResult> {
@@ -60,7 +81,9 @@ export class NSFWDetectionService {
 
 	async checkNSFWBuffer(buffer: Buffer): Promise<NSFWCheckResult> {
 		if (!this.session) {
-			throw new Error('NSFW Detection service not initialized');
+			// Detection disabled (no model loaded): treat as not-NSFW rather than
+			// failing the upload. See initialize().
+			return {isNSFW: false, probability: 0};
 		}
 
 		const processedImage = await this.preprocessImage(buffer);
