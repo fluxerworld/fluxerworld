@@ -18,6 +18,7 @@
  */
 
 import {createTestAccount, unclaimAccount} from '@fluxer/api/src/auth/tests/AuthTestUtils';
+import {createChannelID, createUserID} from '@fluxer/api/src/BrandedTypes';
 import {authorizeBot, createTestBotAccount} from '@fluxer/api/src/bot/tests/BotTestUtils';
 import {
 	acceptInvite,
@@ -27,14 +28,18 @@ import {
 	createFriendship,
 	createGroupDmChannel,
 	createGuild,
+	deleteChannel,
 	getChannel,
 	type MinimalChannelResponse,
 	sendChannelMessage,
 } from '@fluxer/api/src/channel/tests/ChannelTestUtils';
+import {SYSTEM_USER_ID} from '@fluxer/api/src/constants/Core';
 import {ensureSessionStarted} from '@fluxer/api/src/message/tests/MessageTestUtils';
 import {type ApiTestHarness, createApiTestHarness} from '@fluxer/api/src/test/ApiTestHarness';
 import {HTTP_STATUS} from '@fluxer/api/src/test/TestConstants';
 import {createBuilder} from '@fluxer/api/src/test/TestRequestBuilder';
+import {UserChannelRepository} from '@fluxer/api/src/user/repositories/UserChannelRepository';
+import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
 import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {afterAll, beforeAll, beforeEach, describe, expect, test} from 'vitest';
 
@@ -151,6 +156,24 @@ describe('UserChannelService', () => {
 			const channel2 = await createDmChannel(harness, user1.token, user2.userId);
 
 			expect(channel1.id).toBe(channel2.id);
+		});
+
+		test('reopens an existing E2EE system-user DM with recipient_id 0', async () => {
+			const user = await createTestAccount(harness);
+			const userId = createUserID(BigInt(user.userId));
+			const channelId = createChannelID(1000000000000000001n);
+			const repository = new UserChannelRepository();
+			const channel = await repository.createDmChannelAndState(userId, SYSTEM_USER_ID, channelId);
+
+			expect(channel.e2eeEnabled).toBe(true);
+			await deleteChannel(harness, user.token, channel.id.toString());
+
+			const reopened = await createBuilder<MinimalChannelResponse>(harness, user.token)
+				.post('/users/@me/channels')
+				.body({recipient_id: FLUXERBOT_ID})
+				.expect(HTTP_STATUS.OK)
+				.execute();
+			expect(reopened.id).toBe(channelId.toString());
 		});
 
 		test('reopening existing DM works after blocking user', async () => {

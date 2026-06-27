@@ -43,11 +43,11 @@ import type {LimitKey} from '@fluxer/constants/src/LimitConfigMetadata';
 import {MAX_GROUP_DM_RECIPIENTS, MAX_GROUP_DMS_PER_USER} from '@fluxer/constants/src/LimitConstants';
 import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {ValidationErrorCodes} from '@fluxer/constants/src/ValidationErrorCodes';
+import {EmailVerificationRequiredError} from '@fluxer/errors/src/domains/auth/EmailVerificationRequiredError';
 import {CannotSendMessagesToUserError} from '@fluxer/errors/src/domains/channel/CannotSendMessagesToUserError';
 import {MaxGroupDmRecipientsError} from '@fluxer/errors/src/domains/channel/MaxGroupDmRecipientsError';
 import {MaxGroupDmsError} from '@fluxer/errors/src/domains/channel/MaxGroupDmsError';
 import {UnclaimedAccountCannotSendDirectMessagesError} from '@fluxer/errors/src/domains/channel/UnclaimedAccountCannotSendDirectMessagesError';
-import {EmailVerificationRequiredError} from '@fluxer/errors/src/domains/auth/EmailVerificationRequiredError';
 import {InputValidationError} from '@fluxer/errors/src/domains/core/InputValidationError';
 import {MissingAccessError} from '@fluxer/errors/src/domains/core/MissingAccessError';
 import {NotFriendsWithUserError} from '@fluxer/errors/src/domains/user/NotFriendsWithUserError';
@@ -93,7 +93,7 @@ export class UserChannelService {
 			});
 		}
 
-		if (!data.recipient_id) {
+		if (data.recipient_id == null) {
 			throw InputValidationError.fromCode('recipient_id', ValidationErrorCodes.RECIPIENT_IDS_CANNOT_BE_EMPTY);
 		}
 		const recipientId = createUserID(data.recipient_id);

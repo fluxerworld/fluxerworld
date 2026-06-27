@@ -239,9 +239,13 @@ export const CreatePrivateChannelRequest = z
 		recipient_id: SnowflakeType.optional().describe('User ID for creating a DM channel'),
 		recipients: z.array(SnowflakeType).max(9).optional().describe('Array of user IDs for creating a group DM (max 9)'),
 	})
-	.refine((data) => (data.recipient_id && !data.recipients) || (!data.recipient_id && data.recipients), {
-		message: 'Either recipient_id or recipients must be provided, but not both',
-	});
+	.refine(
+		(data) =>
+			(data.recipient_id != null && data.recipients == null) || (data.recipient_id == null && data.recipients != null),
+		{
+			message: 'Either recipient_id or recipients must be provided, but not both',
+		},
+	);
 
 export type CreatePrivateChannelRequest = z.infer<typeof CreatePrivateChannelRequest>;
 
