@@ -45,11 +45,13 @@ import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
 import {encryptFileForUpload} from '@app/lib/e2ee/E2EEAttachments';
 import {
 	buildDecryptedContent,
+	cacheSearchableMessage,
 	type EnvelopeAttachmentEntry,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	recordDecryptFailure,
 	recordMessageVerification,
+	removeCachedMessagePlaintexts,
 	recordSentEnvelopeEntries,
 	recordSentPlaintext,
 	tryDecryptForCurrentDevice,
@@ -256,6 +258,10 @@ async function decryptOneMessage(
 	}
 	if (result) {
 		recordMessageVerification(msg.id, result.verificationStatus);
+		cacheSearchableMessage(msg, result.plaintext, {
+			attachments: result.attachments,
+			verificationStatus: result.verificationStatus,
+		});
 	}
 	recordDecryptFailure(msg.id, outcome);
 	const decryptedContent = buildDecryptedContent(outcome);
@@ -584,7 +590,11 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						// of our own MESSAGE_CREATE renders the original
 						// text instead of the failure placeholder.
 						if (encryptedPayload) {
-							recordSentPlaintext(result.body.id, params.content, true);
+							recordSentPlaintext(result.body.id, params.content);
+							cacheSearchableMessage(result.body, params.content, {
+								attachments: envelopeEntries,
+								verificationStatus: 'verified',
+							});
 						}
 						if (envelopeEntries && envelopeEntries.length > 0 && result.body.attachments?.length) {
 							recordAttachmentKeys(
@@ -643,6 +653,7 @@ export async function remove(channelId: string, messageId: string): Promise<void
 		try {
 			logger.debug(`Deleting message ${messageId} in channel ${channelId}`);
 			await http.delete({url: Endpoints.CHANNEL_MESSAGE(channelId, messageId)});
+			removeCachedMessagePlaintexts([messageId]);
 			logger.debug(`Successfully deleted message ${messageId} in channel ${channelId}`);
 		} catch (error) {
 			logger.error(`Failed to delete message ${messageId} in channel ${channelId}:`, error);
@@ -656,6 +667,7 @@ export async function remove(channelId: string, messageId: string): Promise<void
 				} else if (status === 403 && errorCode === APIErrorCodes.FEATURE_TEMPORARILY_DISABLED) {
 					ModalActionCreators.push(modal(() => <FeatureTemporarilyDisabledModal />));
 				} else if (status === 404) {
+					removeCachedMessagePlaintexts([messageId]);
 					logger.debug(`Message ${messageId} was already deleted (404 response)`);
 				} else {
 					ModalActionCreators.push(modal(() => <MessageDeleteFailedModal />));

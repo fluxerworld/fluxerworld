@@ -20,6 +20,7 @@
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
 import {
 	deleteAllGroupSessionsForChannel,
+	deleteMessagePlaintexts,
 	deleteOutboundGroupSession,
 	deleteSessionsForRemoteDevice,
 	getAttachmentKeys,
@@ -38,6 +39,7 @@ import {Logger} from '@app/lib/Logger';
 import type {ChannelRecord} from '@app/records/ChannelRecord';
 import E2EEStore from '@app/stores/E2EEStore';
 import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 
 const logger = new Logger('E2EEMessageIntegration');
 
@@ -151,28 +153,34 @@ const attachmentKeyCache = new Map<string, Map<string, CachedAttachmentEntry>>()
 // messages and render the original text instead.
 const sentPlaintextCache = new Map<string, string>();
 
-export function recordSentPlaintext(messageId: string, plaintext: string, persist = false): void {
+export function recordSentPlaintext(messageId: string, plaintext: string): void {
 	sentPlaintextCache.set(messageId, plaintext);
-	// `persist=true` writes to IDB so the sender can re-render their own
-	// bubble after a refresh — encrypted_payload from the server has no
-	// ciphertext slot for our own device, so decrypt always returns null
-	// for our own historical messages without this cache. Only the
-	// server-id keyed call should persist; the nonce-keyed call exists
-	// only for the gateway-echo race and would dump stray entries.
-	if (persist) {
-		void putMessagePlaintext({
-			message_id: messageId,
-			plaintext,
-			verification_status: 'verified',
-			created_at: Date.now(),
-		}).catch((err: unknown) => {
-			logger.warn('Failed to persist sender plaintext', {messageId, err});
-		});
-	}
 }
 
 export function getSentPlaintext(messageId: string): string | null {
 	return sentPlaintextCache.get(messageId) ?? null;
+}
+
+export function cacheSearchableMessage(
+	message: Message,
+	plaintext: string,
+	options?: {
+		attachments?: ReadonlyArray<EnvelopeAttachmentEntry>;
+		verificationStatus?: MessageVerificationStatus;
+	},
+): void {
+	const {encrypted_payload: _encryptedPayload, ...messageWithoutPayload} = message;
+	void putMessagePlaintext({
+		message_id: message.id,
+		channel_id: message.channel_id,
+		plaintext,
+		message: {...messageWithoutPayload, content: plaintext} as Message,
+		attachments: options?.attachments?.length ? options.attachments : undefined,
+		verification_status: options?.verificationStatus,
+		created_at: Date.now(),
+	}).catch((err: unknown) => {
+		logger.warn('Failed to cache searchable message plaintext', {messageId: message.id, err});
+	});
 }
 
 // Sender-side envelope-entries cache, keyed by nonce — same race story as
@@ -259,6 +267,17 @@ export function recordDecryptFailure(messageId: string, outcome: DecryptionOutco
 
 export function getDecryptFailure(messageId: string): 'permanent' | 'error' | null {
 	return decryptFailureById.get(messageId) ?? null;
+}
+
+export function removeCachedMessagePlaintexts(messageIds: ReadonlyArray<string>): void {
+	for (const messageId of messageIds) {
+		sentPlaintextCache.delete(messageId);
+		messageVerificationCache.delete(messageId);
+		decryptFailureById.delete(messageId);
+	}
+	void deleteMessagePlaintexts(messageIds).catch((err: unknown) => {
+		logger.warn('Failed to remove cached message plaintexts', {messageIds, err});
+	});
 }
 
 export function clearAllMessageCaches(): void {
@@ -936,9 +955,6 @@ export async function tryDecryptForCurrentDevice(
 			payload: encryptedPayload,
 			consultFailureCache,
 		});
-		if (outcome.status === 'ok' && messageId) {
-			void cacheDecryptedPlaintext(messageId, outcome.result);
-		}
 		return outcome;
 	}
 
@@ -969,27 +985,10 @@ export async function tryDecryptForCurrentDevice(
 			attachments: unwrapped.attachments,
 			verificationStatus,
 		};
-		if (messageId) {
-			void cacheDecryptedPlaintext(messageId, result);
-		}
 		return {status: 'ok', result};
 	} catch (error) {
 		logger.warn('Failed to decrypt incoming message', {error});
 		return PERMANENT_FAILURE; // 1:1 has no fetch-retry mechanism
-	}
-}
-
-async function cacheDecryptedPlaintext(messageId: string, result: DecryptionResult): Promise<void> {
-	try {
-		await putMessagePlaintext({
-			message_id: messageId,
-			plaintext: result.plaintext,
-			attachments: result.attachments.length ? result.attachments : undefined,
-			verification_status: result.verificationStatus,
-			created_at: Date.now(),
-		});
-	} catch (err) {
-		logger.warn('Failed to cache decrypted plaintext', {messageId, err});
 	}
 }
 

@@ -17,8 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+
 const DB_NAME = 'FluxerE2EE';
 // One-way ratchet — see feedback_idb_version_bump.md in agent memory.
+// v8 adds a by_channel index and a decrypted message snapshot to
+// message_plaintexts. This lets DM/GDM search stay entirely on-device:
+// plaintext queries and results never enter the server-side search index.
 // v7 adds attachment_keys: standalone per-message persistence of the
 // AES keys we pulled out of the v2 envelope. Without this the bubble
 // can't decrypt previously-loaded attachments after a reload, since
@@ -29,7 +34,7 @@ const DB_NAME = 'FluxerE2EE';
 // re-running decrypt (Olm/Megolm both consume per-message material on
 // decrypt — re-attempting fails). v5 had the Megolm stores; v4 the
 // 1:1 Olm stores. Idempotent upgrades preserve data.
-const DB_VERSION = 7;
+const DB_VERSION = 8;
 const ACCOUNT_STORE = 'accounts';
 const SESSION_STORE = 'sessions';
 const META_STORE = 'meta';
@@ -129,7 +134,10 @@ export interface PickledInboundGroupSession {
 // integration module into the storage layer.
 export interface MessagePlaintextEntry {
 	message_id: string;
+	channel_id?: string;
 	plaintext: string;
+	/** Decrypted snapshot used by local E2EE search. Older v7 rows omit it. */
+	message?: Message;
 	attachments?: ReadonlyArray<{
 		key: string;
 		iv: string;
@@ -151,7 +159,9 @@ function attemptOpen(): Promise<IDBDatabase> {
 		request.onblocked = () => reject(new Error('E2EE database open blocked by another tab'));
 		request.onsuccess = () => resolve(request.result);
 		request.onupgradeneeded = (event) => {
-			const db = (event.target as IDBOpenDBRequest).result;
+			const openRequest = event.target as IDBOpenDBRequest;
+			const db = openRequest.result;
+			const upgradeTransaction = openRequest.transaction;
 			if (!db.objectStoreNames.contains(ACCOUNT_STORE)) {
 				db.createObjectStore(ACCOUNT_STORE, {keyPath: 'user_id'});
 			}
@@ -182,8 +192,11 @@ function attemptOpen(): Promise<IDBDatabase> {
 				// or wiping a channel's group-session state.
 				store.createIndex('by_channel', 'channel_id', {unique: false});
 			}
-			if (!db.objectStoreNames.contains(MESSAGE_PLAINTEXT_STORE)) {
-				db.createObjectStore(MESSAGE_PLAINTEXT_STORE, {keyPath: 'message_id'});
+			const messagePlaintextStore = db.objectStoreNames.contains(MESSAGE_PLAINTEXT_STORE)
+				? upgradeTransaction?.objectStore(MESSAGE_PLAINTEXT_STORE)
+				: db.createObjectStore(MESSAGE_PLAINTEXT_STORE, {keyPath: 'message_id'});
+			if (messagePlaintextStore && !messagePlaintextStore.indexNames.contains('by_channel')) {
+				messagePlaintextStore.createIndex('by_channel', 'channel_id', {unique: false});
 			}
 			if (!db.objectStoreNames.contains(ATTACHMENT_KEYS_STORE)) {
 				db.createObjectStore(ATTACHMENT_KEYS_STORE, {keyPath: 'message_id'});
@@ -209,7 +222,7 @@ async function openDB(): Promise<IDBDatabase> {
 	try {
 		dbInstance = await attemptOpen();
 		return dbInstance;
-	} catch (err) {
+	} catch {
 		// Most likely cause: an older build left the DB at a higher
 		// version than the current code expects (e.g., the rolled-back v3
 		// `message_plaintexts` ship). The DB can't be downgraded, so wipe
@@ -499,6 +512,27 @@ export async function putMessagePlaintext(entry: MessagePlaintextEntry): Promise
 	const db = await openDB();
 	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readwrite');
 	await reqToPromise(tx.objectStore(MESSAGE_PLAINTEXT_STORE).put(entry));
+}
+
+export async function getSearchableMessagePlaintextsForChannel(
+	channelId: string,
+): Promise<Array<MessagePlaintextEntry>> {
+	const db = await openDB();
+	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readonly');
+	const store = tx.objectStore(MESSAGE_PLAINTEXT_STORE);
+	if (!store.indexNames.contains('by_channel')) {
+		return [];
+	}
+	const result = await reqToPromise(store.index('by_channel').getAll(IDBKeyRange.only(channelId)));
+	return ((result as Array<MessagePlaintextEntry>) ?? []).filter((entry) => entry.message != null);
+}
+
+export async function deleteMessagePlaintexts(messageIds: ReadonlyArray<string>): Promise<void> {
+	if (messageIds.length === 0) return;
+	const db = await openDB();
+	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readwrite');
+	const store = tx.objectStore(MESSAGE_PLAINTEXT_STORE);
+	await Promise.all(messageIds.map((messageId) => reqToPromise(store.delete(messageId))));
 }
 
 export async function deleteAllMessagePlaintexts(): Promise<void> {

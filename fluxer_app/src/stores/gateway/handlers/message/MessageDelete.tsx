@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {removeCachedMessagePlaintexts} from '@app/lib/e2ee/E2EEMessageIntegration';
 import ChannelPinsStore from '@app/stores/ChannelPinsStore';
 import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
 import MessageReferenceStore from '@app/stores/MessageReferenceStore';
@@ -33,6 +34,7 @@ interface MessageDeletePayload {
 }
 
 export function handleMessageDelete(data: MessageDeletePayload, _context: GatewayHandlerContext): void {
+	removeCachedMessagePlaintexts([data.id]);
 	SavedMessagesStore.handleMessageDelete(data.id);
 	ChannelPinsStore.handleMessageDelete(data.channel_id, data.id);
 	MessageStore.handleMessageDelete({channelId: data.channel_id, id: data.id});

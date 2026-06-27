@@ -20,6 +20,7 @@
 import {unfurlEmbedsForContent} from '@app/actions/EmbedActionCreators';
 import {
 	buildDecryptedContent,
+	cacheSearchableMessage,
 	getSentEnvelopeEntries,
 	getSentPlaintext,
 	pairEnvelopeAttachments,
@@ -127,8 +128,14 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 					// Re-persist under the canonical server id in case the
 					// HTTP response landed after the gateway echo and only
 					// the nonce-keyed entry was set.
-					recordSentPlaintext(data.id, cached, true);
+					recordSentPlaintext(data.id, cached);
 				}
+			}
+			if (!decryptFailed) {
+				cacheSearchableMessage(data, result?.plaintext ?? content, {
+					attachments: result?.attachments,
+					verificationStatus: result?.verificationStatus ?? 'verified',
+				});
 			}
 			recordDecryptFailure(data.id, decryptFailed ? outcome : null);
 			const decryptedMessage: Message = {

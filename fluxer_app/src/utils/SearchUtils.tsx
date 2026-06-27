@@ -17,11 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getSearchableMessagePlaintextsForChannel} from '@app/lib/e2ee/E2EEKeyStore';
+import {recordMessageVerification} from '@app/lib/e2ee/E2EEMessageIntegration';
 import http from '@app/lib/HttpClient';
 import {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
 import SearchHistoryStore from '@app/stores/SearchHistoryStore';
+import {filterAndSortEncryptedMessages} from '@app/utils/EncryptedMessageSearch';
 import {parseQuery} from '@app/utils/SearchQueryParser';
 import type {SearchSegment} from '@app/utils/SearchSegmentManager';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
@@ -123,11 +128,51 @@ export function isIndexing(result: SearchResult): result is IndexingResponse {
 	return 'indexing' in result && result.indexing === true;
 }
 
+const shouldSearchEncryptedMessagesLocally = (
+	context: SearchContext,
+	params: MessageSearchParams,
+): context is SearchContext & {contextChannelId: string} => {
+	if (!context.contextChannelId || (params.scope ?? 'current') !== 'current') {
+		return false;
+	}
+	const channel = ChannelStore.getChannel(context.contextChannelId);
+	if (!channel?.e2eeEnabled) return false;
+	return channel.type === ChannelTypes.DM || channel.type === ChannelTypes.GROUP_DM;
+};
+
+const searchEncryptedMessagesLocally = async (
+	channelId: string,
+	params: MessageSearchParams,
+): Promise<MessageSearchResponse> => {
+	const entries = await getSearchableMessagePlaintextsForChannel(channelId);
+	const matches = filterAndSortEncryptedMessages(entries, params);
+	const hitsPerPage = params.hitsPerPage ?? 25;
+	const page = params.page ?? 1;
+	const start = (page - 1) * hitsPerPage;
+	const messages = matches.slice(start, start + hitsPerPage).map((entry) => {
+		if (entry.verification_status) {
+			recordMessageVerification(entry.message_id, entry.verification_status);
+		}
+		return new MessageRecord({...entry.message, content: entry.plaintext});
+	});
+
+	return {
+		messages,
+		total: matches.length,
+		hitsPerPage,
+		page,
+	};
+};
+
 export async function searchMessages(
 	i18n: I18n,
 	context: SearchContext,
 	params: MessageSearchParams,
 ): Promise<SearchResult> {
+	if (shouldSearchEncryptedMessagesLocally(context, params)) {
+		return searchEncryptedMessagesLocally(context.contextChannelId, params);
+	}
+
 	const extraParams: MessageSearchApiParams = {};
 	if (context.contextChannelId) {
 		extraParams.context_channel_id = context.contextChannelId;
