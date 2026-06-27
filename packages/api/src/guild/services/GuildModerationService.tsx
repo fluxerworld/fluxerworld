@@ -37,6 +37,7 @@ import {MissingPermissionsError} from '@fluxer/errors/src/domains/core/MissingPe
 import {BannedFromGuildError} from '@fluxer/errors/src/domains/guild/BannedFromGuildError';
 import {IpBannedFromGuildError} from '@fluxer/errors/src/domains/guild/IpBannedFromGuildError';
 import {UnknownGuildMemberError} from '@fluxer/errors/src/domains/guild/UnknownGuildMemberError';
+import {UnknownUserError} from '@fluxer/errors/src/domains/user/UnknownUserError';
 import type {GuildBanResponse} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 import type {IWorkerService} from '@fluxer/worker/src/contracts/IWorkerService';
 
@@ -75,6 +76,11 @@ export class GuildModerationService {
 		if (!hasPermission) throw new MissingPermissionsError();
 		if (userId === targetId) throw new UnknownGuildMemberError();
 
+		const targetUser = await this.userRepository.findUnique(targetId);
+		if (!targetUser) {
+			throw new UnknownUserError();
+		}
+
 		const targetMember = await this.guildRepository.getMember(guildId, targetId);
 
 		if (targetMember) {
@@ -90,8 +96,7 @@ export class GuildModerationService {
 			});
 		}
 
-		const targetUser = await this.userRepository.findUnique(targetId);
-		const targetIp = targetUser?.lastActiveIp || null;
+		const targetIp = targetUser.lastActiveIp || null;
 
 		let expiresAt: Date | null = null;
 		if (banDurationSeconds && banDurationSeconds > 0) {

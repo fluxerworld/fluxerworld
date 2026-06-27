@@ -221,6 +221,27 @@ describe('Guild Member Management', () => {
 			.execute();
 	});
 
+	test('should ban non-member from guild', async () => {
+		const {owner, guild} = await setupTestGuildWithMembers(harness, 1);
+		const nonMember = await createTestAccount(harness);
+
+		await createBuilder(harness, owner.token)
+			.put(`/guilds/${guild.id}/bans/${nonMember.userId}`)
+			.body({})
+			.expect(HTTP_STATUS.NO_CONTENT)
+			.execute();
+	});
+
+	test('should disallow banning nonexistent user from guild', async () => {
+		const {owner, guild} = await setupTestGuildWithMembers(harness, 1);
+
+		await createBuilder(harness, owner.token)
+			.put(`/guilds/${guild.id}/bans/1234567890123456789`)
+			.body({})
+			.expect(HTTP_STATUS.NOT_FOUND)
+			.execute();
+	});
+
 	test('should require BAN_MEMBERS to ban members', async () => {
 		const {members, guild} = await setupTestGuildWithMembers(harness, 2);
 		const [member1, member2] = members;
