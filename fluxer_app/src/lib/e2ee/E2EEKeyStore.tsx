@@ -217,18 +217,33 @@ function deleteDB(): Promise<void> {
 	});
 }
 
+// A stored database at a HIGHER version than this build expects is the one
+// failure IndexedDB genuinely cannot recover from — it refuses to downgrade.
+// Everything else (a second tab holding the connection, a quota trip, a
+// transient backing-store error) is recoverable and must never cost the user
+// their identity.
+function isVersionError(err: unknown): boolean {
+	return err instanceof DOMException && err.name === 'VersionError';
+}
+
 async function openDB(): Promise<IDBDatabase> {
 	if (dbInstance) return dbInstance;
 	try {
 		dbInstance = await attemptOpen();
 		return dbInstance;
-	} catch {
-		// Most likely cause: an older build left the DB at a higher
-		// version than the current code expects (e.g., the rolled-back v3
-		// `message_plaintexts` ship). The DB can't be downgraded, so wipe
-		// it and rebuild fresh. Olm sessions are lost, but bootstrap will
-		// auto-re-register a new device on the next tick — better than
-		// leaving the user permanently unable to set up E2EE.
+	} catch (err) {
+		// Deleting this database destroys the Olm identity, every Olm and
+		// Megolm session, and the whole decrypted-message cache — and
+		// doBootstrap reads the resulting empty store as "first run" and
+		// silently mints a NEW device. So only wipe for the one error that
+		// leaves no alternative: a stored version newer than this build.
+		//
+		// Anything else is rethrown, which puts E2EEStore into
+		// registrationStatus='error' and retries on the next gateway READY.
+		// Previously this catch was unqualified, so an `onblocked` reject
+		// from merely opening a second tab silently destroyed the user's
+		// history and identity.
+		if (!isVersionError(err)) throw err;
 		await deleteDB();
 		dbInstance = await attemptOpen();
 		return dbInstance;
