@@ -250,6 +250,26 @@ async function openDB(): Promise<IDBDatabase> {
 	}
 }
 
+// The Olm identity, every session, and the decrypted-message cache all live in
+// this IndexedDB. Without an explicit grant the origin is "best-effort" storage
+// that the browser may evict under disk pressure — and an evicted store reads
+// to doBootstrap() as "no account", costing the user a brand-new identity, all
+// of their decryptable history, and a permanent slot in every peer's encrypt
+// fan-out. The grant is sticky, so asking once is enough.
+//
+// Best-effort by contract: never throws, never blocks bootstrap. Note that
+// Firefox surfaces a permission prompt here; Chromium auto-grants for
+// installed apps and decides heuristically otherwise.
+export async function requestPersistentStorage(): Promise<boolean> {
+	try {
+		if (typeof navigator === 'undefined' || !navigator.storage?.persist) return false;
+		if (await navigator.storage.persisted()) return true;
+		return await navigator.storage.persist();
+	} catch {
+		return false;
+	}
+}
+
 function reqToPromise<T>(req: IDBRequest<T>): Promise<T> {
 	return new Promise((resolve, reject) => {
 		req.onsuccess = () => resolve(req.result);
