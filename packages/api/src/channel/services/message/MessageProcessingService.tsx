@@ -71,6 +71,9 @@ export class MessageProcessingService {
 			message,
 			authorId: user.id,
 			mentionHere,
+			authorUsername: user.username,
+			authorAvatar: user.avatarHash ?? undefined,
+			guildName: guild?.name ?? undefined,
 		});
 
 		// Queue push notifications for offline recipients
@@ -98,8 +101,10 @@ export class MessageProcessingService {
 
 	private getPushRecipients(channel: Channel, authorId: UserID): Array<UserID> {
 		if (channel.guildId) {
-			// For guild channels, we don't have the member list here.
-			// Skip push for guild channels for now - they get in-app notifications via gateway.
+			// Guild push is mention-only and handled by the HandleMentions worker
+			// (which resolves @user/@everyone/@here/roles, mute-respecting) so we
+			// don't push every member and train people to mute. Non-mention guild
+			// messages get in-app notifications via the gateway only.
 			return [];
 		}
 		// DM channels: send push to all recipients except the author

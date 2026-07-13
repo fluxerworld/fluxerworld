@@ -272,8 +272,11 @@ export class MessageMentionService {
 		message: Message;
 		authorId: UserID;
 		mentionHere?: boolean;
+		authorUsername?: string;
+		authorAvatar?: string;
+		guildName?: string;
 	}): Promise<void> {
-		const {guildId, message, authorId, mentionHere = false} = params;
+		const {guildId, message, authorId, mentionHere = false, authorUsername, authorAvatar, guildName} = params;
 
 		if (isPersonalNotesChannel({userId: authorId, channelId: message.channelId})) return;
 
@@ -283,6 +286,10 @@ export class MessageMentionService {
 			messageId: message.id.toString(),
 			authorId: authorId.toString(),
 			mentionHere,
+			// Carried for guild mention-push (HandleMentions enqueues sendPushNotifications).
+			authorUsername,
+			authorAvatar,
+			guildName,
 		};
 
 		const hasMentions =

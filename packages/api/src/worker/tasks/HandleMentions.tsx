@@ -29,13 +29,17 @@ const PayloadSchema = z.object({
 	authorId: z.string(),
 	guildId: z.string().optional(),
 	mentionHere: z.boolean().optional(),
+	authorUsername: z.string().optional(),
+	authorAvatar: z.string().optional(),
+	guildName: z.string().optional(),
 });
 
 const handleMentions: WorkerTaskHandler = async (payload, helpers) => {
 	const validated = PayloadSchema.parse(payload);
 	helpers.logger.debug({payload: validated}, 'Processing handleMentions task');
 
-	const {userRepository, channelRepository, readStateService, gatewayService} = getWorkerDependencies();
+	const {userRepository, channelRepository, readStateService, gatewayService, workerService} =
+		getWorkerDependencies();
 
 	const authorId = createUserID(BigInt(validated.authorId));
 	const channelId = createChannelID(BigInt(validated.channelId));
@@ -130,6 +134,28 @@ const handleMentions: WorkerTaskHandler = async (payload, helpers) => {
 
 	await readStateService.bulkIncrementMentionCounts(uniqueUserIds.map((userId) => ({userId, channelId})));
 	await Promise.all(uniqueUserIds.map((userId) => gatewayService.invalidatePushBadgeCount({userId})));
+
+	// Mention-only push for guild channels: notify exactly the users the mention
+	// badge covers (already mute/notification-setting filtered by the resolution
+	// above), so we never push every member and train people to mute. DM push is
+	// handled separately in MessageProcessingService for all recipients.
+	if (channel.guildId && validated.authorUsername) {
+		await workerService
+			.addJob('sendPushNotifications', {
+				channelId: channelId.toString(),
+				authorId: authorId.toString(),
+				authorUsername: validated.authorUsername,
+				authorAvatar: validated.authorAvatar,
+				channelName: channel.name ?? undefined,
+				guildName: validated.guildName,
+				guildId: channel.guildId.toString(),
+				content: message.content ?? undefined,
+				recipientUserIds: uniqueUserIds.map((userId) => userId.toString()),
+			})
+			.catch(() => {
+				// Push failures must not break mention handling.
+			});
+	}
 
 	if (guildId != null) {
 		await userRepository.createRecentMentions(
