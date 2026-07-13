@@ -442,8 +442,9 @@ export interface PushSubscriptionRow {
 	p256dh_key: string;
 	auth_key: string;
 	user_agent: Nullish<string>;
-	push_type: Nullish<string>; // 'web' | 'expo' — null treated as 'web'
+	push_type: Nullish<string>; // 'web' | 'expo' | 'fcm' | 'apns' — null treated as 'web'
 	expo_token: Nullish<string>;
+	device_token: Nullish<string>; // FCM/APNs device token (native mobile push)
 }
 
 export const PUSH_SUBSCRIPTION_COLUMNS = [
@@ -455,6 +456,7 @@ export const PUSH_SUBSCRIPTION_COLUMNS = [
 	'user_agent',
 	'push_type',
 	'expo_token',
+	'device_token',
 ] as const satisfies ReadonlyArray<keyof PushSubscriptionRow>;
 
 export interface UserContactChangeLogRow {

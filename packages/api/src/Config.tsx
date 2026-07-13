@@ -348,6 +348,12 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 				privateKey: master.auth.vapid.private_key,
 				email: master.auth.vapid.email,
 			},
+			fcm: master.auth.fcm
+				? {
+						projectId: master.auth.fcm.project_id,
+						serviceAccountPath: master.auth.fcm.service_account_path,
+					}
+				: undefined,
 			bluesky: master.auth.bluesky as BlueskyOAuthConfig,
 		},
 

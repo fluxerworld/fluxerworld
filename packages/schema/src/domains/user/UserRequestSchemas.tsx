@@ -434,6 +434,26 @@ export const SubscriptionIdParam = z.object({
 });
 export type SubscriptionIdParam = z.infer<typeof SubscriptionIdParam>;
 
+// Native mobile push registration. The mobile client posts camelCase keys, so
+// this schema deliberately uses camelCase (the strict json validator would 400
+// snake_case). encryptionKey/authSecret are the web-push p256dh/auth pair and
+// are unused for fcm/apns (accept-and-ignore).
+export const MobileDeviceRegisterRequest = z.object({
+	platform: createStringType(1, 64).describe('Client platform, e.g. android/ios'),
+	token: createStringType(1, 4096).describe('FCM/APNs device token'),
+	providerEnvironment: z.enum(['fcm', 'apns']).describe('Push provider environment'),
+	userAgent: createStringType(1, 1024).optional().describe('The user agent string'),
+	appId: createStringType(1, 256).optional().describe('The application id'),
+	encryptionKey: createStringType(1, 1024).optional().describe('Web-push p256dh key (unused for fcm/apns)'),
+	authSecret: createStringType(1, 1024).optional().describe('Web-push auth secret (unused for fcm/apns)'),
+});
+export type MobileDeviceRegisterRequest = z.infer<typeof MobileDeviceRegisterRequest>;
+
+export const MobileDeviceTokenParam = z.object({
+	token: createStringType(1, 4096).describe('The device token to unregister'),
+});
+export type MobileDeviceTokenParam = z.infer<typeof MobileDeviceTokenParam>;
+
 export const PreloadMessagesRequest = z.object({
 	channels: z.array(SnowflakeType).max(100).describe('Array of channel IDs to preload messages from (max 100)'),
 });

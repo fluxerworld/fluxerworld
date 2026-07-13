@@ -138,3 +138,4 @@ next-env.d.ts
 /.claude/
 # Ad-hoc secret-flipping scripts with inline tokens:
 /scripts/flip-*.sh
+config/fcm-service-account.json

@@ -56,6 +56,8 @@ import {
 	PasswordChangeCompleteRequest,
 	PasswordChangeTicketRequest,
 	PasswordChangeVerifyRequest,
+	MobileDeviceRegisterRequest,
+	MobileDeviceTokenParam,
 	PreloadMessagesRequest,
 	PushSubscribeRequest,
 	SubscriptionIdParam,
@@ -916,6 +918,55 @@ export function UserAccountController(app: HonoApp) {
 		async (ctx) => {
 			const {subscription_id} = ctx.req.valid('param');
 			await ctx.get('userService').deletePushSubscription(ctx.get('user').id, subscription_id);
+			return ctx.json({success: true});
+		},
+	);
+
+	app.post(
+		'/users/@me/mobile-devices',
+		RateLimitMiddleware(RateLimitConfigs.USER_MOBILE_DEVICE_REGISTER),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator('json', MobileDeviceRegisterRequest),
+		OpenAPI({
+			operationId: 'register_mobile_device',
+			summary: 'Register a mobile push device',
+			responseSchema: PushSubscribeResponse,
+			statusCode: 200,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['Users'],
+			description: 'Registers an FCM/APNs device token for native mobile push notifications.',
+		}),
+		async (ctx) => {
+			const body = ctx.req.valid('json');
+			const subscription = await ctx.get('userService').registerPushSubscription({
+				userId: ctx.get('user').id,
+				pushType: body.providerEnvironment,
+				deviceToken: body.token,
+				userAgent: body.userAgent ?? body.appId ?? body.platform,
+			});
+			return ctx.json({subscription_id: subscription.subscriptionId});
+		},
+	);
+
+	app.delete(
+		'/users/@me/mobile-devices/:token',
+		RateLimitMiddleware(RateLimitConfigs.USER_MOBILE_DEVICE_UNREGISTER),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator('param', MobileDeviceTokenParam),
+		OpenAPI({
+			operationId: 'unregister_mobile_device',
+			summary: 'Unregister a mobile push device',
+			responseSchema: SuccessResponse,
+			statusCode: 200,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['Users'],
+			description: 'Removes a previously-registered FCM/APNs device token.',
+		}),
+		async (ctx) => {
+			const {token} = ctx.req.valid('param');
+			await ctx.get('userService').deleteMobileDevice(ctx.get('user').id, token);
 			return ctx.json({success: true});
 		},
 	);

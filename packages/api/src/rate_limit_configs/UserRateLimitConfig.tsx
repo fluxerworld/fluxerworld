@@ -246,6 +246,16 @@ export const UserRateLimitConfigs = {
 		config: {limit: 40, windowMs: ms('10 seconds')},
 	} as RouteRateLimitConfig,
 
+	USER_MOBILE_DEVICE_REGISTER: {
+		bucket: 'user:mobile_device:register',
+		config: {limit: 10, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_MOBILE_DEVICE_UNREGISTER: {
+		bucket: 'user:mobile_device:unregister',
+		config: {limit: 20, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
 	USER_E2EE_REGISTER_DEVICE: {
 		bucket: 'user:e2ee:register_device',
 		config: {limit: 4, windowMs: ms('1 minute')},

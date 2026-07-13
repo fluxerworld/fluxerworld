@@ -223,6 +223,10 @@ export interface APIConfig {
 			privateKey: string;
 			email?: string;
 		};
+		fcm?: {
+			projectId: string;
+			serviceAccountPath: string;
+		};
 		bluesky: BlueskyOAuthConfig;
 	};
 

@@ -554,10 +554,15 @@ export class UserService {
 		endpoint?: string;
 		keys?: {p256dh: string; auth: string};
 		userAgent?: string;
-		pushType?: 'web' | 'expo';
+		pushType?: 'web' | 'expo' | 'fcm' | 'apns';
 		expoToken?: string;
+		deviceToken?: string;
 	}): Promise<PushSubscription> {
 		return await this.contentService.registerPushSubscription(params);
+	}
+
+	async deleteMobileDevice(userId: UserID, token: string): Promise<void> {
+		return await this.contentService.deleteMobileDevice(userId, token);
 	}
 
 	async listPushSubscriptions(userId: UserID): Promise<Array<PushSubscription>> {

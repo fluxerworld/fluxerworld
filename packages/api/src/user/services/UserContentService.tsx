@@ -219,13 +219,20 @@ export class UserContentService {
 		endpoint?: string;
 		keys?: {p256dh: string; auth: string};
 		userAgent?: string;
-		pushType?: 'web' | 'expo';
+		pushType?: 'web' | 'expo' | 'fcm' | 'apns';
 		expoToken?: string;
+		deviceToken?: string;
 	}): Promise<PushSubscription> {
-		const {userId, endpoint, keys, userAgent, pushType = 'web', expoToken} = params;
+		const {userId, endpoint, keys, userAgent, pushType = 'web', expoToken, deviceToken} = params;
 
-		// Generate subscription ID from the unique identifier (endpoint for web, token for expo)
-		const idSource = pushType === 'expo' ? expoToken! : endpoint!;
+		// Generate subscription ID from the unique identifier (endpoint for web,
+		// token for expo, device token for fcm/apns) so re-registration upserts.
+		const idSource =
+			pushType === 'fcm' || pushType === 'apns'
+				? deviceToken!
+				: pushType === 'expo'
+					? expoToken!
+					: endpoint!;
 		const subscriptionId = crypto.createHash('sha256').update(idSource).digest('hex').substring(0, 32);
 
 		const data: PushSubscriptionRow = {
@@ -237,9 +244,15 @@ export class UserContentService {
 			user_agent: userAgent ?? null,
 			push_type: pushType,
 			expo_token: expoToken ?? null,
+			device_token: deviceToken ?? null,
 		};
 
 		return await this.userContentRepository.createPushSubscription(data);
+	}
+
+	async deleteMobileDevice(userId: UserID, token: string): Promise<void> {
+		const subscriptionId = crypto.createHash('sha256').update(token).digest('hex').substring(0, 32);
+		await this.userContentRepository.deletePushSubscription(userId, subscriptionId);
 	}
 
 	async listPushSubscriptions(userId: UserID): Promise<Array<PushSubscription>> {

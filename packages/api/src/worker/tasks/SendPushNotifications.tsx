@@ -24,6 +24,8 @@ import type {PushSubscription} from '@fluxer/api/src/models/PushSubscription';
 import {getWorkerDependencies} from '@fluxer/api/src/worker/WorkerContext';
 import type {WorkerTaskHandler} from '@fluxer/worker/src/contracts/WorkerTask';
 import * as crypto from 'crypto';
+import * as fs from 'fs';
+import {importPKCS8, SignJWT} from 'jose';
 import {z} from 'zod';
 
 const PayloadSchema = z.object({
@@ -252,6 +254,91 @@ async function sendExpoPush(
 	}
 }
 
+// ─── FCM HTTP v1 delivery ────────────────────────────────────────────────────
+// Mints an OAuth2 access token from the Firebase service-account JSON (RS256 JWT
+// grant) and posts to the FCM v1 send endpoint. No firebase-admin dependency.
+
+let cachedFcmToken: {token: string; exp: number} | null = null;
+let cachedServiceAccount: {client_email: string; private_key: string} | null = null;
+
+function loadFcmServiceAccount(): {client_email: string; private_key: string} {
+	if (!cachedServiceAccount) {
+		const raw = fs.readFileSync(Config.auth.fcm!.serviceAccountPath, 'utf8');
+		cachedServiceAccount = JSON.parse(raw) as {client_email: string; private_key: string};
+	}
+	return cachedServiceAccount;
+}
+
+async function getFcmAccessToken(): Promise<string> {
+	const now = Math.floor(Date.now() / 1000);
+	if (cachedFcmToken && cachedFcmToken.exp > now + 60) {
+		return cachedFcmToken.token;
+	}
+	const sa = loadFcmServiceAccount();
+	const assertion = await new SignJWT({scope: 'https://www.googleapis.com/auth/firebase.messaging'})
+		.setProtectedHeader({alg: 'RS256', typ: 'JWT'})
+		.setIssuer(sa.client_email)
+		.setSubject(sa.client_email)
+		.setAudience('https://oauth2.googleapis.com/token')
+		.setIssuedAt(now)
+		.setExpirationTime(now + 3600)
+		.sign(await importPKCS8(sa.private_key, 'RS256'));
+	const res = await fetch('https://oauth2.googleapis.com/token', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		body: new URLSearchParams({
+			grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+			assertion,
+		}),
+	});
+	if (!res.ok) {
+		throw new Error(`FCM OAuth token request failed: ${res.status}`);
+	}
+	const json = (await res.json()) as {access_token: string; expires_in: number};
+	cachedFcmToken = {token: json.access_token, exp: now + json.expires_in};
+	return json.access_token;
+}
+
+async function sendFcmPush(
+	token: string,
+	notification: {title: string; body: string; data: Record<string, unknown>},
+): Promise<{success: boolean; expired?: boolean}> {
+	try {
+		const accessToken = await getFcmAccessToken();
+		const projectId = Config.auth.fcm!.projectId;
+		const res = await fetch(`https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}`},
+			body: JSON.stringify({
+				message: {
+					token,
+					notification: {title: notification.title, body: notification.body},
+					android: {priority: 'high', notification: {channel_id: 'messages'}},
+					// FCM v1 requires all data values to be strings.
+					data: Object.fromEntries(
+						Object.entries(notification.data).map(([k, v]) => [k, v == null ? '' : String(v)]),
+					),
+				},
+			}),
+		});
+		if (res.ok) {
+			return {success: true};
+		}
+		if (res.status === 404) {
+			return {success: false, expired: true};
+		}
+		const err = (await res.json().catch(() => null)) as {error?: {status?: string}} | null;
+		if (err?.error?.status === 'UNREGISTERED' || err?.error?.status === 'INVALID_ARGUMENT') {
+			return {success: false, expired: true};
+		}
+		Logger.warn({status: res.status, error: err}, 'FCM push send failed');
+		return {success: false};
+	} catch (error) {
+		Logger.warn({error}, 'Failed to send FCM push');
+		return {success: false};
+	}
+}
+
 // ─── Worker Task ─────────────────────────────────────────────────────────────
 
 const sendPushNotifications: WorkerTaskHandler = async (payload, helpers) => {
@@ -261,6 +348,7 @@ const sendPushNotifications: WorkerTaskHandler = async (payload, helpers) => {
 	const vapidPublicKey = Config.auth.vapid.publicKey;
 	const vapidPrivateKey = Config.auth.vapid.privateKey;
 	const vapidConfigured = vapidPublicKey && vapidPrivateKey && vapidPublicKey !== 'YOUR_VAPID_PUBLIC_KEY';
+	const fcmConfigured = !!Config.auth.fcm?.serviceAccountPath;
 
 	const {userRepository} = getWorkerDependencies();
 	const authorId = createUserID(BigInt(validated.authorId));
@@ -333,6 +421,11 @@ const sendPushNotifications: WorkerTaskHandler = async (payload, helpers) => {
 
 					if (pushType === 'expo' && subscription.expoToken) {
 						result = await sendExpoPush(subscription.expoToken, {title, body, data: notificationData});
+					} else if (pushType === 'fcm' && subscription.deviceToken && fcmConfigured) {
+						result = await sendFcmPush(subscription.deviceToken, {title, body, data: notificationData});
+					} else if (pushType === 'apns') {
+						// APNs sender not implemented yet; row is stored but skipped.
+						return;
 					} else if (vapidConfigured) {
 						result = await sendWebPush(subscription, webPushPayload, vapidPublicKey, vapidPrivateKey);
 					} else {
