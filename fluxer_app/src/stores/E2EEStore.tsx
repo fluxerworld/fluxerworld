@@ -28,6 +28,7 @@ import {
 	getVerification,
 	getVerificationsForUser,
 	putVerification,
+	requestPersistentStorage,
 	setPeerIdentityKey,
 	type VerificationEntry,
 } from '@app/lib/e2ee/E2EEKeyStore';
@@ -379,6 +380,14 @@ class E2EEStore {
 			this.registrationStatus = 'initialising';
 			this.lastError = null;
 			this.pendingBackup = null;
+		});
+
+		// Ask the browser to stop evicting our IndexedDB. Fire-and-forget: an
+		// evicted store is indistinguishable from a first run (see the gate
+		// below), so this guards the identity — but it must never delay E2EE
+		// setup, and Firefox raises a permission prompt here.
+		void requestPersistentStorage().then((persisted) => {
+			logger.debug('E2EE storage persistence', {persisted});
 		});
 
 		await e2eeManager.initForUser(userId);
