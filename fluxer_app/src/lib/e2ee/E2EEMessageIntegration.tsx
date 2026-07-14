@@ -934,12 +934,16 @@ export async function tryDecryptForCurrentDevice(
 		}
 	}
 
-	// Transient edge on the live path only — the history path guards isReady
-	// before calling, and this self-heals when the channel is reopened and
-	// re-decrypted. The deferred ⏳ transient state will refine this.
-	if (!E2EEStore.isReady) return PERMANENT_FAILURE;
+	// Bootstrap race on the live path: a gateway message can land before Olm
+	// finishes registering. This is transient, so it must NOT be reported as a
+	// permanent failure — 'permanent' renders the dead 🔒 placeholder and the
+	// bubble deliberately withholds the retry button for it, leaving the
+	// message unreadable until a full reload clears the in-memory marker.
+	// 'error' renders ⚠ + Retry, which succeeds once registration completes.
+	if (!E2EEStore.isReady) return ERROR_FAILURE;
+	// isReady already implies deviceId !== null; this only narrows the type.
 	const deviceId = E2EEStore.deviceId;
-	if (!deviceId) return PERMANENT_FAILURE;
+	if (!deviceId) return ERROR_FAILURE;
 
 	// Megolm group DM message — single ciphertext, identified by session.
 	if (encryptedPayload.kind === 'megolm') {

@@ -73,6 +73,19 @@ function parseHourValue(value: string | undefined): number | null {
 	return Number.isNaN(parsed) ? null : parsed;
 }
 
+// `LimitConfigGetResponse.defaults` is a sparse record (`z.partialRecord`), so
+// its values are `number | undefined`. A limit rule's `limits` is a dense
+// `Record<string, number>`. Drop the holes on the way across rather than
+// leaning on JSON.stringify to silently omit `undefined` properties later —
+// the type should not lie about what the object contains.
+function definedLimits(source: Partial<Record<string, number>> | undefined): Record<string, number> {
+	const limits: Record<string, number> = {};
+	for (const [key, value] of Object.entries(source ?? {})) {
+		if (value !== undefined) limits[key] = value;
+	}
+	return limits;
+}
+
 function buildLimitFilters(formData: ParsedBody): {filters?: {traits?: Array<string>; guildFeatures?: Array<string>}} {
 	const traits = parseDelimitedStringList(getOptionalString(formData, 'traits'));
 	const guildFeatures = parseDelimitedStringList(getOptionalString(formData, 'guild_features'));
@@ -456,10 +469,7 @@ export function createSystemRoutes({config, assetVersion, requireAuth}: RouteFac
 				const {filters} = buildLimitFilters(formData);
 
 				if (Object.keys(limits).length === 0) {
-					const fallbackDefaults = defaultLimits[ruleId] ?? defaultLimits.default;
-					if (fallbackDefaults) {
-						Object.assign(limits, fallbackDefaults);
-					}
+					Object.assign(limits, definedLimits(defaultLimits[ruleId] ?? defaultLimits.default));
 				}
 
 				currentConfig.rules[ruleIndex] = {
@@ -541,10 +551,9 @@ export function createSystemRoutes({config, assetVersion, requireAuth}: RouteFac
 
 				const {filters} = buildLimitFilters(formData);
 
-				const defaultLimits = currentConfigResult.data.defaults.default ?? {};
 				const newRule = {
 					id: ruleIdTrimmed,
-					limits: {...defaultLimits},
+					limits: definedLimits(currentConfigResult.data.defaults.default),
 					...(filters ? {filters} : {}),
 				};
 
