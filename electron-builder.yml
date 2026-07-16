@@ -2,7 +2,7 @@
 # Docs: https://www.electron.build/configuration/configuration
 
 appId: org.fluxer.World
-productName: Fluxer World
+productName: Chat
 executableName: fluxer-world
 copyright: Copyright © 2026 Fluxer Contributors
 
@@ -25,8 +25,10 @@ extraResources:
       - "**/*"
 
 # ── Protocol handler (registers fluxerworld:// in the OS) ───────────────────
+# Scheme kept as `fluxerworld` so existing installs' deep links keep resolving;
+# only the human-readable handler name is de-branded.
 protocols:
-  name: Fluxer World
+  name: Chat
   schemes:
     - fluxerworld
 
@@ -47,7 +49,7 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut:          true
   createStartMenuShortcut:        true
-  shortcutName:                   "Fluxer World"
+  shortcutName:                   "Chat"
   # Shown in Programs & Features
   displayLanguageSelector:        false
   installerIcon:                  assets/icons/icon.ico
@@ -55,7 +57,7 @@ nsis:
 
 portable:
   # The portable exe embeds everything; no installer needed.
-  artifactName: "Fluxer-World-${version}-portable-${arch}.exe"
+  artifactName: "Chat-${version}-portable-${arch}.exe"
 
 # ── macOS ─────────────────────────────────────────────────────────────────────
 mac:
@@ -71,7 +73,7 @@ mac:
   target: dmg
 
 dmg:
-  title:    "FluxerWorld-${version}"
+  title:    "Chat-${version}"
   iconSize: 128
   window:
     width:  540
@@ -97,7 +99,7 @@ linux:
   icon:        assets/icons/icon.png
   category:    Network
   # Used in .desktop file
-  description: "Fluxer World desktop client"
+  description: "Chat desktop client"
   # No executableArgs needed. main.ts detects XDG_SESSION_TYPE at startup and
   # appendSwitches the right combination of flags per session type:
   #   - Wayland → --ozone-platform=wayland (via one-time relaunch),
@@ -132,7 +134,7 @@ rpm:
 # ── Artifact naming ───────────────────────────────────────────────────────────
 # Use dashes in the name to match what electron-updater writes in latest.yml.
 # electron-builder converts spaces to dots for filenames but dashes for yml.
-artifactName: "Fluxer-World-${version}-${os}-${arch}.${ext}"
+artifactName: "Chat-${version}-${os}-${arch}.${ext}"
 
 # ── Publish (optional – configure for GitHub Releases) ───────────────────────
 publish:

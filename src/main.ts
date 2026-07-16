@@ -22,7 +22,7 @@ import { Store } from './store';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const APP_NAME    = 'Fluxer World';
+const APP_NAME    = 'Chat';
 const APP_URL     = 'https://fluxer.world';
 const APP_ID      = 'org.fluxer.World';
 const PROTOCOL    = 'fluxerworld';
@@ -846,6 +846,7 @@ function applyLoginItem(enable: boolean): void {
 // canonical names to prevent duplicate-launch races.
 const AUTOSTART_FILENAMES = [
   `${APP_ID}.desktop`,
+  'Chat.desktop',
   'fluxer-world.desktop',
   'Fluxer World.desktop',
   'fluxer.desktop',

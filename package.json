@@ -1,8 +1,8 @@
 {
   "name": "fluxer-desktop",
-  "productName": "Fluxer World",
+  "productName": "Chat",
   "version": "1.0.86",
-  "description": "Fluxer World – desktop client",
+  "description": "Chat – desktop client",
   "main": "dist/main.js",
   "author": "Fluxer Contributors <xuruh@fluxer.world>",
   "license": "AGPL-3.0",
